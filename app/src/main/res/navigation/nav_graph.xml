@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homePageFragment">
+
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.kylearon.fgcaddie.HomePageFragment"
+        android:label="@string/app_name">
+        <action
+            android:id="@+id/action_homePageFragment_to_courseNotesPageFragment"
+            app:destination="@id/courseNotesPageFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_calendarPageFragment"
+            app:destination="@id/calendarPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseNotesPageFragment"
+        android:name="com.kylearon.fgcaddie.coursenotes.CourseNotesPageFragment"
+        android:label="@string/course_notes_title">
+    </fragment>
+
+    <fragment
+        android:id="@+id/calendarPageFragment"
+        android:name="com.kylearon.fgcaddie.calendar.CalendarPageFragment"
+        android:label="@string/calendar_title">
+    </fragment>
+
+    <fragment
+        android:id="@+id/messageBoardPageFragment"
+        android:name="com.kylearon.fgcaddie.messageboard.MessageBoardPageFragment"
+        android:label="@string/message_board_title">
+    </fragment>
+</navigation>

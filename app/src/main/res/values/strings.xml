@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FootGolf Caddie</string>
+    <string name="action_switch_layout">Switch Layout</string>
+
+    <string name="course_notes_title">Course Notes</string>
+    <string name="calendar_title">Calendar</string>
+    <string name="message_board_title">Message Board</string>
+</resources>
