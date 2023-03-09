@@ -11,23 +11,35 @@
     <Button
         android:id="@+id/course_notes_button"
         android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center"
-        android:text="Course Notes" />
+        android:text="Course Notes"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        />
 
     <Button
         android:id="@+id/calendar_button"
         android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center"
-        android:text="Calendar" />
+        android:text="Calendar"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        />
 
     <Button
         android:id="@+id/message_board_button"
         android:layout_width="400dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center"
-        android:text="Message Board" />
+        android:text="Message Board"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        />
 
 </LinearLayout>
 
