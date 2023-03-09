@@ -1,12 +1,15 @@
 package com.kylearon.fgcaddie.coursenotes
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentCourseNotesPageBinding
 
 /**
@@ -38,6 +41,37 @@ class CourseNotesPageFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext());
         recyclerView.adapter = CourseNotesAdapter();
+
+
+        // The usage of an interface lets you inject your own implementation
+        val menuHost: MenuHost = requireActivity();
+
+
+        // Add menu items without using the Fragment Menu APIs
+        // Note how we can tie the MenuProvider to the viewLifecycleOwner
+        // and an optional Lifecycle.State (here, RESUMED) to indicate when
+        // the menu should be visible
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.add_course_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Handle the menu selection
+                return when (menuItem.itemId) {
+                    R.id.action_add_course -> {
+
+                        //call add course
+//                        Toast.makeText(context!!.applicationContext, "ADD COURSE", Toast.LENGTH_SHORT).show();
+                        NewCourseDialogFragment().show(childFragmentManager, NewCourseDialogFragment.TAG);
+
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     /**
