@@ -2,6 +2,10 @@
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/button_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:padding="8dp" />
+    android:layout_height="80dp"
+    android:layout_marginTop="32dp"
+    android:layout_gravity="center"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:padding="12dp" />
+
