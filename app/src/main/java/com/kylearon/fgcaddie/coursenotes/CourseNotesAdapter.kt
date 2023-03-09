@@ -5,11 +5,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.data.Course
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesViewHolder>() {
 
-    private val courseList = listOf<String>("Georgetown", "Fox Hills", "Royal Scot");
+//    private val courseList = listOf<String>("Georgetown", "Fox Hills", "Royal Scot");
+
+    private val courses = ArrayList<Course>();
+
+    init {
+        GlobalScope.launch {
+            courses.addAll(MainActivity.ServiceLocator.getCourseRepository().fetchCourses());
+        }
+    }
 
     /**
      * Provides a reference for the views needed to display items in your list
@@ -22,7 +34,7 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
      * Returns the number of items this view will show
      */
     override fun getItemCount(): Int {
-        return courseList.size;
+        return courses.size;
     }
 
     /**
@@ -38,8 +50,8 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
      * Replaces the content of the existing view at the given position with new data from the list at the given position
      */
     override fun onBindViewHolder(holder: CourseNotesViewHolder, position: Int) {
-        val item = courseList.get(position);
-        holder.button.text = item.toString();
+        val item: Course = courses.get(position);
+        holder.button.text = item.name;
 
         // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
         holder.button.setOnClickListener {
