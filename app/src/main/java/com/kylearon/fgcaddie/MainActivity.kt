@@ -1,11 +1,17 @@
 package com.kylearon.fgcaddie
 
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.kylearon.fgcaddie.data.CourseRemoteDataSource
+import com.kylearon.fgcaddie.data.CourseRepository
+import com.kylearon.fgcaddie.data.LocalCourseApiImpl
 import com.kylearon.fgcaddie.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
 
 /**
  * Main Activity and entry point for the app.
@@ -14,8 +20,18 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
+    object ServiceLocator {
+
+        private val courseRemoteDataSource: CourseRemoteDataSource = CourseRemoteDataSource(LocalCourseApiImpl(myApplication.baseContext), Dispatchers.IO);
+        private val courseRepository: CourseRepository = CourseRepository(courseRemoteDataSource);
+        fun getCourseRepository(): CourseRepository = courseRepository;
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
+
+        myApplication = application;
 
         val binding = ActivityMainBinding.inflate(layoutInflater);
         setContentView(binding.root);
@@ -35,5 +51,13 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp();
+    }
+
+    companion object {
+
+        //make the application and thus the context available statically in the app
+        //https://stackoverflow.com/a/54110003
+        private lateinit var myApplication: Application
+
     }
 }
