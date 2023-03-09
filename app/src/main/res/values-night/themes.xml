@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FGCaddie" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/teal_200</item>
-        <item name="colorPrimaryVariant">@color/teal_900</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/blue_200</item>
-        <item name="colorSecondaryVariant">@color/blue_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Customize your theme here. -->
+    <style name="Theme.FGCaddie" parent="Theme.Material3.DayNight">
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >@color/button_bg_night</item>
+
+        <!-- button themes
+         https://stackoverflow.com/a/71898927
+         https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md#theming-buttons
+         -->
+        <item name="borderlessButtonStyle">@style/AppButtonTextStyle</item>
+        <item name="materialButtonOutlinedStyle">@style/AppOutlinedButtonStyle</item>
+        <item name="materialButtonStyle">@style/AppButtonStyle</item>
+
     </style>
+
+    <!-- Button style on both light and night mode -->
+    <style name="AppButtonStyle" parent="Widget.Material3.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <!-- Button with text style on both light and night mode -->
+    <style name="AppButtonTextStyle" parent="Widget.Material3.Button.TextButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.TextButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <!-- Button outline style on both light and night mode -->
+    <style name="AppOutlinedButtonStyle" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.OutlinedButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="ThemeOverlay.Material3.Button">
+        <!-- Background color -->
+        <item name="colorPrimary">@color/button_bg_night</item>
+        <!-- Text color -->
+        <item name="colorOnPrimary">@color/mfgc_blue</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button.TextButton" parent="ThemeOverlay.Material3.Button.TextButton">
+        <!-- Background color -->
+        <item name="colorPrimary">@color/button_bg_night</item>
+        <!-- Text color -->
+        <item name="colorOnSurface">@color/mfgc_blue</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button.OutlinedButton" parent="ThemeOverlay.Material3.Button.TextButton">
+        <!-- Background color -->
+        <item name="colorOnSurface">@color/button_bg_night</item>
+        <!-- Text color -->
+        <item name="colorPrimary">@color/mfgc_blue</item>
+    </style>
+
+
 </resources>
