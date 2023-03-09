@@ -2,7 +2,6 @@ package com.kylearon.fgcaddie.coursenotes
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -13,8 +12,7 @@ import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentCourseNotesPageBinding
 
 /**
- * A simple [Fragment] subclass.
- * Use the [CourseNotesPageFragment.newInstance] factory method to create an instance of this fragment.
+ * The Fragment for the Course Notes Page
  */
 class CourseNotesPageFragment : Fragment() {
 
@@ -27,6 +25,7 @@ class CourseNotesPageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,6 +36,7 @@ class CourseNotesPageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         recyclerView = binding.recyclerView;
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext());
@@ -62,9 +62,11 @@ class CourseNotesPageFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.action_add_course -> {
 
+                        val courseDialog = NewCourseDialogFragment(recyclerView);
+
                         //call add course
 //                        Toast.makeText(context!!.applicationContext, "ADD COURSE", Toast.LENGTH_SHORT).show();
-                        NewCourseDialogFragment().show(childFragmentManager, NewCourseDialogFragment.TAG);
+                        courseDialog.show(childFragmentManager, NewCourseDialogFragment.TAG);
 
                         true
                     }

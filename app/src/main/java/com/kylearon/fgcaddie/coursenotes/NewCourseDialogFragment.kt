@@ -3,11 +3,21 @@ package com.kylearon.fgcaddie.coursenotes
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.data.Course
+import java.util.*
 
-class NewCourseDialogFragment : DialogFragment() {
+class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
+
+    private val parentRecyclerView: RecyclerView = parentView;
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -17,15 +27,46 @@ class NewCourseDialogFragment : DialogFragment() {
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
-            builder.setView(inflater.inflate(R.layout.dialog_fragment_new_course, null))
-                // Add action buttons
+            val dialogView = inflater.inflate(R.layout.dialog_fragment_new_course, null);
+
+            //listen to changes from the holes number ToggleGroup
+            val buttonGroup = dialogView.findViewById<com.google.android.material.button.MaterialButtonToggleGroup>(R.id.holesToggleButton);
+            buttonGroup.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+                // Respond to button selection
+                Log.d(TAG, " button: " + checkedId);
+            }
+
+            //add the view to the dialog and create the dialog
+            builder.setView(dialogView)
+                //action buttons and callbacks
                 .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, id ->
-                        // create the new course
-                    })
+
+                    //get the course name
+                    val courseNameInput = dialogView.findViewById<EditText>(R.id.course_name_input);
+                    val courseNameString = courseNameInput.text.toString();
+                    Log.d(TAG, " the course name is: " + courseNameString);
+
+                    //get the selected holes button
+                    val checkedButtonId = buttonGroup.checkedButtonId;
+                    val holesButtonText = dialogView.findViewById<Button>(checkedButtonId).text;
+                    Log.d(TAG, " the holes are: " + holesButtonText);
+
+                    //create the new course
+                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", emptyList());
+
+                    //add the course to the repository
+                    MainActivity.ServiceLocator.getCourseRepository().addCourse(newCourse);
+
+                    //refresh the parent view's data adapter
+                    parentRecyclerView.adapter = CourseNotesAdapter();
+
+                })
                 .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
-//                        getDialog().cancel()
-                    })
+//                    getDialog().cancel()
+                })
             builder.create()
+
+
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 

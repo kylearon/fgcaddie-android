@@ -15,4 +15,7 @@
     <string name="cancel">Cancel</string>
 
     <string name="new_course">New Course</string>
+
+    <string name="course_name">Course Name</string>
+    <string name="holes">Holes</string>
 </resources>
