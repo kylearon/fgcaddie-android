@@ -25,6 +25,8 @@ class CourseRemoteDataSource(
     fun addCourse(course: Course) = courseApi.addCourse(course)
 
     fun removeCourse(courseId: String) = courseApi.removeCourse(courseId)
+
+    fun updateHole(hole: Hole) = courseApi.updateHole(hole)
 }
 
 // Makes course-related network synchronous requests.
@@ -36,4 +38,6 @@ interface CourseApi {
     fun addCourse(course: Course)
 
     fun removeCourse(courseId: String)
+
+    fun updateHole(hole: Hole)
 }

@@ -13,4 +13,6 @@ class CourseRepository(
     fun addCourse(course: Course) = courseRemoteDataSource.addCourse(course);
 
     fun removeCourse(courseId: String) = courseRemoteDataSource.removeCourse(courseId);
+
+    fun updateHole(hole: Hole) = courseRemoteDataSource.updateHole(hole);
 }

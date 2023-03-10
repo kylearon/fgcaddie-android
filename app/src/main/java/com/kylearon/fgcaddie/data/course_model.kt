@@ -26,11 +26,11 @@ data class Hole(
     val guid: String,
     val course_id: String,
     val hole_number: Int,
-    val par: Int,
-    val length: Int,
-    val shots_tee: MutableList<Shot>,
-    val shots_approach: MutableList<Shot>,
-    val shots_putt: MutableList<Shot>
+    var par: Int,
+    var length: Int,
+    var shots_tee: MutableList<Shot>,
+    var shots_approach: MutableList<Shot>,
+    var shots_putt: MutableList<Shot>
 )
 
 @Serializable

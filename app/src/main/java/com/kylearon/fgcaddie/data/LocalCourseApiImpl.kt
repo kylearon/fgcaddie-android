@@ -59,6 +59,19 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         saveCourses();
     }
 
+    override fun updateHole(hole: Hole) {
+        val course: Course? = courses.courses.find { c -> c.guid.equals(hole.course_id) }
+        if (course != null) {
+            course.holes.forEach { h ->
+                if(h.guid.equals(hole.guid)) {
+                    h.par = hole.par;
+                    h.length = hole.length;
+                }
+            }
+        }
+        saveCourses();
+    }
+
     private fun loadCourses() {
 
         //read the courses file from local storage
