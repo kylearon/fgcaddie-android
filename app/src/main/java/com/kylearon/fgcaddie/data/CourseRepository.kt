@@ -6,9 +6,11 @@ package com.kylearon.fgcaddie.data
 class CourseRepository(
     private val courseRemoteDataSource: CourseRemoteDataSource
 ) {
-    suspend fun fetchCourses(): List<Course> = courseRemoteDataSource.fetchCourses()
+    suspend fun fetchCourses(): List<Course> = courseRemoteDataSource.fetchCourses();
 
-    fun addCourse(course: Course) = courseRemoteDataSource.addCourse(course)
+    fun getCourse(courseId: String) : Course? = courseRemoteDataSource.getCourse(courseId);
 
-    fun removeCourse(course: Course) = courseRemoteDataSource.removeCourse(course)
+    fun addCourse(course: Course) = courseRemoteDataSource.addCourse(course);
+
+    fun removeCourse(courseId: String) = courseRemoteDataSource.removeCourse(courseId);
 }

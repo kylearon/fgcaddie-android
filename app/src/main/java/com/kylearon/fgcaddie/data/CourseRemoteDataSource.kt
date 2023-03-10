@@ -20,16 +20,20 @@ class CourseRemoteDataSource(
             courseApi.fetchCourses()
         }
 
+    fun getCourse(courseId: String) = courseApi.getCourse(courseId)
+
     fun addCourse(course: Course) = courseApi.addCourse(course)
 
-    fun removeCourse(course: Course) = courseApi.removeCourse(course)
+    fun removeCourse(courseId: String) = courseApi.removeCourse(courseId)
 }
 
 // Makes course-related network synchronous requests.
 interface CourseApi {
     fun fetchCourses(): List<Course>
 
+    fun getCourse(courseId: String): Course?
+
     fun addCourse(course: Course)
 
-    fun removeCourse(course: Course)
+    fun removeCourse(courseId: String)
 }

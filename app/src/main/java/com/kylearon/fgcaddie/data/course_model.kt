@@ -18,19 +18,19 @@ data class Course(
     val guid: String,
     val name: String,
     val creator: String,
-    val holes: List<Hole>
+    val holes: MutableList<Hole>
 )
 
 @Serializable
 data class Hole(
     val guid: String,
-    val course_id: Long,
+    val course_id: String,
     val hole_number: Int,
     val par: Int,
     val length: Int,
-    val shots_tee: List<Shot>,
-    val shots_approach: List<Shot>,
-    val shots_putt: List<Shot>
+    val shots_tee: MutableList<Shot>,
+    val shots_approach: MutableList<Shot>,
+    val shots_putt: MutableList<Shot>
 )
 
 @Serializable

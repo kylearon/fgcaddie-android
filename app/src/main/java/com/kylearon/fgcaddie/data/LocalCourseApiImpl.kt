@@ -40,7 +40,13 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
     }
 
     override fun fetchCourses(): List<Course> {
+        //TODO: instead make this re-fetch from the saved file and make a getCourses for local return?
         return courses.courses.toList();
+    }
+
+    override fun getCourse(courseId: String): Course? {
+        val course: Course? = courses.courses.find { c -> c.guid.equals(courseId) }
+        return course;
     }
 
     override fun addCourse(course: Course) {
@@ -48,8 +54,9 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         saveCourses();
     }
 
-    override fun removeCourse(course: Course) {
-        TODO("Not yet implemented")
+    override fun removeCourse(courseId: String) {
+        courses.courses.removeIf { c -> c.guid.equals(courseId) }
+        saveCourses();
     }
 
     private fun loadCourses() {
