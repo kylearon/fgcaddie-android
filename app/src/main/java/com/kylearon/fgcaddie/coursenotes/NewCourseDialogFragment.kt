@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
+import com.kylearon.fgcaddie.data.Hole
+import com.kylearon.fgcaddie.data.Shot
 import java.util.*
 
 class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
@@ -48,11 +50,17 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
 
                     //get the selected holes button
                     val checkedButtonId = buttonGroup.checkedButtonId;
-                    val holesButtonText = dialogView.findViewById<Button>(checkedButtonId).text;
+                    val holesButtonText = dialogView.findViewById<Button>(checkedButtonId).text.toString();
+                    val holesNumber = holesButtonText.toInt();
                     Log.d(TAG, " the holes are: " + holesButtonText);
 
                     //create the new course
-                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", emptyList());
+                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", ArrayList<Hole>());
+
+                    //init each hole for the new course
+                    for(i in 1 until holesNumber) {
+                        newCourse.holes.add(Hole(UUID.randomUUID().toString(), newCourse.guid, i, 3, 0, ArrayList<Shot>(), ArrayList<Shot>(), ArrayList<Shot>()));
+                    }
 
                     //add the course to the repository
                     MainActivity.ServiceLocator.getCourseRepository().addCourse(newCourse);

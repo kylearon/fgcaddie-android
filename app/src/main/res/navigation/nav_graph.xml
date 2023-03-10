@@ -15,12 +15,33 @@
         <action
             android:id="@+id/action_homePageFragment_to_calendarPageFragment"
             app:destination="@id/calendarPageFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_messageBoardPageFragment"
+            app:destination="@id/messageBoardPageFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/courseNotesPageFragment"
         android:name="com.kylearon.fgcaddie.coursenotes.CourseNotesPageFragment"
         android:label="@string/course_notes_title">
+        <action
+            android:id="@+id/action_courseNotesPageFragment_to_courseHolesPageFragment"
+            app:destination="@id/courseHolesPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseHolesPageFragment"
+        android:name="com.kylearon.fgcaddie.coursenotes.CourseHolesPageFragment"
+        android:label="@string/course_holes_title">
+        <argument
+            android:name="courseid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_courseHolesPageFragment_to_courseNotesPageFragment"
+            app:destination="@id/courseNotesPageFragment"
+            app:popUpTo="@id/courseNotesPageFragment"
+            app:popUpToInclusive="false"
+            />
     </fragment>
 
     <fragment

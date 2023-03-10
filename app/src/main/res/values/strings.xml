@@ -4,8 +4,10 @@
     <string name="action_switch_layout">Switch Layout</string>
 
     <string name="action_add_course">Add Course</string>
+    <string name="action_remove_course">Remove Course</string>
 
     <string name="course_notes_title">Course Notes</string>
+    <string name="course_holes_title">Holes</string>
     <string name="calendar_title">Calendar</string>
     <string name="message_board_title">Message Board</string>
 
@@ -18,4 +20,6 @@
 
     <string name="course_name">Course Name</string>
     <string name="holes">Holes</string>
+
+    <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
 </resources>
