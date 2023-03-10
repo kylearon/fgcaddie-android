@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
+    tools:context=".coursenotes.HolePageFragment">
+
+    <TextView
+        android:id="@+id/hole_number_text"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/hole_title" />
+
+    <TextView
+        android:id="@+id/hole_par_text"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/par" />
+
+    <TextView
+        android:id="@+id/hole_distance_text"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/distance" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="16dp" />
+
+</LinearLayout>
+

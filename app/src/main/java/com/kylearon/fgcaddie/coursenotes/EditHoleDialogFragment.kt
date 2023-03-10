@@ -9,17 +9,19 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
-import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
-import com.kylearon.fgcaddie.data.Shot
-import java.util.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
+class EditHoleDialogFragment(hole: Hole, recyclerView: RecyclerView, view: View) : DialogFragment() {
 
-    private val parentRecyclerView: RecyclerView = parentView;
+    private val hole: Hole = hole;
+    private val parentRecyclerView: RecyclerView = recyclerView;
+    private val parentView: View = view;
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -29,10 +31,10 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
-            val dialogView = inflater.inflate(R.layout.dialog_fragment_new_course, null);
+            val dialogView = inflater.inflate(R.layout.dialog_fragment_edit_hole, null);
 
             //listen to changes from the holes number ToggleGroup
-            val buttonGroup = dialogView.findViewById<com.google.android.material.button.MaterialButtonToggleGroup>(R.id.holesToggleButton);
+            val buttonGroup = dialogView.findViewById<com.google.android.material.button.MaterialButtonToggleGroup>(R.id.parToggleButton);
             buttonGroup.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
                 // Respond to button selection
                 Log.d(TAG, " button: " + checkedId);
@@ -44,29 +46,26 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
                 .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, id ->
 
                     //get the course name
-                    val courseNameInput = dialogView.findViewById<EditText>(R.id.course_name_input);
-                    val courseNameString = courseNameInput.text.toString();
-                    Log.d(TAG, " the course name is: " + courseNameString);
+                    val distanceInput = dialogView.findViewById<EditText>(R.id.distance_input);
+                    val distanceString = distanceInput.text.toString();
+                    Log.d(TAG, " the hole distance is: " + distanceString);
 
                     //get the selected holes button
                     val checkedButtonId = buttonGroup.checkedButtonId;
-                    val holesButtonText = dialogView.findViewById<Button>(checkedButtonId).text.toString();
-                    val holesNumber = holesButtonText.toInt();
-                    Log.d(TAG, " the holes are: " + holesButtonText);
+                    val parButtonText = dialogView.findViewById<Button>(checkedButtonId).text.toString();
+                    val parNumber = parButtonText.toInt();
+                    Log.d(TAG, " the hole par is: " + parNumber);
 
-                    //create the new course
-                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", ArrayList<Hole>());
+                    //update the hole data
+                    hole.par = parNumber;
+                    hole.length = distanceString.toInt();
 
-                    //init each hole for the new course
-                    for(i in 1 .. holesNumber) {
-                        newCourse.holes.add(Hole(UUID.randomUUID().toString(), newCourse.guid, i, 3, 0, ArrayList<Shot>(), ArrayList<Shot>(), ArrayList<Shot>()));
-                    }
+                    //add the hole to the repository
+                    MainActivity.ServiceLocator.getCourseRepository().updateHole(hole);
 
-                    //add the course to the repository
-                    MainActivity.ServiceLocator.getCourseRepository().addCourse(newCourse);
-
-                    //refresh the parent view's data adapter
-                    parentRecyclerView.adapter = CourseNotesAdapter();
+                    //create the action and navigate to the hole fragment. this will refresh the fragment and get updated data
+                    val action = HolePageFragmentDirections.actionHolePageFragmentSelf(hole = Json.encodeToString(hole));
+                    parentView!!.findNavController().navigate(action);
 
                 })
                 .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
@@ -80,6 +79,6 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
 
 
     companion object {
-        const val TAG = "NewCourseDialog"
+        const val TAG = "EditHoleDialog"
     }
 }
