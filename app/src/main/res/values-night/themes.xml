@@ -14,6 +14,8 @@
         <item name="materialButtonOutlinedStyle">@style/AppOutlinedButtonStyle</item>
         <item name="materialButtonStyle">@style/AppButtonStyle</item>
 
+        <!-- custom background color for the hole linear layout "buttons" -->
+        <item name="backgroundLinearLayout">@color/button_bg_night</item>
     </style>
 
     <!-- Button style on both light and night mode -->
@@ -57,6 +59,5 @@
         <!-- Text color -->
         <item name="colorPrimary">@color/mfgc_blue</item>
     </style>
-
 
 </resources>

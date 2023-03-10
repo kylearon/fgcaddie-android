@@ -14,6 +14,9 @@
         <item name="materialButtonOutlinedStyle">@style/AppOutlinedButtonStyle</item>
         <item name="materialButtonStyle">@style/AppButtonStyle</item>
 
+        <!-- custom background color for the hole linear layout "buttons" -->
+        <item name="backgroundLinearLayout">@color/button_bg_day</item>
+
     </style>
 
 

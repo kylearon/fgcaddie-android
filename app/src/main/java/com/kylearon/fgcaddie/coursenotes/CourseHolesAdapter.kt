@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
@@ -13,7 +14,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAdapter.CourseHolesViewHolder>() {
-
 
     private var course: Course? = null;
 
@@ -27,7 +27,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
      * Provides a reference for the views needed to display items in your list
      */
     class CourseHolesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val button = view.findViewById<Button>(R.id.button_item)
+        val holeButtonNumberTextView = view.findViewById<TextView>(R.id.hole_button_number)
     }
 
     /**
@@ -44,7 +44,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
      * Create a new view using the row_item_view template
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseHolesViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_item_view, parent, false);
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.hole_button_row_view, parent, false);
 
         return CourseHolesViewHolder(layout);
     }
@@ -58,12 +58,12 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         }
 
         val item: Hole = course!!.holes.get(position);
-        holder.button.text = item.hole_number.toString();
+        holder.holeButtonNumberTextView.text = item.hole_number.toString();
 
         // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
-        holder.button.setOnClickListener {
-
-        }
+//        holder.button.setOnClickListener {
+//
+//        }
     }
 
 }

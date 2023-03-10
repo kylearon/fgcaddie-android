@@ -21,5 +21,7 @@
     <string name="course_name">Course Name</string>
     <string name="holes">Holes</string>
 
+    <string name="no_photos_message">no photos</string>
+
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
 </resources>
