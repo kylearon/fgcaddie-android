@@ -59,6 +59,15 @@
             app:destination="@id/holePageFragment"
             app:popUpTo="@id/holePageFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_holePageFragment_to_cameraPageFragment"
+            app:destination="@id/cameraPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraPageFragment"
+        android:name="com.kylearon.fgcaddie.camera.CameraPageFragment"
+        android:label="@string/camera_title">
     </fragment>
 
     <fragment

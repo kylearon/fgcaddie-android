@@ -6,6 +6,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.R
@@ -59,6 +60,7 @@ class HolePageFragment: Fragment() {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Add menu items here
                 menuInflater.inflate(R.menu.edit_hole_menu, menu)
+                menuInflater.inflate(R.menu.take_picture_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -69,6 +71,14 @@ class HolePageFragment: Fragment() {
                         //show a dialog with controls to edit the hole
                         val editCourseDialog = EditHoleDialogFragment(hole, recyclerView, binding.root);
                         editCourseDialog.show(childFragmentManager, EditHoleDialogFragment.TAG);
+
+                        true
+                    }
+                    R.id.action_take_picture -> {
+
+                        //create the action and navigate to the camera page fragment
+                        val action = HolePageFragmentDirections.actionHolePageFragmentToCameraPageFragment();
+                        view.findNavController().navigate(action);
 
                         true
                     }
