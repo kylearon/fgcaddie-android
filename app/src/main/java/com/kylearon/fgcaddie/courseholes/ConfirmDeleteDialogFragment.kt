@@ -1,4 +1,4 @@
-package com.kylearon.fgcaddie.coursenotes
+package com.kylearon.fgcaddie.courseholes
 
 import android.app.Dialog
 import android.os.Bundle

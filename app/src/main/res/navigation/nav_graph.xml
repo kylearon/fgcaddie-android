@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/courseHolesPageFragment"
-        android:name="com.kylearon.fgcaddie.coursenotes.CourseHolesPageFragment"
+        android:name="com.kylearon.fgcaddie.courseholes.CourseHolesPageFragment"
         android:label="@string/course_holes_title">
         <argument
             android:name="courseid"
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/holePageFragment"
-        android:name="com.kylearon.fgcaddie.coursenotes.HolePageFragment"
+        android:name="com.kylearon.fgcaddie.hole.HolePageFragment"
         android:label="@string/hole_title">
         <argument
             android:name="hole"

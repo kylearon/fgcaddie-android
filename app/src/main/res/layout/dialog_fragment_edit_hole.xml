@@ -7,7 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    tools:context=".coursenotes.EditHoleDialogFragment">
+    tools:context=".hole.EditHoleDialogFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

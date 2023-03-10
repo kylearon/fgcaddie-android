@@ -6,7 +6,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    tools:context=".coursenotes.HolePageFragment">
+    tools:context=".hole.HolePageFragment">
 
     <TextView
         android:id="@+id/hole_number_text"

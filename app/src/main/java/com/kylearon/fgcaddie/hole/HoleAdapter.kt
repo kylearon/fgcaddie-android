@@ -1,18 +1,12 @@
-package com.kylearon.fgcaddie.coursenotes
+package com.kylearon.fgcaddie.hole
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
-import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>() {
 

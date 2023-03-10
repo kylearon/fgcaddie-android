@@ -1,4 +1,4 @@
-package com.kylearon.fgcaddie.coursenotes
+package com.kylearon.fgcaddie.hole
 
 import android.app.Dialog
 import android.content.DialogInterface

@@ -1,4 +1,4 @@
-package com.kylearon.fgcaddie.coursenotes
+package com.kylearon.fgcaddie.hole
 
 import android.os.Bundle
 import android.view.*

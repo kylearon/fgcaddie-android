@@ -1,4 +1,4 @@
-package com.kylearon.fgcaddie.coursenotes
+package com.kylearon.fgcaddie.courseholes
 
 import android.os.Bundle
 import android.view.*
@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentCourseHolesPageBinding
 
@@ -65,7 +64,9 @@ class CourseHolesPageFragment: Fragment() {
                         val confirmDeleteDialog = ConfirmDeleteDialogFragment(courseId, view);
 
                         //call add course
-                        confirmDeleteDialog.show(childFragmentManager, ConfirmDeleteDialogFragment.TAG);
+                        confirmDeleteDialog.show(childFragmentManager,
+                            ConfirmDeleteDialogFragment.TAG
+                        );
 
                         true
                     }
