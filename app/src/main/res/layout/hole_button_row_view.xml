@@ -7,8 +7,11 @@
     android:layout_marginTop="12dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
+    android:clickable="true"
     android:orientation="horizontal"
-    android:background="?attr/backgroundLinearLayout">
+    android:background="?attr/backgroundLinearLayout"
+    android:foreground="?android:attr/selectableItemBackground"
+    >
 
     <TextView
         android:id="@+id/hole_button_number"
