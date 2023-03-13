@@ -60,15 +60,21 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
     }
 
     override fun updateHole(hole: Hole) {
+        Log.d("LocalCourseApiImpl", "updateHole()");
+
         val course: Course? = courses.courses.find { c -> c.guid.equals(hole.course_id) }
         if (course != null) {
             course.holes.forEach { h ->
                 if(h.guid.equals(hole.guid)) {
                     h.par = hole.par;
                     h.length = hole.length;
+                    h.shots_tee = hole.shots_tee;
                 }
             }
         }
+
+        Log.d("LocalCourseApiImpl", "HOLE JSON: " + Json.encodeToString(hole));
+
         saveCourses();
     }
 
@@ -96,6 +102,6 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         bufferedWriter.write(jsonString);
         bufferedWriter.close();
 
-//        Log.d("LocalCourseApiImpl", "Wrote to: " + file.absolutePath);
+        Log.d("LocalCourseApiImpl", "Wrote to: " + file.absolutePath);
     }
 }
