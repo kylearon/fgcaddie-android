@@ -17,7 +17,7 @@ import kotlinx.serialization.encodeToString
 
 class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAdapter.CourseHolesViewHolder>() {
 
-    private var view: View? = null;
+    private var parentView: View? = null;
 
     private var course: Course? = null;
 
@@ -54,7 +54,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseHolesViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.hole_button_row_view, parent, false);
-        view = layout;
+        parentView = layout;
         return CourseHolesViewHolder(layout);
     }
 
@@ -82,7 +82,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
 //            Log.d("CourseHolesAdapter", "CLICKED A HOLE: " + item.hole_number);
             //create the action and navigate to the hole fragment
             val action = CourseHolesPageFragmentDirections.actionCourseHolesPageFragmentToHolePageFragment(hole = Json.encodeToString(item));
-            view!!.findNavController().navigate(action);
+            parentView!!.findNavController().navigate(action);
         }
     }
 
