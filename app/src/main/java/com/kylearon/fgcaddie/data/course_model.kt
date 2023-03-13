@@ -38,6 +38,6 @@ data class Shot(
     val guid: String,
     val type: String,
     val distance: Int,
-    val image_original: ByteArray,
-    val image_markedup: ByteArray,
+    val image_original: String,
+    val image_markedup: String,
 )
