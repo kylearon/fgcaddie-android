@@ -56,6 +56,9 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
 
+    //coil image
+    implementation "io.coil-kt:coil:2.2.2"
+
     //camera x stuff
     def camerax_version = "1.1.0-beta01"
     implementation "androidx.camera:camera-core:${camerax_version}"
