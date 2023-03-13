@@ -1,11 +1,15 @@
 package com.kylearon.fgcaddie.shot
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import coil.load
+import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.courseholes.ConfirmDeleteDialogFragment
+import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentShotPageBinding
 import kotlinx.serialization.decodeFromString
@@ -22,6 +26,7 @@ class ShotPageFragment : Fragment() {
     private val binding get() = _binding!!;
 
     private lateinit var shot: Shot
+    private lateinit var hole: Hole
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,11 @@ class ShotPageFragment : Fragment() {
             val shotJsonString = it.getString("shot");
             if (shotJsonString != null) {
                 shot = Json.decodeFromString(shotJsonString);
+            }
+
+            val holeJsonString = it.getString("hole");
+            if (holeJsonString != null) {
+                hole = Json.decodeFromString(holeJsonString);
             }
         }
     }
@@ -48,7 +58,36 @@ class ShotPageFragment : Fragment() {
         val imageFilename = shot.image_markedup;
         val filepath = "/storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
 
+        //load the image into the ImageView using COIL
         _binding!!.shotImageView.load(File(filepath));
+
+
+        // The usage of an interface lets you inject your own implementation
+        val menuHost: MenuHost = requireActivity();
+
+        // Add menu items without using the Fragment Menu APIs
+        // Note how we can tie the MenuProvider to the viewLifecycleOwner and an optional Lifecycle.State (here, RESUMED) to indicate when the menu should be visible
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.remove_shot_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Handle the menu selection
+                return when (menuItem.itemId) {
+                    R.id.action_remove_shot -> {
+
+                        //show a confirmation dialog
+                        val confirmDeleteDialog = ConfirmDeleteShotDialogFragment(shot.guid, hole, view);
+                        confirmDeleteDialog.show(childFragmentManager, ConfirmDeleteDialogFragment.TAG);
+
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
 

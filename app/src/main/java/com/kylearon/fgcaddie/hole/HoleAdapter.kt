@@ -94,7 +94,7 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
         //click listener to show the full shot image
         holder.holePhotoImageView.setOnClickListener {
             //create the action and navigate to the calendar fragment
-            val action = HolePageFragmentDirections.actionHolePageFragmentToShotPageFragment(shot = Json.encodeToString(shot));
+            val action = HolePageFragmentDirections.actionHolePageFragmentToShotPageFragment(shot = Json.encodeToString(shot), hole = Json.encodeToString(hole));
             parentView!!.findNavController().navigate(action);
         }
 
