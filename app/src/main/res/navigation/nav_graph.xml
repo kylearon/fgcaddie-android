@@ -62,12 +62,27 @@
         <action
             android:id="@+id/action_holePageFragment_to_cameraPageFragment"
             app:destination="@id/cameraPageFragment" />
+        <action
+            android:id="@+id/action_holePageFragment_to_shotPageFragment"
+            app:destination="@id/shotPageFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/cameraPageFragment"
         android:name="com.kylearon.fgcaddie.camera.CameraPageFragment"
         android:label="@string/camera_title">
+        <argument
+            android:name="hole"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shotPageFragment"
+        android:name="com.kylearon.fgcaddie.shot.ShotPageFragment"
+        android:label="@string/shot_title">
+        <argument
+            android:name="shot"
+            app:argType="string" />
     </fragment>
 
     <fragment
