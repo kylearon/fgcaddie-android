@@ -4,13 +4,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.kylearon.fgcaddie.HomePageFragmentDirections
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Hole
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.File
 
 class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>() {
 
     private var hole: Hole = hole;
+
+    private var parentView: View? = null;
 
     init {
 //        GlobalScope.launch {
@@ -22,7 +33,8 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
      * Provides a reference for the views needed to display items in your list
      */
     class HoleViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-//        val holeButtonNumberTextView = view.findViewById<TextView>(R.id.hole_button_number)
+        val noPhotosMessageTextView = view.findViewById<TextView>(R.id.no_photos_message);
+        val holePhotoImageView = view.findViewById<ImageView>(R.id.hole_photo_image_view);
     }
 
     /**
@@ -34,7 +46,12 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 //        }
 //        return course!!.holes.size;
         //TODO: fix when we are displaying photos
-        return 0;
+
+        if(hole == null) {
+            return 0;
+        }
+
+        return hole!!.shots_tee.size;
     }
 
     /**
@@ -42,7 +59,7 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoleViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_hole_picture_view, parent, false);
-
+        parentView = layout;
         return HoleViewHolder(layout);
     }
 
@@ -54,6 +71,35 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
             Log.d("HoleAdapter", "NULL Hole");
             return;
         }
+
+        Log.d("HoleAdapter", "Showing Hole Photos");
+
+        holder.noPhotosMessageTextView.visibility = View.GONE;
+        holder.holePhotoImageView.visibility = View.VISIBLE;
+
+        //get the shot
+        val shot = hole.shots_tee[position];
+
+        //construct the filepath and get the file
+        val imageFilename = shot.image_markedup;
+        val filepath = "/storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+        val loadedFile = File(filepath);
+
+        Log.d("HoleAdapter", "loading photo: " + filepath);
+        Log.d("HoleAdapter", "image Exists: " + loadedFile.exists().toString());
+
+        //load the file into the ImageView using COIL
+        holder.holePhotoImageView.load(File(filepath));
+
+        //click listener to show the full shot image
+        holder.holePhotoImageView.setOnClickListener {
+            //create the action and navigate to the calendar fragment
+            val action = HolePageFragmentDirections.actionHolePageFragmentToShotPageFragment(shot = Json.encodeToString(shot));
+            parentView!!.findNavController().navigate(action);
+        }
+
+//        holder.holePhotoImaveView.setImageBitmap(Json.decodeFromString(hole.shots_tee[position].image_markedup));
+
 
 //        val item: Hole = course!!.holes.get(position);
 //        holder.holeButtonNumberTextView.text = item.hole_number.toString();

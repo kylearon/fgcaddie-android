@@ -19,7 +19,14 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.kylearon.fgcaddie.MainActivity
+import com.kylearon.fgcaddie.data.Hole
+import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentCameraPageBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -31,8 +38,12 @@ import java.util.concurrent.Executors
 class CameraPageFragment : Fragment() {
 
     private var imageCaptureUseCase: ImageCapture? = null;
+    private var originalBitmap: Bitmap? = null;
+
 
     private lateinit var cameraExecutor: ExecutorService;
+
+    private lateinit var hole: Hole;
 
     private var _binding: FragmentCameraPageBinding? = null;
 
@@ -48,6 +59,12 @@ class CameraPageFragment : Fragment() {
             startCamera();
         } else {
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+        }
+
+        //retrieve the courseid from the Fragment arguments
+        arguments?.let {
+            val holeString = it.getString("hole").toString()
+            hole = Json.decodeFromString(holeString);
         }
     }
 
@@ -115,9 +132,6 @@ class CameraPageFragment : Fragment() {
         //re-enable the Take Photo functionality for this button if they clicked on it when it was Back
         if(_binding!!.imageCaptureButton.text.equals("Back"))
         {
-            //save the photo
-            val finalBitmap = _binding!!.shotView.toBitmap();
-
             //change the buttons back to normal
             _binding!!.imageCaptureButton.text = "Take Photo";
             _binding!!.videoCaptureButton.visibility = View.VISIBLE;
@@ -143,9 +157,9 @@ class CameraPageFragment : Fragment() {
         val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis());
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name);
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
             if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image");
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/FGCaddie");
             }
         }
 
@@ -180,10 +194,26 @@ class CameraPageFragment : Fragment() {
 
                     Log.d(TAG, "bitmap size: " + bitmapImage.width + " " + bitmapImage.height);
 
-                    //rotate the bitmap before it is put into the ImageView
-                    val rotatedBitmapImage = rotateBitmap(bitmapImage, imageProxy.imageInfo.rotationDegrees.toFloat());
+//                    val scaledWidth = (_binding!!.shotView.width / bitmapImage.width) * bitmapImage.width;
+//                    val scaledHeight = (_binding!!.shotView.height / bitmapImage.height) * bitmapImage.height;
 
-                    //send this to the DVC
+                    val scaledWidth = (bitmapImage.width * .5).toInt();
+                    val scaledHeight = (bitmapImage.height * .5).toInt();
+
+                    Log.d(TAG, "binding size: " + _binding!!.shotView.width + " " + _binding!!.shotView.height);
+                    Log.d(TAG, "SCALED bitmap size: " + scaledWidth + " " + scaledHeight);
+
+                    val scaledBitmapImage = Bitmap.createScaledBitmap(bitmapImage, scaledWidth, scaledHeight, true);
+
+                    Log.d(TAG, "SCALED bitmap size: " + scaledBitmapImage.width + " " + scaledBitmapImage.height);
+
+                    //rotate the bitmap before it is put into the ImageView
+                    val rotatedBitmapImage = rotateBitmap(scaledBitmapImage, imageProxy.imageInfo.rotationDegrees.toFloat());
+
+                    //save this as the original image
+                    originalBitmap = rotatedBitmapImage;
+
+                    //send this to the DrawableCanvasView
                     _binding!!.shotView.setBackgroundImage(rotatedBitmapImage!!);
 
                 }
@@ -209,8 +239,33 @@ class CameraPageFragment : Fragment() {
 
     private fun saveImage() {
         Log.d(TAG, "saveImage()");
-        _binding!!.shotView.saveBitmap();
+        // Create a new coroutine to move the execution off the UI thread
+//        viewModelScope.launch(Dispatchers.IO) {
+        GlobalScope.launch {
+            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
+            val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp;
+            _binding!!.shotView.saveBitmap(filename);
+            saveBitmapToModel(filename);
+        }
     }
+
+
+    private fun saveBitmapToModel(markedupBitmapFilename: String) {
+
+        Log.d(TAG, "saveBitmapToModel()");
+
+        //add the bitmap to the hole
+//        val originalBitmapString = BitmapUtils.getStringFromBitmap(originalBitmap);
+//        val markedupBitmapString = BitmapUtils.getStringFromBitmap(markedupBitmap);
+
+//        val originalBitmapString =
+
+        hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, markedupBitmapFilename, markedupBitmapFilename ));
+
+        //save the hole to the model
+        MainActivity.ServiceLocator.getCourseRepository().updateHole(hole); //TODO: add hole as fragment param to this class
+    }
+
 
     /**
      * Frees the binding object when the Fragment is destroyed.

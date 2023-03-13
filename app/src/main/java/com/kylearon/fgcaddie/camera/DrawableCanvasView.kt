@@ -2,6 +2,7 @@ package com.kylearon.fgcaddie.camera
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -12,19 +13,21 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewConfiguration
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.kylearon.fgcaddie.R
+import kotlinx.coroutines.*
 import java.io.OutputStream
+import java.util.*
 
 
 private const val STROKE_WIDTH = 12f; // has to be float
 
 //https://developer.android.com/codelabs/advanced-android-kotlin-training-canvas
-class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageView(context,  attrs) {
+class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageView(context,  attrs) { //private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+
 
     private lateinit var extraCanvas: Canvas;
-    private lateinit var extraBitmap: Bitmap;
+    lateinit var extraBitmap: Bitmap;
 
     private lateinit var backgroundBitmap: Bitmap;
 
@@ -55,6 +58,7 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     }
 
     private var path = Path();
+
 
     fun toBitmap(): Bitmap? {
         val bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
@@ -154,41 +158,76 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         path.reset();
     }
 
-    fun saveBitmap() {
-        saveBitmap1(extraBitmap, "testbitmap");
-    }
+    fun saveBitmap(filename: String) {
+//        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch {
 
-    private fun saveBitmap1(bitmap: Bitmap, name: String) {
-        val values = contentValues()!!;
-        values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/FGCaddie")
-        values.put(MediaStore.Images.Media.IS_PENDING, true)
-
-        // RELATIVE_PATH and IS_PENDING are introduced in API 29.
-
-        val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
-        if (uri != null) {
-            saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri))
-            values.put(MediaStore.Images.Media.IS_PENDING, false)
-            context.contentResolver.update(uri, values, null, null)
+            Log.d(TAG,"saveBitmap() " + filename);
+            saveBitmapAsFile(extraBitmap, filename);
         }
     }
 
+    private fun saveBitmapAsFile(bitmap: Bitmap, name: String) {
+
+//        withContext(defaultDispatcher) {
+
+            val values = contentValues()!!;
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/FGCaddie");
+            values.put(MediaStore.Images.Media.IS_PENDING, true);
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, name);
+
+            val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+//        GlobalScope.launch {
+
+            if (uri != null) {
+                saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri));
+                values.put(MediaStore.Images.Media.IS_PENDING, false);
+                context.contentResolver.update(uri, values, null, null);
+
+
+                var cursor: Cursor? = null
+                var uriFixed: String = "default";
+                try {
+                    val proj = arrayOf(MediaStore.Images.Media.DATA);
+                    cursor = context.contentResolver.query(uri, proj, null, null, null);
+                    val column_index: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    uriFixed = cursor.getString(column_index);
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+
+                Log.d(TAG,"!!! URI: " + uri.path.toString());
+                Log.d(TAG,"!!! URI fixed: " + uriFixed);
+            }
+//        }.join() // Wait for the coroutine to complete
+//        }
+    }
+
+//    suspend fun bookmarkArticle(article: Article) {
+//        externalScope.launch { articlesDataSource.bookmarkArticle(article) }
+//            .join() // Wait for the coroutine to complete
+//    }
+
+
     private fun contentValues(): ContentValues? {
 
-        val values = ContentValues()
+        val values = ContentValues();
 
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000)
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis())
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+        values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
 
-        return values
+        return values;
 
     }
 
     private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
 
-        Log.d(TAG,"saveImageToStream")
+        Log.d(TAG,"saveImageToStream()")
 
         if (outputStream != null) {
 
@@ -198,8 +237,8 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
                 outputStream.close()
 
                 // success dialog
-                val msg = "saved photo";
-                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
+                val msg = "!! saved photo";
+//                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, msg);
 
 //                runOnUiThread {
@@ -214,8 +253,8 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
                 e.printStackTrace()
 
                 // warning dialog
-                val msg = "ERROR: did not save photo";
-                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
+                val msg = "!! ERROR: did not save photo";
+//                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, msg);
 
 //                runOnUiThread {
@@ -232,6 +271,6 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     }
 
     companion object {
-        private const val TAG = "CameraXApp.DCV"
+        private const val TAG = "DrawableCanvasView"
     }
 }

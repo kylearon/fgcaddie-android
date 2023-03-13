@@ -13,6 +13,7 @@ import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.databinding.FragmentHolePageBinding
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class HolePageFragment: Fragment() {
@@ -77,7 +78,7 @@ class HolePageFragment: Fragment() {
                     R.id.action_take_picture -> {
 
                         //create the action and navigate to the camera page fragment
-                        val action = HolePageFragmentDirections.actionHolePageFragmentToCameraPageFragment();
+                        val action = HolePageFragmentDirections.actionHolePageFragmentToCameraPageFragment(hole = Json.encodeToString(hole));
                         view.findNavController().navigate(action);
 
                         true
