@@ -12,23 +12,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginTop="12sp"
+        android:paddingLeft="0dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="12dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_height="60sp"
-            android:layout_width="160sp"
-            android:textSize="20sp"
+            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:text="@string/course_name"
             />
 
         <EditText
             android:id="@+id/course_name_input"
-            android:layout_height="60sp"
-            android:layout_width="240sp"
+            android:layout_height="60dp"
+            android:layout_width="200dp"
+            android:textSize="14sp"
             android:inputType="text"/>
 
     </LinearLayout>
@@ -36,24 +37,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginTop="24sp"
+        android:paddingLeft="0dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_height="60sp"
-            android:layout_width="160sp"
-            android:layout_marginTop="12sp"
-            android:textSize="20sp"
+            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:text="@string/holes" />
 
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/holesToggleButton"
-            android:layout_height="60sp"
-            android:layout_width="240sp"
+            android:layout_height="60dp"
+            android:layout_width="240dp"
             app:singleSelection="true"
             app:selectionRequired="true"
             app:checkedButton="@id/holes_18"
@@ -61,8 +62,8 @@
             <Button
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/holes_9"
-                android:layout_height="60sp"
-                android:layout_width="120sp"
+                android:layout_height="60dp"
+                android:layout_width="90dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="9"
@@ -70,8 +71,8 @@
             <Button
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/holes_18"
-                android:layout_height="60sp"
-                android:layout_width="120sp"
+                android:layout_height="60dp"
+                android:layout_width="90dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="18"
