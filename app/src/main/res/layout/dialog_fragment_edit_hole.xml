@@ -31,7 +31,7 @@
             android:layout_width="240sp"
             app:singleSelection="true"
             app:selectionRequired="true"
-            app:checkedButton="@id/holes_18"
+            app:checkedButton="@id/par_4"
             >
             <Button
                 style="?attr/materialButtonOutlinedStyle"
