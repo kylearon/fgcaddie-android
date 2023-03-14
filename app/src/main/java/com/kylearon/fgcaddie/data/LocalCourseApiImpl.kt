@@ -81,12 +81,12 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
     private fun loadCourses() {
 
         //read the courses file from local storage
-        var file = File(context.getFilesDir(), "courses.json");
+        var file = File(context.filesDir, "courses.json");
 
         //create and re-lookup the file if it doesn't exist
         if(!file.exists()) {
             saveCourses();
-            file = File(context.getFilesDir(), "courses.json");
+            file = File(context.filesDir, "courses.json");
         }
 
         val fileReader = FileReader(file);
@@ -103,7 +103,7 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         Log.d("LocalCourseApiImpl", jsonString);
 
         //write the file out to local storage
-        val file = File(context.getFilesDir(), "courses.json");
+        val file = File(context.filesDir, "courses.json");
         val fileWriter = FileWriter(file);
         val bufferedWriter = BufferedWriter(fileWriter);
         bufferedWriter.write(jsonString);
