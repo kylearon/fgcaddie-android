@@ -34,7 +34,6 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
      * Provides a reference for the views needed to display items in your list
      */
     class HoleViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val noPhotosMessageTextView = view.findViewById<TextView>(R.id.no_photos_message);
         val holePhotoImageView = view.findViewById<ImageView>(R.id.hole_photo_image_view);
     }
 
@@ -75,7 +74,6 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
         Log.d("HoleAdapter", "Showing Hole Photos");
 
-        holder.noPhotosMessageTextView.visibility = View.GONE;
         holder.holePhotoImageView.visibility = View.VISIBLE;
 
         //get the shot
