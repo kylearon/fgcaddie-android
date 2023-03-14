@@ -81,7 +81,14 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
     private fun loadCourses() {
 
         //read the courses file from local storage
-        val file = File(context.getFilesDir(), "courses.json");
+        var file = File(context.getFilesDir(), "courses.json");
+
+        //create and re-lookup the file if it doesn't exist
+        if(!file.exists()) {
+            saveCourses();
+            file = File(context.getFilesDir(), "courses.json");
+        }
+
         val fileReader = FileReader(file);
         val bufferedReader = BufferedReader(fileReader);
 
