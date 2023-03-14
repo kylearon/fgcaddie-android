@@ -13,24 +13,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentCameraPageBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 /**
  * Camera Page fragment.
@@ -63,9 +67,10 @@ class CameraPageFragment : Fragment() {
 
         //retrieve the courseid from the Fragment arguments
         arguments?.let {
-            val holeString = it.getString("hole").toString()
+            val holeString = it.getString("hole").toString();
             hole = Json.decodeFromString(holeString);
         }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -233,34 +238,46 @@ class CameraPageFragment : Fragment() {
 
     private fun drawOnImage() {
         Log.d(TAG, "drawOnImage()");
-
-
     }
 
     private fun saveImage() {
         Log.d(TAG, "saveImage()");
+
+        //show the saving text on screen
+        _binding!!.savingTextView.visibility = View.VISIBLE;
+        _binding!!.savingTextView.invalidate();
+
+        //construct the image filename
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
+        val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp;
+
+        //construct the Shot to add to the Hole model object
+        hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, filename, filename ));
+
+
         // Create a new coroutine to move the execution off the UI thread
-//        viewModelScope.launch(Dispatchers.IO) {
-        GlobalScope.launch {
-            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
-            val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp;
+        GlobalScope.launch (Dispatchers.IO) {
             _binding!!.shotView.saveBitmap(filename);
             saveBitmapToModel(filename);
+        }.invokeOnCompletion {
+
+            //navigate back in the Main thread once the bitmap is done being saved to internal storage
+            runBlocking {
+                withContext(Dispatchers.Main) {
+                    Log.d(TAG, "NAVIGATE BACK");
+                    //then navigate back once the image is saved to internal storage
+                    val action = CameraPageFragmentDirections.actionCameraPageFragmentToHolePageFragment(hole = Json.encodeToString(hole));
+                    _binding!!.root.findNavController().navigate(action);
+                }
+            }
         }
+
     }
 
 
     private fun saveBitmapToModel(markedupBitmapFilename: String) {
 
         Log.d(TAG, "saveBitmapToModel()");
-
-        //add the bitmap to the hole
-//        val originalBitmapString = BitmapUtils.getStringFromBitmap(originalBitmap);
-//        val markedupBitmapString = BitmapUtils.getStringFromBitmap(markedupBitmap);
-
-//        val originalBitmapString =
-
-        hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, markedupBitmapFilename, markedupBitmapFilename ));
 
         //save the hole to the model
         MainActivity.ServiceLocator.getCourseRepository().updateHole(hole); //TODO: add hole as fragment param to this class

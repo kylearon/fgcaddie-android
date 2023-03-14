@@ -3,10 +3,13 @@ package com.kylearon.fgcaddie.courseholes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
@@ -14,6 +17,7 @@ import com.kylearon.fgcaddie.data.Hole
 import kotlinx.serialization.json.Json
 
 import kotlinx.serialization.encodeToString
+import java.io.File
 
 class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAdapter.CourseHolesViewHolder>() {
 
@@ -33,6 +37,10 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
     class CourseHolesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val holeButtonNumberTextView = view.findViewById<TextView>(R.id.hole_button_number)
         val holeRow = view.findViewById<LinearLayout>(R.id.hole_row);
+
+        val noPhotosMessage = view.findViewById<TextView>(R.id.no_photos_message);
+
+        val photosInnerRow = view.findViewById<LinearLayout>(R.id.photos_inner_row);
 
         val parTextView = view.findViewById<TextView>(R.id.hole_par_text);
 
@@ -76,6 +84,23 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         //set the yds string in the UI
         val distanceTextString = item.length.toString() + " yds";
         holder.distanceTextView.text = distanceTextString;
+
+        //hide the no photos message
+        if(item.shots_tee.size > 0) {
+            holder.noPhotosMessage.visibility = View.GONE;
+        }
+
+        //set the inner photos
+        item.shots_tee.forEach { s ->
+            //construct the filepath and get the file
+            val imageFilename = s.image_markedup;
+            val filepath = "/storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+
+            //put the photo into the inflated ImageView
+            val imageViewLayout = LayoutInflater.from(holder.photosInnerRow.context).inflate(R.layout.mini_photo, holder.photosInnerRow, false);
+            imageViewLayout.findViewById<ImageView>(R.id.mini_photo_image_view).load(File(filepath));
+            holder.photosInnerRow.addView(imageViewLayout)
+        }
 
         // Assigns a [OnClickListener] to the LinearLayout contained in the [ViewHolder]
         holder.holeRow.setOnClickListener {

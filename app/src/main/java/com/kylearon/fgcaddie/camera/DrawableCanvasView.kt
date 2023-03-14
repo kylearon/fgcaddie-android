@@ -159,58 +159,42 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     }
 
     fun saveBitmap(filename: String) {
-//        GlobalScope.launch (Dispatchers.IO) {
-        GlobalScope.launch {
-
             Log.d(TAG,"saveBitmap() " + filename);
             saveBitmapAsFile(extraBitmap, filename);
-        }
     }
 
     private fun saveBitmapAsFile(bitmap: Bitmap, name: String) {
 
-//        withContext(defaultDispatcher) {
+        val values = contentValues()!!;
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/FGCaddie");
+        values.put(MediaStore.Images.Media.IS_PENDING, true);
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, name);
 
-            val values = contentValues()!!;
-            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/FGCaddie");
-            values.put(MediaStore.Images.Media.IS_PENDING, true);
-            values.put(MediaStore.Images.Media.DISPLAY_NAME, name);
+        val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-            val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        if (uri != null) {
+            saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri));
+            values.put(MediaStore.Images.Media.IS_PENDING, false);
+            context.contentResolver.update(uri, values, null, null);
 
-//        GlobalScope.launch {
-
-            if (uri != null) {
-                saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri));
-                values.put(MediaStore.Images.Media.IS_PENDING, false);
-                context.contentResolver.update(uri, values, null, null);
-
-
-                var cursor: Cursor? = null
-                var uriFixed: String = "default";
-                try {
-                    val proj = arrayOf(MediaStore.Images.Media.DATA);
-                    cursor = context.contentResolver.query(uri, proj, null, null, null);
-                    val column_index: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    cursor.moveToFirst();
-                    uriFixed = cursor.getString(column_index);
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-
-                Log.d(TAG,"!!! URI: " + uri.path.toString());
-                Log.d(TAG,"!!! URI fixed: " + uriFixed);
-            }
-//        }.join() // Wait for the coroutine to complete
-//        }
+//            var cursor: Cursor? = null
+//            var uriFixed: String = "default";
+//            try {
+//                val proj = arrayOf(MediaStore.Images.Media.DATA);
+//                cursor = context.contentResolver.query(uri, proj, null, null, null);
+//                val column_index: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                cursor.moveToFirst();
+//                uriFixed = cursor.getString(column_index);
+//            } finally {
+//                if (cursor != null) {
+//                    cursor.close();
+//                }
+//            }
+//
+//            Log.d(TAG,"!!! URI: " + uri.path.toString());
+//            Log.d(TAG,"!!! URI fixed: " + uriFixed);
+        }
     }
-
-//    suspend fun bookmarkArticle(article: Article) {
-//        externalScope.launch { articlesDataSource.bookmarkArticle(article) }
-//            .join() // Wait for the coroutine to complete
-//    }
 
 
     private fun contentValues(): ContentValues? {
@@ -227,42 +211,29 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 
     private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
 
-        Log.d(TAG,"saveImageToStream()")
+        Log.d(TAG,"saveImageToStream()");
 
         if (outputStream != null) {
 
             try {
 
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                outputStream.close()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                outputStream.close();
 
                 // success dialog
                 val msg = "!! saved photo";
 //                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, msg);
 
-//                runOnUiThread {
-//
-//                    val successDialog = SuccessDialog.getInstance(null)
-//                    successDialog.show(supportFragmentManager, SuccessDialog.TAG)
-//
-//                }
 
             } catch (e: Exception) {
 
-                e.printStackTrace()
+                e.printStackTrace();
 
                 // warning dialog
                 val msg = "!! ERROR: did not save photo";
 //                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, msg);
-
-//                runOnUiThread {
-//
-//                    val warningDialog = WarningDialog.getInstance(null)
-//                    warningDialog.show(supportFragmentManager, WarningDialog.TAG)
-//
-//                }
 
             }
 
