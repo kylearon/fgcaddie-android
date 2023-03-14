@@ -1,5 +1,6 @@
 package com.kylearon.fgcaddie.hole
 
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -82,14 +83,15 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = "/storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
-        val loadedFile = File(filepath);
+//        val filepath = "file:///storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename + ".png";
+//        val loadedFile = File(filepath);
 
-        Log.d("HoleAdapter", "loading photo: " + filepath);
-        Log.d("HoleAdapter", "image Exists: " + loadedFile.exists().toString());
+//        Log.d("HoleAdapter", "loading photo: " + filepath);
+//        Log.d("HoleAdapter", "image Exists: " + loadedFile.exists().toString());
 
         //load the file into the ImageView using COIL
-        holder.holePhotoImageView.load(File(filepath));
+        holder.holePhotoImageView.load(Uri.parse(filepath));
 
         //click listener to show the full shot image
         holder.holePhotoImageView.setOnClickListener {

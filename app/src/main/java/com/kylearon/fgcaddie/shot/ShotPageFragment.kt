@@ -1,5 +1,6 @@
 package com.kylearon.fgcaddie.shot
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
@@ -56,10 +57,11 @@ class ShotPageFragment : Fragment() {
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = "/storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+//        val filepath = "file:///storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename + ".png";
 
         //load the image into the ImageView using COIL
-        _binding!!.shotImageView.load(File(filepath));
+        _binding!!.shotImageView.load(Uri.parse(filepath));
 
 
         // The usage of an interface lets you inject your own implementation

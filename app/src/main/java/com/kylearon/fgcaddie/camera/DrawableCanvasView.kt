@@ -16,6 +16,10 @@ import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
 import com.kylearon.fgcaddie.R
 import kotlinx.coroutines.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileOutputStream
+import java.io.FileWriter
 import java.io.OutputStream
 import java.util.*
 
@@ -159,10 +163,26 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     }
 
     fun saveBitmap(filename: String) {
-            Log.d(TAG,"saveBitmap() " + filename);
-            saveBitmapAsFile(extraBitmap, filename);
+        Log.d(TAG,"saveBitmap() " + filename);
+//        saveBitmapAsFile(extraBitmap, filename);
+        saveBitmapToFileStorage(extraBitmap, filename);
     }
 
+    /**
+     * A function to write the bitmap to the private user files directory
+     */
+    private fun saveBitmapToFileStorage(bitmap: Bitmap, name: String) {
+        //write the file out to local storage
+        val file = File(context.filesDir, name + ".png");
+        val fileOut = FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOut);
+        fileOut.close();
+//        Log.d("LocalCourseApiImpl", "!!!! Wrote to: " + file.absolutePath);
+    }
+
+    /**
+     * A function to write the bitmap to the public media directories.
+     */
     private fun saveBitmapAsFile(bitmap: Bitmap, name: String) {
 
         val values = contentValues()!!;
@@ -172,11 +192,14 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 
         val uri: Uri? = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
+        context.contentResolver.update(uri!!, values, null, null);
+
         if (uri != null) {
             saveImageToStream(bitmap, context.contentResolver.openOutputStream(uri));
             values.put(MediaStore.Images.Media.IS_PENDING, false);
             context.contentResolver.update(uri, values, null, null);
 
+            //this code will translate the URI to a readable filesystem one
 //            var cursor: Cursor? = null
 //            var uriFixed: String = "default";
 //            try {
@@ -198,7 +221,6 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 
 
     private fun contentValues(): ContentValues? {
-
         val values = ContentValues();
 
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
@@ -206,17 +228,13 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
 
         return values;
-
     }
 
     private fun saveImageToStream(bitmap: Bitmap, outputStream: OutputStream?) {
 
         Log.d(TAG,"saveImageToStream()");
-
         if (outputStream != null) {
-
             try {
-
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                 outputStream.close();
 
@@ -225,20 +243,14 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 //                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, msg);
 
-
             } catch (e: Exception) {
 
                 e.printStackTrace();
-
-                // warning dialog
                 val msg = "!! ERROR: did not save photo";
 //                Toast.makeText(context.applicationContext, msg, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, msg);
-
             }
-
         }
-
     }
 
     companion object {

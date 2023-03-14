@@ -1,5 +1,6 @@
 package com.kylearon.fgcaddie.courseholes
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -94,11 +95,12 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         item.shots_tee.forEach { s ->
             //construct the filepath and get the file
             val imageFilename = s.image_markedup;
-            val filepath = "/storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+//            val filepath = "file:///storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
+            val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename + ".png";
 
             //put the photo into the inflated ImageView
             val imageViewLayout = LayoutInflater.from(holder.photosInnerRow.context).inflate(R.layout.mini_photo, holder.photosInnerRow, false);
-            imageViewLayout.findViewById<ImageView>(R.id.mini_photo_image_view).load(File(filepath));
+            imageViewLayout.findViewById<ImageView>(R.id.mini_photo_image_view).load(Uri.parse(filepath));
             holder.photosInnerRow.addView(imageViewLayout)
         }
 
