@@ -14,21 +14,22 @@
         android:layout_height="match_parent"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:layout_marginTop="12sp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_height="60sp"
-            android:layout_width="160sp"
-            android:textSize="20sp"
+            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:text="@string/par"
             />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/parToggleButton"
-            android:layout_height="60sp"
-            android:layout_width="240sp"
+            android:layout_height="60dp"
+            android:layout_width="240dp"
             app:singleSelection="true"
             app:selectionRequired="true"
             app:checkedButton="@id/par_4"
@@ -36,8 +37,8 @@
             <Button
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/par_3"
-                android:layout_height="60sp"
-                android:layout_width="80sp"
+                android:layout_height="60dp"
+                android:layout_width="70dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="3"
@@ -45,8 +46,8 @@
             <Button
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/par_4"
-                android:layout_height="60sp"
-                android:layout_width="80sp"
+                android:layout_height="60dp"
+                android:layout_width="70dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="4"
@@ -54,8 +55,8 @@
             <Button
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/par_5"
-                android:layout_height="60sp"
-                android:layout_width="80sp"
+                android:layout_height="60dp"
+                android:layout_width="70dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="5"
@@ -75,17 +76,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_height="60sp"
-            android:layout_width="160sp"
-            android:layout_marginTop="12sp"
-            android:textSize="20sp"
+            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:text="@string/distance" />
 
         <EditText
             android:id="@+id/distance_input"
-            android:layout_height="60sp"
-            android:layout_width="80sp"
+            android:layout_height="60dp"
+            android:layout_width="100dp"
             android:inputType="number"/>
 
     </LinearLayout>
