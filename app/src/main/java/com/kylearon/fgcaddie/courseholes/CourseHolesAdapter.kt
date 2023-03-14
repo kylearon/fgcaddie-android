@@ -54,7 +54,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseHolesViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.hole_button_row_view, parent, false);
-        parentView = layout;
+        parentView = parent;
         return CourseHolesViewHolder(layout);
     }
 

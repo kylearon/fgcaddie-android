@@ -59,7 +59,7 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoleViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_hole_picture_view, parent, false);
-        parentView = layout;
+        parentView = parent;
         return HoleViewHolder(layout);
     }
 
