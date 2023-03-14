@@ -12,6 +12,9 @@
         android:id="@+id/shot_image_text"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_marginRight="24dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:text="@string/shot_title" />
 
     <ImageView
