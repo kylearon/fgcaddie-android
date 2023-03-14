@@ -44,7 +44,7 @@
 
         <TextView
             android:layout_height="80dp"
-            android:layout_width="120dp"
+            android:layout_width="110dp"
             android:layout_marginTop="12dp"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -59,7 +59,7 @@
             app:selectionRequired="true"
             app:checkedButton="@id/holes_18"
             >
-            <Button
+            <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/holes_9"
                 android:layout_height="60dp"
@@ -68,7 +68,7 @@
                 android:textStyle="bold"
                 android:text="9"
                 />
-            <Button
+            <com.google.android.material.button.MaterialButton
                 style="?attr/materialButtonOutlinedStyle"
                 android:id="@+id/holes_18"
                 android:layout_height="60dp"

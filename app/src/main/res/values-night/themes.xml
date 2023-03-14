@@ -11,11 +11,22 @@
          https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md#theming-buttons
          -->
         <item name="borderlessButtonStyle">@style/AppButtonTextStyle</item>
-        <item name="materialButtonOutlinedStyle">@style/AppOutlinedButtonStyle</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.App.Button.OutlinedButton</item>
         <item name="materialButtonStyle">@style/AppButtonStyle</item>
 
         <!-- custom background color for the hole linear layout "buttons" -->
         <item name="backgroundLinearLayout">@color/button_bg_night</item>
+
+
+        <item name="colorPrimary">@color/mfgc_blue</item>
+        <item name="colorPrimaryDark">@color/mfgc_blue</item>
+        <item name="colorAccent">@color/mfgc_blue_bg</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.TextButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
     </style>
 
     <!-- Button style on both light and night mode -->
@@ -47,9 +58,13 @@
     </style>
 
     <style name="ThemeOverlay.App.Button.TextButton" parent="ThemeOverlay.Material3.Button.TextButton">
-        <!-- Background color -->
-        <item name="colorPrimary">@color/button_bg_night</item>
-        <!-- Text color -->
+        <!-- Background color selected -->
+        <item name="colorSecondaryContainer">@color/mfgc_blue</item>
+
+        <!-- Text color selected -->
+        <item name="colorOnSecondaryContainer">@color/medium_grey</item>
+
+        <!-- Text color not selected-->
         <item name="colorOnSurface">@color/mfgc_blue</item>
     </style>
 

@@ -16,6 +16,10 @@
 
     <color name="mfgc_blue">#56C1FF</color>
 
-    <color name="button_bg_day">#999999</color>
+    <color name="mfgc_blue_bg">#8DB0C5</color>
+
+    <color name="medium_grey">#535353</color>
+
+    <color name="button_bg_day">#7A7A7A</color>
     <color name="button_bg_night">#222222</color>
 </resources>
