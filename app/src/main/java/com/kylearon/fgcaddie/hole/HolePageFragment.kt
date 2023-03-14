@@ -94,7 +94,7 @@ class HolePageFragment: Fragment() {
         val holeParString = "Par: " + hole.par;
         binding.holeParText.text = holeParString;
 
-        val holeDistanceString = "Par: " + hole.length;
+        val holeDistanceString = hole.length.toString() + " yds";
         binding.holeDistanceText.text = holeDistanceString;
     }
 
