@@ -2,7 +2,6 @@ package com.kylearon.fgcaddie.camera
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -15,13 +14,9 @@ import android.view.MotionEvent
 import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
 import com.kylearon.fgcaddie.R
-import kotlinx.coroutines.*
-import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
-import java.io.FileWriter
 import java.io.OutputStream
-import java.util.*
 
 
 private const val STROKE_WIDTH = 12f; // has to be float

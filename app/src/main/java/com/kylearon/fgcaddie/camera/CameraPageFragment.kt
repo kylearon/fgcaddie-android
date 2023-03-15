@@ -1,21 +1,17 @@
 package com.kylearon.fgcaddie.camera
 
 import android.Manifest
-import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
@@ -80,7 +76,6 @@ class CameraPageFragment : Fragment() {
 
         // Set up the listeners for take photo and video capture buttons
         _binding!!.imageCaptureButton.setOnClickListener { takePhoto() }
-        _binding!!.videoCaptureButton.setOnClickListener {  }
         _binding!!.drawButton.setOnClickListener { drawOnImage() }
         _binding!!.saveButton.setOnClickListener { saveImage() }
 
@@ -139,7 +134,6 @@ class CameraPageFragment : Fragment() {
         {
             //change the buttons back to normal
             _binding!!.imageCaptureButton.text = "Take Photo";
-            _binding!!.videoCaptureButton.visibility = View.VISIBLE;
             _binding!!.saveButton.visibility = View.GONE;
 
             //change the view back to normal
@@ -151,25 +145,10 @@ class CameraPageFragment : Fragment() {
 
         //change the buttons to draw mode with a still image
         _binding!!.imageCaptureButton.text = "Back";
-        _binding!!.videoCaptureButton.visibility = View.GONE;
         _binding!!.saveButton.visibility = View.VISIBLE;
-
 
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCaptureUseCase ?: return;
-
-        // Create time stamped name and MediaStore entry.
-        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis());
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, name);
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/FGCaddie");
-            }
-        }
-
-        // Create output options object which contains file + metadata
-//        val outputOptions = ImageCapture.OutputFileOptions.Builder(requireActivity().contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues).build();
 
         imageCapture.takePicture(
             ContextCompat.getMainExecutor(requireContext()),
@@ -180,10 +159,8 @@ class CameraPageFragment : Fragment() {
                 }
 
                 override fun onCaptureSuccess(imageProxy: ImageProxy) {
-//                    val msg = "Photo capture succeeded: ${image.}";
-
                     val msg = "PHOTO CALLBACK " + imageProxy.width + " " + imageProxy.height;
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
                     Log.d(TAG, msg);
 
                     //change the view
@@ -197,20 +174,10 @@ class CameraPageFragment : Fragment() {
                     val bitmapImage = BitmapFactory.decodeByteArray(bytes, 0, bytes.size);
                     imageProxy.close();
 
-                    Log.d(TAG, "bitmap size: " + bitmapImage.width + " " + bitmapImage.height);
-
-//                    val scaledWidth = (_binding!!.shotView.width / bitmapImage.width) * bitmapImage.width;
-//                    val scaledHeight = (_binding!!.shotView.height / bitmapImage.height) * bitmapImage.height;
-
+                    //scale the bitmap down so it doesn't take as much memory
                     val scaledWidth = (bitmapImage.width * .5).toInt();
                     val scaledHeight = (bitmapImage.height * .5).toInt();
-
-                    Log.d(TAG, "binding size: " + _binding!!.shotView.width + " " + _binding!!.shotView.height);
-                    Log.d(TAG, "SCALED bitmap size: " + scaledWidth + " " + scaledHeight);
-
                     val scaledBitmapImage = Bitmap.createScaledBitmap(bitmapImage, scaledWidth, scaledHeight, true);
-
-                    Log.d(TAG, "SCALED bitmap size: " + scaledBitmapImage.width + " " + scaledBitmapImage.height);
 
                     //rotate the bitmap before it is put into the ImageView
                     val rotatedBitmapImage = rotateBitmap(scaledBitmapImage, imageProxy.imageInfo.rotationDegrees.toFloat());
@@ -220,7 +187,6 @@ class CameraPageFragment : Fragment() {
 
                     //send this to the DrawableCanvasView
                     _binding!!.shotView.setBackgroundImage(rotatedBitmapImage!!);
-
                 }
             }
         )
