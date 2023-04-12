@@ -5,6 +5,7 @@
 
     <string name="action_add_course">Add Course</string>
     <string name="action_remove_course">Remove Course</string>
+    <string name="action_share_course">Share Course</string>
     <string name="action_edit_hole">Edit Hole</string>
     <string name="action_take_picture">Take Picture</string>
     <string name="action_remove_shot">Remove Shot</string>
@@ -36,4 +37,5 @@
 
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
     <string name="confirm_delete_shot_message">This will DELETE the Shot. Are you sure?</string>
+    <string name="confirm_share_course_message">Upload the Course for sharing. Are you sure?</string>
 </resources>

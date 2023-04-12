@@ -52,6 +52,7 @@ class CourseHolesPageFragment: Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Add menu items here
+                menuInflater.inflate(R.menu.share_course_menu, menu)
                 menuInflater.inflate(R.menu.remove_course_menu, menu)
             }
 
@@ -64,9 +65,17 @@ class CourseHolesPageFragment: Fragment() {
                         val confirmDeleteDialog = ConfirmDeleteDialogFragment(courseId, view);
 
                         //call add course
-                        confirmDeleteDialog.show(childFragmentManager,
-                            ConfirmDeleteDialogFragment.TAG
-                        );
+                        confirmDeleteDialog.show(childFragmentManager, ConfirmDeleteDialogFragment.TAG);
+
+                        true
+                    }
+                    R.id.action_share_course -> {
+
+                        //show a confirmation dialog
+                        val shareCourseDialog = ShareCourseDialogFragment(courseId, view);
+
+                        //call share course
+                        shareCourseDialog.show(childFragmentManager, ShareCourseDialogFragment.TAG);
 
                         true
                     }
