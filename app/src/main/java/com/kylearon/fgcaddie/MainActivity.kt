@@ -11,6 +11,8 @@ import com.kylearon.fgcaddie.data.CourseRemoteDataSource
 import com.kylearon.fgcaddie.data.CourseRepository
 import com.kylearon.fgcaddie.data.LocalCourseApiImpl
 import com.kylearon.fgcaddie.databinding.ActivityMainBinding
+import io.ktor.client.*
+import io.ktor.client.plugins.*
 import kotlinx.coroutines.Dispatchers
 
 /**
@@ -25,6 +27,17 @@ class MainActivity : AppCompatActivity() {
         private val courseRemoteDataSource: CourseRemoteDataSource = CourseRemoteDataSource(LocalCourseApiImpl(myApplication.baseContext), Dispatchers.IO);
         private val courseRepository: CourseRepository = CourseRepository(courseRemoteDataSource);
         fun getCourseRepository(): CourseRepository = courseRepository;
+
+
+        private val httpClient = HttpClient() {
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60000
+                connectTimeoutMillis = 60000
+                socketTimeoutMillis  = 60000
+            }
+        }
+        fun getHttpClient() : HttpClient = httpClient;
+
     }
 
 
