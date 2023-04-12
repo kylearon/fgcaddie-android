@@ -223,8 +223,14 @@ class CameraPageFragment : Fragment() {
 
         // Create a new coroutine to move the execution off the UI thread
         GlobalScope.launch (Dispatchers.IO) {
+
+            //save the bitmap image to private app storage
             _binding!!.shotView.saveBitmap(filename);
-            saveBitmapToModel(filename);
+
+            //save the Hole json to the local model
+            Log.d(TAG, "saveBitmapToModel()");
+            MainActivity.ServiceLocator.getCourseRepository().updateHole(hole); //TODO: add hole as fragment param to this class
+
         }.invokeOnCompletion {
 
             //navigate back in the Main thread once the bitmap is done being saved to internal storage
@@ -238,15 +244,6 @@ class CameraPageFragment : Fragment() {
             }
         }
 
-    }
-
-
-    private fun saveBitmapToModel(markedupBitmapFilename: String) {
-
-        Log.d(TAG, "saveBitmapToModel()");
-
-        //save the hole to the model
-        MainActivity.ServiceLocator.getCourseRepository().updateHole(hole); //TODO: add hole as fragment param to this class
     }
 
 
