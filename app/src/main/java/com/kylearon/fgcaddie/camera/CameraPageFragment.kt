@@ -175,8 +175,8 @@ class CameraPageFragment : Fragment() {
                     imageProxy.close();
 
                     //scale the bitmap down so it doesn't take as much memory
-                    val scaledWidth = (bitmapImage.width * .5).toInt();
-                    val scaledHeight = (bitmapImage.height * .5).toInt();
+                    val scaledWidth = (bitmapImage.width * .25).toInt();
+                    val scaledHeight = (bitmapImage.height * .25).toInt();
                     val scaledBitmapImage = Bitmap.createScaledBitmap(bitmapImage, scaledWidth, scaledHeight, true);
 
                     //rotate the bitmap before it is put into the ImageView
