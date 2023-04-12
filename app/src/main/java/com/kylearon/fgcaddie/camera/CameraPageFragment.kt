@@ -215,7 +215,7 @@ class CameraPageFragment : Fragment() {
 
         //construct the image filename
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
-        val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp;
+        val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp + ".png";
 
         //construct the Shot to add to the Hole model object
         hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, filename, filename ));

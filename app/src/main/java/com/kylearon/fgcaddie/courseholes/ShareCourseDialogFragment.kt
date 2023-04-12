@@ -92,7 +92,7 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 
                                         //construct the filepath and get the file
                                         val imageFilename = shot.image_markedup;
-                                        val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename + ".png";
+                                        val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
 
                                         Log.i(TAG, "Adding file to POST: " + filepath);
 

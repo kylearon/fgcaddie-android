@@ -71,7 +71,8 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename + ".png";
+        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+
 
         //load the file into the ImageView using COIL
         holder.holePhotoImageView.load(Uri.parse(filepath));

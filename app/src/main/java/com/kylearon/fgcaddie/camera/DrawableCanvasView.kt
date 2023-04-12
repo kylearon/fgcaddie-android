@@ -168,7 +168,7 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
      */
     private fun saveBitmapToFileStorage(bitmap: Bitmap, name: String) {
         //write the file out to local storage
-        val file = File(context.filesDir, name + ".png");
+        val file = File(context.filesDir, name);
         val fileOut = FileOutputStream(file);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOut);
         fileOut.close();

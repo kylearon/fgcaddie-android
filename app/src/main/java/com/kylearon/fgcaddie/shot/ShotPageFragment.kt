@@ -58,7 +58,7 @@ class ShotPageFragment : Fragment() {
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
 //        val filepath = "file:///storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
-        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename + ".png";
+        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
 
         //load the image into the ImageView using COIL
         _binding!!.shotImageView.load(Uri.parse(filepath));
