@@ -68,4 +68,9 @@ dependencies {
 
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    //ktor
+    implementation "io.ktor:ktor-client-core:${ktor_version}"
+    implementation "io.ktor:ktor-client-cio:${ktor_version}"
+
 }
