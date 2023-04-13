@@ -21,10 +21,12 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
 
     private val courses = ArrayList<Course>();
 
-    init {
-        GlobalScope.launch {
-            courses.addAll(MainActivity.ServiceLocator.getCourseRepository().fetchCourses());
-        }
+
+    // Add a function to update the data and notify the RecyclerView
+    fun updateData(newCourses: List<Course>) {
+        courses.clear()
+        courses.addAll(newCourses)
+        notifyDataSetChanged()
     }
 
     /**

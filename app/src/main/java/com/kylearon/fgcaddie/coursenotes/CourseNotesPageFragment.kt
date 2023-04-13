@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentCourseNotesPageBinding
+import kotlinx.coroutines.launch
 
 /**
  * The Fragment for the Course Notes Page
@@ -22,6 +25,7 @@ class CourseNotesPageFragment : Fragment() {
     private val binding get() = _binding!!;
 
     private lateinit var recyclerView: RecyclerView;
+    private lateinit var courseNotesAdapter: CourseNotesAdapter;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -35,12 +39,21 @@ class CourseNotesPageFragment : Fragment() {
         return view;
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         recyclerView = binding.recyclerView;
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext());
-        recyclerView.adapter = CourseNotesAdapter();
+
+        courseNotesAdapter = CourseNotesAdapter()
+        recyclerView.adapter = courseNotesAdapter;
+
+        //fetch the data
+        viewLifecycleOwner.lifecycleScope.launch {
+            val courses = MainActivity.ServiceLocator.getCourseRepository().fetchCourses()
+            courseNotesAdapter.updateData(courses)
+        }
 
 
         // The usage of an interface lets you inject your own implementation
