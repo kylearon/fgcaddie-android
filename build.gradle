@@ -5,7 +5,7 @@ buildscript {
         constraintlayout_version = "2.1.4"
         core_ktx_version = "1.9.0"
         kotlin_version = "1.8.10"
-        material_version = "1.9.0-alpha02"
+        material_version = "1.9.0-rc01"
         nav_version = '2.5.2'
         lifecycle_version = "2.5.1"
         datastore_version = "1.0.0"

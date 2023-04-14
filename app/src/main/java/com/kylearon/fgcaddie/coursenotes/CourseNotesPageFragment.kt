@@ -7,6 +7,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
@@ -68,6 +69,7 @@ class CourseNotesPageFragment : Fragment() {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Add menu items here
                 menuInflater.inflate(R.menu.add_course_menu, menu)
+                menuInflater.inflate(R.menu.browse_courses_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -79,6 +81,14 @@ class CourseNotesPageFragment : Fragment() {
 
                         //call add course
                         courseDialog.show(childFragmentManager, NewCourseDialogFragment.TAG);
+
+                        true
+                    }
+                    R.id.action_browse_courses_show_view -> {
+
+                        //create the action and navigate to the course browser fragment
+                        val action = CourseNotesPageFragmentDirections.actionCourseNotesPageFragmentToCourseBrowserFragment();
+                        view!!.findNavController().navigate(action);
 
                         true
                     }

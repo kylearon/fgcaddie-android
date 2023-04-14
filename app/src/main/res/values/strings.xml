@@ -10,7 +10,10 @@
     <string name="action_take_picture">Take Picture</string>
     <string name="action_remove_shot">Remove Shot</string>
 
+    <string name="action_browse_courses_show_view">Browse Shared Courses for Download</string>
+
     <string name="course_notes_title">Course Notes</string>
+    <string name="course_browser_title">Course Browser</string>
     <string name="course_holes_title">Holes</string>
     <string name="calendar_title">Calendar</string>
     <string name="message_board_title">Message Board</string>
@@ -38,4 +41,8 @@
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
     <string name="confirm_delete_shot_message">This will DELETE the Shot. Are you sure?</string>
     <string name="confirm_share_course_message">Upload the Course for sharing. Are you sure?</string>
+
+    <string name="tab_public">Public</string>
+    <string name="tab_private">Private</string>
+
 </resources>

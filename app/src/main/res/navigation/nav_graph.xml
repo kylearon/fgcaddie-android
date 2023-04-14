@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- https://developer.android.com/codelabs/basic-android-kotlin-training-fragments-navigation-component -->
+<!-- https://developer.android.com/codelabs/basic-android-kotlin-training-navigation-backstack -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -27,6 +29,9 @@
         <action
             android:id="@+id/action_courseNotesPageFragment_to_courseHolesPageFragment"
             app:destination="@id/courseHolesPageFragment" />
+        <action
+            android:id="@+id/action_courseNotesPageFragment_to_courseBrowserFragment"
+            app:destination="@id/courseBrowserPageFragment" />
     </fragment>
 
     <fragment
@@ -96,6 +101,12 @@
             app:destination="@id/holePageFragment"
             app:popUpTo="@id/holePageFragment"
             app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/courseBrowserPageFragment"
+        android:name="com.kylearon.fgcaddie.coursebrowser.CourseBrowserFragment"
+        android:label="@string/course_browser_title">
     </fragment>
 
     <fragment
