@@ -32,6 +32,8 @@
     <string name="course_name">Course Name</string>
     <string name="holes">Holes</string>
 
+    <string name="default_label">default</string>
+
     <string name="par">Par</string>
     <string name="distance">Distance</string>
 

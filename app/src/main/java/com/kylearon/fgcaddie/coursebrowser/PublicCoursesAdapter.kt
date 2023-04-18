@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.R
@@ -27,7 +28,8 @@ class PublicCoursesAdapter : RecyclerView.Adapter<PublicCoursesAdapter.PublicCou
      * Provides a reference for the views needed to display items in your list
      */
     class PublicCoursesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val button = view.findViewById<Button>(R.id.button_item);
+        val courseLabel = view.findViewById<TextView>(R.id.course_label);
+        val courseCreator = view.findViewById<TextView>(R.id.course_creator);
     }
 
     /**
@@ -41,7 +43,7 @@ class PublicCoursesAdapter : RecyclerView.Adapter<PublicCoursesAdapter.PublicCou
      * Create a new view using the row_item_view template
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicCoursesViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.row_item_view, parent, false);
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.course_browser_row_item, parent, false);
 
         view = layout;
 
@@ -53,7 +55,10 @@ class PublicCoursesAdapter : RecyclerView.Adapter<PublicCoursesAdapter.PublicCou
      */
     override fun onBindViewHolder(holder: PublicCoursesViewHolder, position: Int) {
         val item: Course = courses.get(position);
-        holder.button.text = item.name;
+
+        holder.courseLabel.text = item.name;
+        holder.courseCreator.text = item.creator;
+
 
 //        // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
 //        holder.button.setOnClickListener {

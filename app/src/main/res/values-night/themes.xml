@@ -16,6 +16,7 @@
 
         <!-- custom background color for the hole linear layout "buttons" -->
         <item name="backgroundLinearLayout">@color/button_bg_night</item>
+        <item name="backgroundLinearLayoutButton">@color/ll_button_bg_night</item>
 
 
         <item name="colorPrimary">@color/mfgc_blue</item>

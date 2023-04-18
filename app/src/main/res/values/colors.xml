@@ -22,4 +22,8 @@
 
     <color name="button_bg_day">#7A7A7A</color>
     <color name="button_bg_night">#222222</color>
+    <color name="ll_button_bg_night">#333333</color>
+
+    <color name="success_button_fg_night">#51CA33</color>
+    <color name="success_button_bg_night">#1E3219</color>
 </resources>

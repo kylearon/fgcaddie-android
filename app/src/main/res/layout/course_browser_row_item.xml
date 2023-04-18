@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_margin="6dp"
+    android:orientation="vertical"
+    android:background="@color/button_bg_night"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:layout_margin="6dp"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        >
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical"
+            android:layout_weight="80"
+            >
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="@string/default_label"
+                android:textColor="@color/mfgc_blue"
+                android:id="@+id/course_label"
+                />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/default_label"
+                android:textColor="@color/medium_grey"
+                android:id="@+id/course_creator"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/download_course_clickable"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="20"
+            android:paddingTop="6dp"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:background="?attr/backgroundLinearLayoutButton"
+            android:foreground="?android:attr/selectableItemBackground"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                android:text="Download"
+                android:textColor="@color/success_button_fg_night"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_margin="6dp"
+        android:orientation="horizontal"
+        >
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

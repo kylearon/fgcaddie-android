@@ -9,10 +9,16 @@
     tools:context=".coursebrowser.PublicCoursesFragment">
 
     <TextView
-        android:layout_width="800dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/mfgc_blue"
-        android:text="PUBLIC COURSES" />
+        android:text="PUBLIC COURSES"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

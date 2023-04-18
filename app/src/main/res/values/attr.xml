@@ -1,3 +1,4 @@
 <resources>
     <attr name="backgroundLinearLayout" format="color" />
+    <attr name="backgroundLinearLayoutButton" format="color" />
 </resources>
