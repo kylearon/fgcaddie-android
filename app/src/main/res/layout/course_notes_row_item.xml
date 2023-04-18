@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/course_notes_row_item"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_margin="6dp"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="?attr/backgroundLinearLayout"
+    android:foreground="?android:attr/selectableItemBackground"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:layout_margin="6dp"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        >
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical"
+            android:layout_weight="80"
+            >
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="@string/default_label"
+                android:textColor="@color/mfgc_blue"
+                android:id="@+id/course_label"
+                />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/default_label"
+                android:textColor="@color/medium_grey"
+                android:id="@+id/course_creator"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_margin="6dp"
+        android:orientation="horizontal"
+        >
+
+    </LinearLayout>
+
+
+</LinearLayout>
