@@ -60,7 +60,7 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
     }
 
     override fun updateHole(hole: Hole) {
-        Log.d("LocalCourseApiImpl", "updateHole()");
+        Log.d(TAG, "updateHole()");
 
         val course: Course? = courses.courses.find { c -> c.guid.equals(hole.course_id) }
         if (course != null) {
@@ -73,7 +73,7 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
             }
         }
 
-        Log.d("LocalCourseApiImpl", "HOLE JSON: " + Json.encodeToString(hole));
+        Log.d(TAG, "HOLE JSON: " + Json.encodeToString(hole));
 
         saveCourses();
     }
@@ -100,7 +100,7 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
 
     private fun saveCourses() {
         val jsonString = Json.encodeToString(courses);
-        Log.d("LocalCourseApiImpl", jsonString);
+        Log.d(TAG, jsonString);
 
         //write the file out to local storage
         val file = File(context.filesDir, "courses.json");
@@ -109,6 +109,10 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         bufferedWriter.write(jsonString);
         bufferedWriter.close();
 
-        Log.d("LocalCourseApiImpl", "Wrote to: " + file.absolutePath);
+        Log.d(TAG, "Wrote to: " + file.absolutePath);
+    }
+
+    companion object {
+        private const val TAG = "LocalCourseApiImpl"
     }
 }

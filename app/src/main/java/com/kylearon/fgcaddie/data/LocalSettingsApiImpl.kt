@@ -53,14 +53,14 @@ class LocalSettingsApiImpl(context: Context) : SettingsApi{
         val bufferedReader = BufferedReader(fileReader);
 
         val loadedText = bufferedReader.readText();
-//        Log.d("LocalSettingsApiImpl", loadedText);
+//        Log.d(TAG, loadedText);
 
         _settings = Json.decodeFromString(loadedText);
     }
 
     private fun saveSettings() {
         val jsonString = Json.encodeToString(_settings);
-        Log.d("LocalSettingsApiImpl", jsonString);
+        Log.d(TAG, jsonString);
 
         //write the file out to local storage
         val file = File(context.filesDir, "settings.json");
@@ -69,7 +69,11 @@ class LocalSettingsApiImpl(context: Context) : SettingsApi{
         bufferedWriter.write(jsonString);
         bufferedWriter.close();
 
-        Log.d("LocalSettingsApiImpl", "Wrote to: " + file.absolutePath);
+        Log.d(TAG, "Wrote to: " + file.absolutePath);
+    }
+
+    companion object {
+        private const val TAG = "LocalSettingsApiImpl"
     }
 
 }
