@@ -62,7 +62,7 @@ class PublicCoursesFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext());
 
-        publicCoursesAdapter = PublicCoursesAdapter();
+        publicCoursesAdapter = PublicCoursesAdapter(requireActivity());
         recyclerView.adapter = publicCoursesAdapter;
 
         updatePublicCourses();

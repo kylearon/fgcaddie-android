@@ -1,16 +1,28 @@
 package com.kylearon.fgcaddie.coursebrowser
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
-class PublicCoursesAdapter : RecyclerView.Adapter<PublicCoursesAdapter.PublicCoursesViewHolder>() {
+class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Adapter<PublicCoursesAdapter.PublicCoursesViewHolder>() {
+
+    private val fragmentActivity = fragmentActivity;
 
     private var view: View? = null;
 
@@ -30,6 +42,7 @@ class PublicCoursesAdapter : RecyclerView.Adapter<PublicCoursesAdapter.PublicCou
     class PublicCoursesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val courseLabel = view.findViewById<TextView>(R.id.course_label);
         val courseCreator = view.findViewById<TextView>(R.id.course_creator);
+        val downloadClickable = view.findViewById<LinearLayout>(R.id.download_course_clickable);
     }
 
     /**
@@ -59,14 +72,38 @@ class PublicCoursesAdapter : RecyclerView.Adapter<PublicCoursesAdapter.PublicCou
         holder.courseLabel.text = item.name;
         holder.courseCreator.text = item.creator;
 
+        holder.downloadClickable.setOnClickListener{
+            //download the course json
+            (fragmentActivity as AppCompatActivity).lifecycleScope.launch {
+                try {
+                    val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().get {
+                        url {
+                            protocol = URLProtocol.HTTPS
+                            host = "expressjs-postgres-production-3edc.up.railway.app"
+                            path("api/courses/" + item.guid)
+                            parameters.append("api-key", "android")
+                        }
+                    }
 
-//        // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
-//        holder.button.setOnClickListener {
-//            //create the action and navigate to the course notes fragment
-//            val action = PublicCoursesFragmentDirections.actionCourseNotesPageFragmentToCourseHolesPageFragment( courseid = item.guid);
-//            view!!.findNavController().navigate(action);
-//
-//        }
+                    Log.i(TAG, "Response status: ${response.status}")
+                    Log.i(TAG, "Response body: ${response.bodyAsText()}")
+
+                    //save the course json
+                    val courseJson = Json.decodeFromString<Course>(response.bodyAsText());
+                    MainActivity.ServiceLocator.getCourseRepository().addCourse(courseJson);
+
+                    Log.i(TAG, "SAVED COURSE JSON");
+
+                } catch (e: Exception) {
+                    Log.e(TAG, e.localizedMessage)
+                }
+            }
+        }
+
+    }
+
+    companion object {
+        const val TAG = "PublicCoursesAdapter"
     }
 
 }
