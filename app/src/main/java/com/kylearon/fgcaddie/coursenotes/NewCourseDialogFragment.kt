@@ -55,11 +55,15 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
                     val holesNumber = holesButtonText.toInt();
                     Log.d(TAG, " the holes are: " + holesButtonText);
 
-                    val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                    //get the creator
+                    val creator = MainActivity.ServiceLocator.getSettingsRepository().getSettings()!!.user_name;
+
+                    //get the datetime
+                    val sdf = SimpleDateFormat("dd/MMM/yyyy hh:mm:ss");
                     val currentDate = sdf.format(Calendar.getInstance().time);
 
                     //create the new course
-                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", currentDate, ArrayList<Hole>());
+                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, creator, currentDate, ArrayList<Hole>());
 
                     //init each hole for the new course
                     for(i in 1 .. holesNumber) {
