@@ -74,7 +74,9 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
                     MainActivity.ServiceLocator.getCourseRepository().addCourse(newCourse);
 
                     //refresh the parent view's data adapter
-                    parentRecyclerView.adapter = CourseNotesAdapter();
+                    val adapter = CourseNotesAdapter();
+                    adapter.updateData(MainActivity.ServiceLocator.getCourseRepository().getCourses());
+                    parentRecyclerView.adapter = adapter;
 
                 })
                 .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
