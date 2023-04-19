@@ -1,15 +1,12 @@
 package com.kylearon.fgcaddie
 
 import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.kylearon.fgcaddie.data.CourseRemoteDataSource
-import com.kylearon.fgcaddie.data.CourseRepository
-import com.kylearon.fgcaddie.data.LocalCourseApiImpl
+import com.kylearon.fgcaddie.data.*
 import com.kylearon.fgcaddie.databinding.ActivityMainBinding
 import io.ktor.client.*
 import io.ktor.client.plugins.*
@@ -27,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         private val courseRemoteDataSource: CourseRemoteDataSource = CourseRemoteDataSource(LocalCourseApiImpl(myApplication.baseContext), Dispatchers.IO);
         private val courseRepository: CourseRepository = CourseRepository(courseRemoteDataSource);
         fun getCourseRepository(): CourseRepository = courseRepository;
+
+        private val settingsRemoteDataSource: SettingsRemoteDataSource = SettingsRemoteDataSource(LocalSettingsApiImpl(myApplication.baseContext));
+        private val settingsRepository: SettingsRepository = SettingsRepository(settingsRemoteDataSource);
+        fun getSettingsRepository(): SettingsRepository = settingsRepository;
 
 
         private val httpClient = HttpClient() {
