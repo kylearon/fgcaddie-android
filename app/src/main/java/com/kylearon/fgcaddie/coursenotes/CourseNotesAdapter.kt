@@ -38,6 +38,7 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
         val layoutClickable = view.findViewById<LinearLayout>(R.id.course_notes_row_item);
         val courseLabel = view.findViewById<TextView>(R.id.course_label);
         val courseCreator = view.findViewById<TextView>(R.id.course_creator);
+        val courseDate = view.findViewById<TextView>(R.id.course_date);
     }
 
     /**
@@ -65,6 +66,7 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
         val item: Course = courses.get(position);
         holder.courseLabel.text = item.name;
         holder.courseCreator.text = item.creator;
+        holder.courseDate.text = item.date_created;
 
         // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
         holder.layoutClickable.setOnClickListener {

@@ -16,8 +16,9 @@ data class Courses(
 @Serializable
 data class Course(
     val guid: String,
-    val name: String = "default",
-    val creator: String = "default",
+    val name: String = "default name",
+    val creator: String = "default creator",
+    val date_created: String = "default date",
     val holes: MutableList<Hole> = ArrayList()
 )
 

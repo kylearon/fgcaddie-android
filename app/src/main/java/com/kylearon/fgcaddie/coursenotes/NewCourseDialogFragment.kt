@@ -15,6 +15,7 @@ import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
+import java.text.SimpleDateFormat
 import java.util.*
 
 class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
@@ -54,8 +55,11 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
                     val holesNumber = holesButtonText.toInt();
                     Log.d(TAG, " the holes are: " + holesButtonText);
 
+                    val sdf = SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                    val currentDate = sdf.format(Calendar.getInstance().time);
+
                     //create the new course
-                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", ArrayList<Hole>());
+                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, "creator", currentDate, ArrayList<Hole>());
 
                     //init each hole for the new course
                     for(i in 1 .. holesNumber) {
