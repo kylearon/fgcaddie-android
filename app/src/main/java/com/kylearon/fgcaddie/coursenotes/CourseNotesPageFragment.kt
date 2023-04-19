@@ -56,10 +56,8 @@ class CourseNotesPageFragment : Fragment() {
             courseNotesAdapter.updateData(courses)
         }
 
-
         // The usage of an interface lets you inject your own implementation
         val menuHost: MenuHost = requireActivity();
-
 
         // Add menu items without using the Fragment Menu APIs
         // Note how we can tie the MenuProvider to the viewLifecycleOwner

@@ -55,9 +55,6 @@ class CourseBrowserFragment : Fragment() {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-    }
 
     override fun onDestroy() {
         super.onDestroy();

@@ -34,7 +34,7 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
 //        courses.courses.add(newCourse3);
 
 
-        //TODO: init the courses from a saved file instead
+        //init the courses from a saved file
         loadCourses();
 
     }
