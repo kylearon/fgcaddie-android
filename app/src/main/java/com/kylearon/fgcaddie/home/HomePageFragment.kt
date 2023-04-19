@@ -1,11 +1,13 @@
-package com.kylearon.fgcaddie
+package com.kylearon.fgcaddie.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
+import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentHomePageBinding
 
 /**
@@ -30,6 +32,32 @@ class HomePageFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // The usage of an interface lets you inject your own implementation
+        val menuHost: MenuHost = requireActivity();
+
+        // Add menu items without using the Fragment Menu APIs
+        // Note how we can tie the MenuProvider to the viewLifecycleOwner and an optional Lifecycle.State (here, RESUMED) to indicate when the menu should be visible
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.settings_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Handle the menu selection
+                return when (menuItem.itemId) {
+                    R.id.action_settings -> {
+
+                        val settingsDialog = SettingsDialogFragment();
+                        settingsDialog.show(childFragmentManager, SettingsDialogFragment.TAG);
+
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         //set the click listener for the course notes button
         _binding!!.courseNotesButton.setOnClickListener {

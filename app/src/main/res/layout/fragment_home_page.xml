@@ -6,7 +6,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    tools:context=".HomePageFragment">
+    tools:context=".home.HomePageFragment">
 
     <Button
         android:id="@+id/course_notes_button"

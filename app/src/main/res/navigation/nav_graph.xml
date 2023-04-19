@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/homePageFragment"
-        android:name="com.kylearon.fgcaddie.HomePageFragment"
+        android:name="com.kylearon.fgcaddie.home.HomePageFragment"
         android:label="@string/app_name">
         <action
             android:id="@+id/action_homePageFragment_to_courseNotesPageFragment"
