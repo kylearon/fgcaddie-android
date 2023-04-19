@@ -27,10 +27,6 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 
     private var course: Course? = null;
 
-
-    private val courseId = courseId;
-    private val view = view;
-
     init {
         course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
     }
@@ -39,15 +35,37 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
         AlertDialog.Builder(requireContext())
             .setMessage(getString(R.string.confirm_share_course_message))
             .setPositiveButton(getString(R.string.ok)) { dialog, id ->
-                //remove the course
-//                MainActivity.ServiceLocator.getCourseRepository().removeCourse(courseId);
 
                 //create the course json to send
                 var courseJson = Json.encodeToString(course);
-                Log.i(TAG, "courseJson");
+                Log.i(TAG, "SENDING courseJson");
                 Log.i(TAG, courseJson);
 
-                //TODO: send the json
+                //send the json
+                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+                    try {
+                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                            url {
+                                protocol = URLProtocol.HTTPS
+                                host = "expressjs-postgres-production-3edc.up.railway.app"
+                                path("api/course")
+                                parameters.append("api-key", "android")
+                            }
+
+                            //add body
+                            contentType(ContentType.Application.Json);
+                            setBody(courseJson);
+
+                        }
+
+                        Log.i(TAG, "Response status: ${response.status}")
+                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.localizedMessage)
+                    }
+                }
+
+
 //                val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().request("https://ktor.io/") {
 //                    method = HttpMethod.Post
 //                }
@@ -72,49 +90,50 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 //                )
 
 
+                //TODO: uncomment for images
                 //test send some images to POST api/images
-                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
-
-                    try {
-                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-                            url {
-                                protocol = URLProtocol.HTTPS
-                                host = "expressjs-postgres-production-3edc.up.railway.app"
-                                path("api/images")
-                                parameters.append("api-key", "android")
-                            }
-                            setBody(MultiPartFormDataContent(
-                                formData {
-                                    // append("description", "images from android app")
-
-                                    //append each shot from the first hole as a test
-                                    course?.holes?.get(0)?.shots_tee?.forEach { shot ->
-
-                                        //construct the filepath and get the file
-                                        val imageFilename = shot.image_markedup;
-                                        val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
-
-                                        Log.i(TAG, "Adding file to POST: " + filepath);
-
-                                        append("images", File(filepath).readBytes(), Headers.build {
-                                        // append("images", File(Uri.parse(filepath).path).readBytes(), Headers.build {
-                                            append(HttpHeaders.ContentType, "image/png")
-                                            append(HttpHeaders.ContentDisposition,"filename=${shot.image_markedup}")
-                                        })
-                                    }
-
-                                },
-                                boundary = "WebAppBoundary"
-                            )
-                            )
-                        }
-
-                        Log.i(TAG, "Response status: ${response.status}")
-                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
-                    } catch (e: Exception) {
-                        Log.e(TAG, e.localizedMessage)
-                    }
-                }
+//                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+//
+//                    try {
+//                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+//                            url {
+//                                protocol = URLProtocol.HTTPS
+//                                host = "expressjs-postgres-production-3edc.up.railway.app"
+//                                path("api/images")
+//                                parameters.append("api-key", "android")
+//                            }
+//                            setBody(MultiPartFormDataContent(
+//                                formData {
+//                                    // append("description", "images from android app")
+//
+//                                    //append each shot from the first hole as a test
+//                                    course?.holes?.get(0)?.shots_tee?.forEach { shot ->
+//
+//                                        //construct the filepath and get the file
+//                                        val imageFilename = shot.image_markedup;
+//                                        val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+//
+//                                        Log.i(TAG, "Adding file to POST: " + filepath);
+//
+//                                        append("images", File(filepath).readBytes(), Headers.build {
+//                                        // append("images", File(Uri.parse(filepath).path).readBytes(), Headers.build {
+//                                            append(HttpHeaders.ContentType, "image/png")
+//                                            append(HttpHeaders.ContentDisposition,"filename=${shot.image_markedup}")
+//                                        })
+//                                    }
+//
+//                                },
+//                                boundary = "WebAppBoundary"
+//                            )
+//                            )
+//                        }
+//
+//                        Log.i(TAG, "Response status: ${response.status}")
+//                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
+//                    } catch (e: Exception) {
+//                        Log.e(TAG, e.localizedMessage)
+//                    }
+//                }
 
                 //TODO: create the zip file of images to send
 
