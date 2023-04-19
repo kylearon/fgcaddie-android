@@ -44,6 +44,10 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         return courses.courses.toList();
     }
 
+    override fun getCourses(): List<Course> {
+        return courses.courses.toList();
+    }
+
     override fun getCourse(courseId: String): Course? {
         val course: Course? = courses.courses.find { c -> c.guid.equals(courseId) }
         return course;
