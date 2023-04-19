@@ -43,6 +43,7 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
         val courseLabel = view.findViewById<TextView>(R.id.course_label);
         val courseCreator = view.findViewById<TextView>(R.id.course_creator);
         val downloadClickable = view.findViewById<LinearLayout>(R.id.download_course_clickable);
+        val downloadedText = view.findViewById<LinearLayout>(R.id.course_downloaded_text);
     }
 
     /**
@@ -72,6 +73,13 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
         holder.courseLabel.text = item.name;
         holder.courseCreator.text = item.creator;
 
+        val existingCourse = MainActivity.ServiceLocator.getCourseRepository().getCourse(item.guid);
+        if(existingCourse != null)
+        {
+            holder.downloadClickable.visibility = View.GONE;
+            holder.downloadedText.visibility = View.VISIBLE;
+        }
+
         holder.downloadClickable.setOnClickListener{
             //download the course json
             (fragmentActivity as AppCompatActivity).lifecycleScope.launch {
@@ -93,6 +101,8 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
                     MainActivity.ServiceLocator.getCourseRepository().addCourse(courseJson);
 
                     Log.i(TAG, "SAVED COURSE JSON");
+
+                    notifyDataSetChanged();
 
                 } catch (e: Exception) {
                     Log.e(TAG, e.localizedMessage)

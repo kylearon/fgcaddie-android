@@ -76,6 +76,29 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/course_downloaded_text"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="20"
+            android:paddingTop="6dp"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:text="Downloaded"
+                android:textColor="@color/medium_grey"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
