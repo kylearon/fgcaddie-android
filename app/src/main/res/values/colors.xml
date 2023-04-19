@@ -21,6 +21,8 @@
     <color name="medium_grey">#535353</color>
 
     <color name="button_bg_day">#7A7A7A</color>
+    <color name="ll_button_bg_day">#222222</color>
+
     <color name="button_bg_night">#222222</color>
     <color name="ll_button_bg_night">#333333</color>
 
