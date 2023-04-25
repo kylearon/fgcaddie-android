@@ -41,13 +41,13 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                 Log.i(TAG, "SENDING courseJson");
                 Log.i(TAG, courseJson);
 
-                //send the json
+                //send the course json to the backend
                 (requireActivity() as AppCompatActivity).lifecycleScope.launch {
                     try {
                         val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
                             url {
                                 protocol = URLProtocol.HTTPS
-                                host = "expressjs-postgres-production-3edc.up.railway.app"
+                                host = MainActivity.ServiceLocator.RAILWAY_URL
                                 path("api/course")
                                 parameters.append("api-key", "android")
                             }
@@ -55,7 +55,6 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                             //add body
                             contentType(ContentType.Application.Json);
                             setBody(courseJson);
-
                         }
 
                         Log.i(TAG, "Response status: ${response.status}")
@@ -64,6 +63,67 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                         Log.e(TAG, e.localizedMessage)
                     }
                 }
+
+
+                //send course images to POST api/images
+                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+
+                    try {
+                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                            url {
+                                protocol = URLProtocol.HTTPS
+                                host = MainActivity.ServiceLocator.RAILWAY_URL
+                                path("api/images")
+                                parameters.append("api-key", "android")
+                            }
+                            setBody(MultiPartFormDataContent(
+                                formData {
+                                    // append("description", "images from android app")
+
+                                    //append each shot from each hole
+                                    course?.holes?.forEach {hole ->
+
+                                        hole.shots_tee?.forEach { shot ->
+
+                                            //construct the filepath and get the file
+                                            val imageFilename = shot.image_markedup;
+                                            val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+
+                                            Log.i(TAG, "Adding file to POST: " + filepath);
+
+                                            //append the shot image bytes to the images form data list
+                                            append(
+                                                "images",
+                                                File(filepath).readBytes(),
+                                                Headers.build {
+                                                    append(HttpHeaders.ContentType, "image/png")
+                                                    append(
+                                                        HttpHeaders.ContentDisposition,
+                                                        "filename=${shot.image_markedup}"
+                                                    )
+                                                }
+                                            )
+
+                                        }
+                                    }
+
+                                },
+                                boundary = "WebAppBoundary"
+                            )
+                            )
+                        }
+
+                        Log.i(TAG, "Response status: ${response.status}")
+                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.localizedMessage)
+                    }
+                }
+
+
+
+                //TODO: navigate to the correct page
+
 
 
 //                val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().request("https://ktor.io/") {
@@ -88,62 +148,6 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 //                        })
 //                    }
 //                )
-
-
-                //TODO: uncomment for images
-                //test send some images to POST api/images
-//                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
-//
-//                    try {
-//                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-//                            url {
-//                                protocol = URLProtocol.HTTPS
-//                                host = "expressjs-postgres-production-3edc.up.railway.app"
-//                                path("api/images")
-//                                parameters.append("api-key", "android")
-//                            }
-//                            setBody(MultiPartFormDataContent(
-//                                formData {
-//                                    // append("description", "images from android app")
-//
-//                                    //append each shot from the first hole as a test
-//                                    course?.holes?.get(0)?.shots_tee?.forEach { shot ->
-//
-//                                        //construct the filepath and get the file
-//                                        val imageFilename = shot.image_markedup;
-//                                        val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
-//
-//                                        Log.i(TAG, "Adding file to POST: " + filepath);
-//
-//                                        append("images", File(filepath).readBytes(), Headers.build {
-//                                        // append("images", File(Uri.parse(filepath).path).readBytes(), Headers.build {
-//                                            append(HttpHeaders.ContentType, "image/png")
-//                                            append(HttpHeaders.ContentDisposition,"filename=${shot.image_markedup}")
-//                                        })
-//                                    }
-//
-//                                },
-//                                boundary = "WebAppBoundary"
-//                            )
-//                            )
-//                        }
-//
-//                        Log.i(TAG, "Response status: ${response.status}")
-//                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
-//                    } catch (e: Exception) {
-//                        Log.e(TAG, e.localizedMessage)
-//                    }
-//                }
-
-                //TODO: create the zip file of images to send
-
-
-
-                //TODO: send the images zip
-
-
-                //TODO: navigate to the correct page
-
 
 
                 //navigate back a page

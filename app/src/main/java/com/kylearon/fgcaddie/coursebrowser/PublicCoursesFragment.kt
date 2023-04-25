@@ -76,7 +76,7 @@ class PublicCoursesFragment : Fragment() {
                 val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().get {
                     url {
                         protocol = URLProtocol.HTTPS
-                        host = "expressjs-postgres-production-3edc.up.railway.app"
+                        host = MainActivity.ServiceLocator.RAILWAY_URL
                         path("api/courses")
                         parameters.append("api-key", "android")
                     }

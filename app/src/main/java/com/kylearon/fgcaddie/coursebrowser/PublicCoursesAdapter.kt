@@ -87,7 +87,7 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
                     val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().get {
                         url {
                             protocol = URLProtocol.HTTPS
-                            host = "expressjs-postgres-production-3edc.up.railway.app"
+                            host = MainActivity.ServiceLocator.RAILWAY_URL
                             path("api/courses/" + item.guid)
                             parameters.append("api-key", "android")
                         }
