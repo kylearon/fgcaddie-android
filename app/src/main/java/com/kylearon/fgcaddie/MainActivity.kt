@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         }
         fun getHttpClient() : HttpClient = httpClient;
 
+        val AWS_URL: String = "fgcaddie.s3.us-east-2.amazonaws.com";
+        val RAILWAY_URL: String = "expressjs-postgres-production-3edc.up.railway.app";
     }
 
 
