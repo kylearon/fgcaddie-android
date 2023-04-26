@@ -1,6 +1,7 @@
 package com.kylearon.fgcaddie.shot
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.util.AttributeSet
@@ -19,6 +20,44 @@ class ZoomableImageView @JvmOverloads constructor(context: Context, attrs: Attri
 
     init {
         scaleType = ScaleType.MATRIX;
+    }
+
+    fun initMatrix() {
+        if (drawable == null) {
+            return
+        }
+
+        val viewWidth = width.toFloat()
+        val viewHeight = height.toFloat()
+        val drawableWidth = drawable.intrinsicWidth.toFloat()
+        val drawableHeight = drawable.intrinsicHeight.toFloat()
+
+        val scale: Float
+        val dx: Float
+        val dy: Float
+
+        // Determine the scale and translation values to fit the image within the view
+        if (drawableWidth * viewHeight > viewWidth * drawableHeight) {
+            scale = viewWidth / drawableWidth
+            dx = 0f
+            dy = (viewHeight - drawableHeight * scale) * 0.5f
+        } else {
+            scale = viewHeight / drawableHeight
+            dx = (viewWidth - drawableWidth * scale) * 0.5f
+            dy = 0f
+        }
+
+        // Apply the scale and translation values to the matrix
+        matrix.setScale(scale, scale)
+        matrix.postTranslate(dx, dy)
+
+        // Set the image matrix and draw the image
+        imageMatrix = matrix
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        initMatrix()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -65,6 +104,7 @@ class ZoomableImageView @JvmOverloads constructor(context: Context, attrs: Attri
         override fun onDoubleTap(e: MotionEvent): Boolean {
             // Handle double-tap to reset the zoom
             imageMatrix = Matrix()
+            initMatrix()
             prevMatrix.set(imageMatrix)
             matrix.set(imageMatrix)
             invalidate()
