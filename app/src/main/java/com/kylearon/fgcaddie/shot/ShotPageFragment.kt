@@ -15,7 +15,6 @@ import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentShotPageBinding
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import java.io.File
 
 /**
  * Shot Page fragment.
@@ -57,7 +56,6 @@ class ShotPageFragment : Fragment() {
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-//        val filepath = "file:///storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
         val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
 
         //load the image into the ImageView using COIL
@@ -90,6 +88,7 @@ class ShotPageFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
     }
 
 
@@ -99,6 +98,10 @@ class ShotPageFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView();
         _binding = null;
+    }
+
+    companion object {
+        const val TAG = "ShotPageFragment"
     }
 
 }
