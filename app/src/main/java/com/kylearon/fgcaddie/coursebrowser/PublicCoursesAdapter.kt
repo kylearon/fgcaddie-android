@@ -16,9 +16,14 @@ import com.kylearon.fgcaddie.data.Course
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.io.*
+import java.net.HttpURLConnection
+import java.net.URL
 
 class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Adapter<PublicCoursesAdapter.PublicCoursesViewHolder>() {
 
@@ -27,6 +32,8 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
     private var view: View? = null;
 
     private val courses = ArrayList<Course>();
+
+    private var downloadedCourseJson: Course? = null;
 
 
     // Add a function to update the data and notify the RecyclerView
@@ -97,8 +104,10 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
                     Log.i(TAG, "Response body: ${response.bodyAsText()}")
 
                     //save the course json
-                    val courseJson = Json.decodeFromString<Course>(response.bodyAsText());
+                    val courseJson: Course = Json.decodeFromString<Course>(response.bodyAsText());
                     MainActivity.ServiceLocator.getCourseRepository().addCourse(courseJson);
+
+                    downloadedCourseJson = courseJson;
 
                     Log.i(TAG, "SAVED COURSE JSON");
 
@@ -107,9 +116,72 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
                 } catch (e: Exception) {
                     Log.e(TAG, e.localizedMessage)
                 }
+            }.invokeOnCompletion {
+
+                //download the images for this course json
+                (fragmentActivity as AppCompatActivity).lifecycleScope.launch {
+                    if(downloadedCourseJson != null) {
+                        Log.i(TAG, "Downloading Course Images...");
+                        getImages(downloadedCourseJson!!);
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    private suspend fun getImages(course: Course) = withContext(Dispatchers.IO) {
+
+        //download the images for the course
+        course?.holes?.forEach {hole ->
+
+            hole.shots_tee?.forEach { shot ->
+
+                //construct the url and get the file
+                val imageFilename = shot.image_markedup;
+                val imageUrl = MainActivity.ServiceLocator.AWS_URL + "/" + imageFilename;
+
+                //get the image from the url
+                Log.i(TAG, "Downloading Image: " + imageUrl);
+                downloadAndSaveImageFromUrl(imageUrl, imageFilename);
             }
         }
 
+    }
+
+    private fun downloadAndSaveImageFromUrl(url: String, fileName: String) {
+        try {
+            val imageUrl = URL(url);
+            val connection = imageUrl.openConnection() as HttpURLConnection;
+            connection.connect();
+
+            if (connection.responseCode != HttpURLConnection.HTTP_OK) {
+                throw IOException("HTTP error code: ${connection.responseCode}");
+            }
+
+            val inputStream = connection.inputStream;
+            val bufferedInputStream = BufferedInputStream(inputStream);
+            val file = File(fragmentActivity.filesDir, fileName);
+            val fileOutputStream = FileOutputStream(file);
+            val bufferedOutputStream = BufferedOutputStream(fileOutputStream);
+
+            val buffer = ByteArray(4096);
+            var bytesRead: Int;
+            while (bufferedInputStream.read(buffer).also { bytesRead = it } != -1) {
+                bufferedOutputStream.write(buffer, 0, bytesRead);
+            }
+
+            bufferedOutputStream.close();
+            fileOutputStream.close();
+            bufferedInputStream.close();
+            inputStream.close();
+            connection.disconnect();
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     companion object {
