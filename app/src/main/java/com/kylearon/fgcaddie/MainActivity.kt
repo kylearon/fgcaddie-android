@@ -38,9 +38,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         fun getHttpClient() : HttpClient = httpClient;
+    }
 
+    object StaticVals {
         val AWS_URL: String = "https://fgcaddie.s3.us-east-2.amazonaws.com";
         val RAILWAY_URL: String = "expressjs-postgres-production-3edc.up.railway.app";
+        val ANDROID_BASE_FILEPATH = "file:///data/user/0/com.kylearon.fgcaddie/files/";
     }
 
 

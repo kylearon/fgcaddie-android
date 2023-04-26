@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Hole
 import kotlinx.serialization.encodeToString
@@ -71,7 +72,7 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+        val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
 
 
         //load the file into the ImageView using COIL

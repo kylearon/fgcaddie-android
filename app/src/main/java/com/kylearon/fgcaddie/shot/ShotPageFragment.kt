@@ -8,6 +8,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import coil.load
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.courseholes.ConfirmDeleteDialogFragment
 import com.kylearon.fgcaddie.data.Hole
@@ -56,7 +57,7 @@ class ShotPageFragment : Fragment() {
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+        val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
 
         //load the image into the ImageView using COIL
         _binding!!.shotImageView.load(Uri.parse(filepath));

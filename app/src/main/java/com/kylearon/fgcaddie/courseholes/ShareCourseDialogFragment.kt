@@ -47,7 +47,7 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                         val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
                             url {
                                 protocol = URLProtocol.HTTPS
-                                host = MainActivity.ServiceLocator.RAILWAY_URL
+                                host = MainActivity.StaticVals.RAILWAY_URL
                                 path("api/course")
                                 parameters.append("api-key", "android")
                             }
@@ -72,7 +72,7 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                         val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
                             url {
                                 protocol = URLProtocol.HTTPS
-                                host = MainActivity.ServiceLocator.RAILWAY_URL
+                                host = MainActivity.StaticVals.RAILWAY_URL
                                 path("api/images")
                                 parameters.append("api-key", "android")
                             }

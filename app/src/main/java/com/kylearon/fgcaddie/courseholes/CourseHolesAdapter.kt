@@ -95,8 +95,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         item.shots_tee.forEach { s ->
             //construct the filepath and get the file
             val imageFilename = s.image_markedup;
-//            val filepath = "file:///storage/emulated/0/Pictures/FGCaddie/" + imageFilename + ".png";
-            val filepath = "file:///data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+            val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
 
             //put the photo into the inflated ImageView
             val imageViewLayout = LayoutInflater.from(holder.photosInnerRow.context).inflate(R.layout.mini_photo, holder.photosInnerRow, false);

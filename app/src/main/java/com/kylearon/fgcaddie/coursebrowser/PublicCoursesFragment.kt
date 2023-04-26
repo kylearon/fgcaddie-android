@@ -76,7 +76,7 @@ class PublicCoursesFragment : Fragment() {
                 val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().get {
                     url {
                         protocol = URLProtocol.HTTPS
-                        host = MainActivity.ServiceLocator.RAILWAY_URL
+                        host = MainActivity.StaticVals.RAILWAY_URL
                         path("api/courses")
                         parameters.append("api-key", "android")
                     }

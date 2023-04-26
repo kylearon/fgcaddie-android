@@ -94,7 +94,7 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
                     val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().get {
                         url {
                             protocol = URLProtocol.HTTPS
-                            host = MainActivity.ServiceLocator.RAILWAY_URL
+                            host = MainActivity.StaticVals.RAILWAY_URL
                             path("api/courses/" + item.guid)
                             parameters.append("api-key", "android")
                         }
@@ -141,7 +141,7 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
 
                 //construct the url and get the file
                 val imageFilename = shot.image_markedup;
-                val imageUrl = MainActivity.ServiceLocator.AWS_URL + "/" + imageFilename;
+                val imageUrl = MainActivity.StaticVals.AWS_URL + "/" + imageFilename;
 
                 //get the image from the url
                 Log.i(TAG, "Downloading Image: " + imageUrl);
