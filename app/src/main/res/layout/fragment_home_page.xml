@@ -20,6 +20,17 @@
         />
 
     <Button
+        android:id="@+id/rules_button"
+        android:layout_width="400dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:text="Rules"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+    />
+
+    <Button
         android:id="@+id/calendar_button"
         android:layout_width="400dp"
         android:layout_height="80dp"
@@ -28,6 +39,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
+        android:visibility="gone"
         />
 
     <Button
@@ -39,6 +51,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
+        android:visibility="gone"
         />
 
 </LinearLayout>

@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_homePageFragment_to_messageBoardPageFragment"
             app:destination="@id/messageBoardPageFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_rulesPageFragment"
+            app:destination="@id/rulesPageFragment" />
     </fragment>
 
     <fragment
@@ -107,6 +110,21 @@
         android:id="@+id/courseBrowserPageFragment"
         android:name="com.kylearon.fgcaddie.coursebrowser.CourseBrowserFragment"
         android:label="@string/course_browser_title">
+    </fragment>
+
+    <fragment
+        android:id="@+id/rulesPageFragment"
+        android:name="com.kylearon.fgcaddie.rules.RulesPageFragment"
+        android:label="@string/rules_title">
+        <action
+            android:id="@+id/action_rulesPageFragment_to_obstructionsPageFragment"
+            app:destination="@id/obstructionsPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/obstructionsPageFragment"
+        android:name="com.kylearon.fgcaddie.rules.ObstructionsPageFragment"
+        android:label="@string/obstructions_title">
     </fragment>
 
     <fragment

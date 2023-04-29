@@ -67,11 +67,12 @@ class HomePageFragment : Fragment() {
         }
 
         //set the click listener for the calendar button
-        _binding!!.calendarButton.setOnClickListener {
+        _binding!!.rulesButton.setOnClickListener {
             //create the action and navigate to the calendar fragment
-            val action = HomePageFragmentDirections.actionHomePageFragmentToCalendarPageFragment();
+            val action = HomePageFragmentDirections.actionHomePageFragmentToRulesPageFragment()
             view.findNavController().navigate(action);
         }
+
     }
 
     /**
