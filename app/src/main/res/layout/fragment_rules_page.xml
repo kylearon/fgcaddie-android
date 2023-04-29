@@ -8,12 +8,6 @@
     android:orientation="vertical"
     tools:context=".rules.RulesPageFragment">
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/rules_title"
-    />
-
     <Button
         android:id="@+id/rules_text_button"
         android:layout_width="400dp"
