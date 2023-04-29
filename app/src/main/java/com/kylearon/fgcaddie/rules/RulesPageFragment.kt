@@ -1,5 +1,7 @@
 package com.kylearon.fgcaddie.rules
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +34,18 @@ class RulesPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        //set the click listener for the calendar button
+        //set the click listener for the rules text button
+        _binding!!.rulesTextButton.setOnClickListener {
+            //navigate to the rules online
+            val url = "https://www.footgolf.sport/rules";
+            val intent = Intent(Intent.ACTION_VIEW);
+            intent.data = Uri.parse(url);
+            startActivity(intent);
+        }
+
+        //set the click listener for the obstructions button
         _binding!!.obstructionsButton.setOnClickListener {
-            //create the action and navigate to the calendar fragment
+            //create the action and navigate to the obstructions fragment
             val action = RulesPageFragmentDirections.actionRulesPageFragmentToObstructionsPageFragment();
             view.findNavController().navigate(action);
         }
