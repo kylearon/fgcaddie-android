@@ -1,7 +1,5 @@
 package com.kylearon.fgcaddie.data
 
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 
 /**
  * https://developer.android.com/topic/architecture/data-layer

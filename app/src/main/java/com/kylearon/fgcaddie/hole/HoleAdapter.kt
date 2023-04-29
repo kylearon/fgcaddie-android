@@ -21,12 +21,6 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
     private var parentView: View? = null;
 
-    init {
-//        GlobalScope.launch {
-//            hole =
-//        }
-    }
-
     /**
      * Provides a reference for the views needed to display items in your list
      */

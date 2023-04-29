@@ -1,7 +1,6 @@
 package com.kylearon.fgcaddie.courseholes
 
 import android.app.Dialog
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
@@ -18,7 +16,6 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File

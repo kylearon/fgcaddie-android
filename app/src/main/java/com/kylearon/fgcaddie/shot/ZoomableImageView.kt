@@ -1,7 +1,6 @@
 package com.kylearon.fgcaddie.shot
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.util.AttributeSet

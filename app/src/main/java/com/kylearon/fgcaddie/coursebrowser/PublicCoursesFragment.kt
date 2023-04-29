@@ -10,11 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
-import com.kylearon.fgcaddie.R
-import com.kylearon.fgcaddie.coursenotes.CourseNotesAdapter
 import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Courses
-import com.kylearon.fgcaddie.databinding.FragmentCourseNotesPageBinding
 import com.kylearon.fgcaddie.databinding.FragmentPublicCoursesBinding
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -23,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.util.ArrayList
-import kotlin.text.get
 
 
 class PublicCoursesFragment : Fragment() {
@@ -45,9 +41,6 @@ class PublicCoursesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         Log.i("PublicCoursesFragment", "PublicCoursesFragment CREATED");
-
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_public_courses, container, false);
 
         // Retrieve and inflate the layout for this fragment
         _binding = FragmentPublicCoursesBinding.inflate(inflater, container, false);
