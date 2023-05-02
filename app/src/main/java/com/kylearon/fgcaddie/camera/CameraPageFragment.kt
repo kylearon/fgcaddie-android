@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -31,6 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import com.kylearon.fgcaddie.R
 
 
 /**
@@ -40,6 +42,7 @@ class CameraPageFragment : Fragment() {
 
     private var imageCaptureUseCase: ImageCapture? = null;
     private var originalBitmap: Bitmap? = null;
+    private lateinit var prevSelectedImageButton: ImageButton;
 
     private lateinit var cameraExecutor: ExecutorService;
 
@@ -89,6 +92,8 @@ class CameraPageFragment : Fragment() {
         _binding!!.pencilColor3.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor4.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor5.setOnClickListener { setPencilColor(it) }
+
+        prevSelectedImageButton = _binding!!.pencilColor3;
 
         cameraExecutor = Executors.newSingleThreadExecutor();
 
@@ -267,6 +272,14 @@ class CameraPageFragment : Fragment() {
 
 
     private fun setPencilColor(it: View) {
+
+        //show this image button as selected, reset the prev selected one, save this as prev
+        val imageButton: ImageButton = it as ImageButton;
+        imageButton.setImageResource(R.drawable.baseline_radio_button_checked_24);
+        prevSelectedImageButton.setImageResource(R.drawable.baseline_circle_24);
+        prevSelectedImageButton = imageButton;
+
+        //get the color from the ImageButton's tag and set it in the DrawableCanvas
         val colorResourceString = it.tag as String;
         val color = Color.parseColor(colorResourceString);
         _binding!!.shotView.setPencilColor(color);

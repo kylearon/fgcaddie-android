@@ -140,7 +140,7 @@
                 android:layout_width="@dimen/palette_button_width"
                 android:layout_height="@dimen/palette_button_height"
                 style="?android:attr/borderlessButtonStyle"
-                android:src="@drawable/baseline_circle_24"
+                android:src="@drawable/baseline_radio_button_checked_24"
                 app:tint="@color/palette_color_yellow"
                 android:tag="@color/palette_color_yellow"/>
 
