@@ -123,7 +123,8 @@
                 android:layout_height="@dimen/palette_button_height"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_circle_24"
-                app:tint="@color/palette_color_red" />
+                app:tint="@color/palette_color_red"
+                android:tag="@color/palette_color_red"/>
 
             <ImageButton
                 android:id="@+id/pencil_color_2"
@@ -131,7 +132,8 @@
                 android:layout_height="@dimen/palette_button_height"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_circle_24"
-                app:tint="@color/palette_color_orange" />
+                app:tint="@color/palette_color_orange"
+                android:tag="@color/palette_color_orange"/>
 
             <ImageButton
                 android:id="@+id/pencil_color_3"
@@ -139,7 +141,8 @@
                 android:layout_height="@dimen/palette_button_height"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_circle_24"
-                app:tint="@color/palette_color_yellow" />
+                app:tint="@color/palette_color_yellow"
+                android:tag="@color/palette_color_yellow"/>
 
             <ImageButton
                 android:id="@+id/pencil_color_4"
@@ -147,7 +150,8 @@
                 android:layout_height="@dimen/palette_button_height"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_circle_24"
-                app:tint="@color/palette_color_green" />
+                app:tint="@color/palette_color_green"
+                android:tag="@color/palette_color_green"/>
 
             <ImageButton
                 android:id="@+id/pencil_color_5"
@@ -155,7 +159,8 @@
                 android:layout_height="@dimen/palette_button_height"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_circle_24"
-                app:tint="@color/palette_color_blue" />
+                app:tint="@color/palette_color_blue"
+                android:tag="@color/palette_color_blue"/>
 
 
         </LinearLayout>

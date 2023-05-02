@@ -58,6 +58,11 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 
     private var path = Path();
 
+    fun setPencilColor(pencilColor: Int) {
+        paint.apply {
+            color = pencilColor
+        }
+    }
 
     fun toBitmap(): Bitmap? {
         val bitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);

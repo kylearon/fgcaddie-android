@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
@@ -73,10 +74,18 @@ class CameraPageFragment : Fragment() {
         _binding = FragmentCameraPageBinding.inflate(inflater, container, false);
         val view = binding.root;
 
-        // Set up the listeners for take photo and video capture buttons
+        //setup the listeners for take photo and video capture buttons
         _binding!!.imageCaptureButton.setOnClickListener { takePhoto() }
         _binding!!.saveButton.setOnClickListener { saveImage() }
         _binding!!.retakeButton.setOnClickListener { retakeImage() }
+
+
+        //setup the listeners for the pencil colors
+        _binding!!.pencilColor1.setOnClickListener { setPencilColor(it) }
+        _binding!!.pencilColor2.setOnClickListener { setPencilColor(it) }
+        _binding!!.pencilColor3.setOnClickListener { setPencilColor(it) }
+        _binding!!.pencilColor4.setOnClickListener { setPencilColor(it) }
+        _binding!!.pencilColor5.setOnClickListener { setPencilColor(it) }
 
         cameraExecutor = Executors.newSingleThreadExecutor();
 
@@ -241,6 +250,13 @@ class CameraPageFragment : Fragment() {
         _binding!!.shotView.visibility = View.GONE;
 
         return;
+    }
+
+
+    private fun setPencilColor(it: View) {
+        val colorResourceString = it.tag as String;
+        val color = Color.parseColor(colorResourceString);
+        _binding!!.shotView.setPencilColor(color);
     }
 
 
