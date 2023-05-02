@@ -28,4 +28,13 @@
 
     <color name="success_button_fg_night">#51CA33</color>
     <color name="success_button_bg_night">#1E3219</color>
+
+
+    <color name="palette_color_red">#ff0000</color>
+    <color name="palette_color_orange">#FF5500</color>
+    <color name="palette_color_yellow">#FFff00</color>
+    <color name="palette_color_green">#33ff00</color>
+    <color name="palette_color_blue">#0066ff</color>
+
+
 </resources>

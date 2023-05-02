@@ -40,7 +40,6 @@ class CameraPageFragment : Fragment() {
     private var imageCaptureUseCase: ImageCapture? = null;
     private var originalBitmap: Bitmap? = null;
 
-
     private lateinit var cameraExecutor: ExecutorService;
 
     private lateinit var hole: Hole;
@@ -76,8 +75,8 @@ class CameraPageFragment : Fragment() {
 
         // Set up the listeners for take photo and video capture buttons
         _binding!!.imageCaptureButton.setOnClickListener { takePhoto() }
-        _binding!!.drawButton.setOnClickListener { drawOnImage() }
         _binding!!.saveButton.setOnClickListener { saveImage() }
+        _binding!!.retakeButton.setOnClickListener { retakeImage() }
 
         cameraExecutor = Executors.newSingleThreadExecutor();
 
@@ -129,23 +128,11 @@ class CameraPageFragment : Fragment() {
 
     private fun takePhoto() {
 
-        //re-enable the Take Photo functionality for this button if they clicked on it when it was Back
-        if(_binding!!.imageCaptureButton.text.equals("Back"))
-        {
-            //change the buttons back to normal
-            _binding!!.imageCaptureButton.text = "Take Photo";
-            _binding!!.saveButton.visibility = View.GONE;
+        //hide the take photo button
+        _binding!!.imageCaptureButton.visibility = View.GONE;
 
-            //change the view back to normal
-            _binding!!.viewFinder.visibility = View.VISIBLE;
-            _binding!!.shotView.visibility = View.GONE;
-
-            return;
-        }
-
-        //change the buttons to draw mode with a still image
-        _binding!!.imageCaptureButton.text = "Back";
-        _binding!!.saveButton.visibility = View.VISIBLE;
+        //show the palette for editing the shot
+        _binding!!.cameraButtonsLayout.visibility = View.VISIBLE;
 
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCaptureUseCase ?: return;
@@ -163,7 +150,7 @@ class CameraPageFragment : Fragment() {
 //                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
                     Log.d(TAG, msg);
 
-                    //change the view
+                    //change the view to show the recorded image
                     _binding!!.viewFinder.visibility = View.GONE;
                     _binding!!.shotView.visibility = View.VISIBLE;
 
@@ -202,9 +189,6 @@ class CameraPageFragment : Fragment() {
         return rotatedBitmap;
     }
 
-    private fun drawOnImage() {
-        Log.d(TAG, "drawOnImage()");
-    }
 
     private fun saveImage() {
         Log.d(TAG, "saveImage()");
@@ -244,6 +228,19 @@ class CameraPageFragment : Fragment() {
             }
         }
 
+    }
+
+    //setup the ui so you can retake the image
+    private fun retakeImage() {
+        //change the buttons back to normal
+        _binding!!.imageCaptureButton.visibility = View.VISIBLE;
+        _binding!!.cameraButtonsLayout.visibility = View.GONE;
+
+        //change the view back to normal
+        _binding!!.viewFinder.visibility = View.VISIBLE;
+        _binding!!.shotView.visibility = View.GONE;
+
+        return;
     }
 
 
