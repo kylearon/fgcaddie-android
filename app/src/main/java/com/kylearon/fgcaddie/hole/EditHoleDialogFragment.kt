@@ -50,6 +50,14 @@ class EditHoleDialogFragment(hole: Hole, recyclerView: RecyclerView, view: View)
                     val distanceString = distanceInput.text.toString();
                     Log.d(TAG, " the hole distance is: " + distanceString);
 
+                    //try to parse the distanceString
+                    var distanceInt = 0;
+                    try {
+                        distanceInt = distanceString.toInt();
+                    } catch (e: NumberFormatException) {
+                        //do nothing, the distanceInt is already set to a valid value
+                    }
+
                     //get the selected holes button
                     val checkedButtonId = buttonGroup.checkedButtonId;
                     val parButtonText = dialogView.findViewById<Button>(checkedButtonId).text.toString();
@@ -58,7 +66,7 @@ class EditHoleDialogFragment(hole: Hole, recyclerView: RecyclerView, view: View)
 
                     //update the hole data
                     hole.par = parNumber;
-                    hole.length = distanceString.toInt();
+                    hole.length = distanceInt;
 
                     //add the hole to the repository
                     MainActivity.ServiceLocator.getCourseRepository().updateHole(hole);
