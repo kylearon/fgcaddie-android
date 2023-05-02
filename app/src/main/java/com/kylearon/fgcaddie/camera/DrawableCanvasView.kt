@@ -17,6 +17,7 @@ import com.kylearon.fgcaddie.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.util.*
 
 
 private const val STROKE_WIDTH = 12f; // has to be float
@@ -39,11 +40,12 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     private var currentWidth = 0;
     private var currentHeight = 0;
 
-    private val backgroundColor = ResourcesCompat.getColor(resources, R.color.colorBackground, null);
-
     private val drawColor = ResourcesCompat.getColor(resources, R.color.colorPaint, null);
 
     private val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop;
+
+    private val undoStack: LimitedSizeStack<Bitmap> = LimitedSizeStack(20);
+    private val redoStack: LimitedSizeStack<Bitmap> = LimitedSizeStack(20);
 
     // Set up the paint with which to draw.
     private val paint = Paint().apply {
@@ -133,6 +135,14 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     }
 
     private fun touchStart() {
+
+        //add a copy of the current bitmap to the undo stack
+        val bitmap: Bitmap = Bitmap.createBitmap(extraBitmap);
+        undoStack.push(bitmap);
+
+        //clear the redo stack
+        redoStack.clear();
+
         path.reset();
         path.moveTo(motionTouchEventX, motionTouchEventY);
         currentX = motionTouchEventX;
@@ -160,6 +170,50 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     private fun touchUp() {
         // Reset the path so it doesn't get drawn again.
         path.reset();
+    }
+
+    fun undoDraw() {
+        try {
+            //get the bitmap which is the previous state
+            val prevBitmap: Bitmap = undoStack.pop();
+
+            //save the current bitmap as a redo state
+            val currentBitmap: Bitmap = Bitmap.createBitmap(extraBitmap);
+            redoStack.push(currentBitmap);
+
+            val width = prevBitmap.width;
+            val height = prevBitmap.height;
+
+            //copy the previous bitmap into extraBitmap, which will update the Canvas in onDraw()
+            val pixels = IntArray(width * height);
+            prevBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            extraBitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        } catch (e: EmptyStackException) {
+            //do nothing
+            Log.i(TAG, "Cannot UNDO, the redo stack is empty.")
+        }
+    }
+
+    fun redoDraw() {
+        try {
+            //get the bitmap which is the redo state
+            val redoBitmap: Bitmap = redoStack.pop();
+
+            //add a copy of the current bitmap to the undo stack
+            val bitmap: Bitmap = Bitmap.createBitmap(extraBitmap);
+            undoStack.push(bitmap);
+
+            val width = redoBitmap.width;
+            val height = redoBitmap.height;
+
+            //copy the previous bitmap into extraBitmap, which will update the Canvas in onDraw()
+            val pixels = IntArray(width * height);
+            redoBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            extraBitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        } catch (e: EmptyStackException) {
+            //do nothing
+            Log.i(TAG, "Cannot REDO, the redo stack is empty.")
+        }
     }
 
     fun saveBitmap(filename: String) {
@@ -255,5 +309,14 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 
     companion object {
         private const val TAG = "DrawableCanvasView"
+    }
+
+    class LimitedSizeStack<T>(private val maxSize: Int) : Stack<T>() {
+        override fun push(item: T): T {
+            if (size >= maxSize) {
+                removeAt(0)
+            }
+            return super.push(item)
+        }
     }
 }

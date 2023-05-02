@@ -79,6 +79,9 @@ class CameraPageFragment : Fragment() {
         _binding!!.saveButton.setOnClickListener { saveImage() }
         _binding!!.retakeButton.setOnClickListener { retakeImage() }
 
+        //setup the listeners for undo/redo
+        _binding!!.pencilUndo.setOnClickListener { pencilUndo() }
+        _binding!!.pencilRedo.setOnClickListener { pencilRedo() }
 
         //setup the listeners for the pencil colors
         _binding!!.pencilColor1.setOnClickListener { setPencilColor(it) }
@@ -250,6 +253,16 @@ class CameraPageFragment : Fragment() {
         _binding!!.shotView.visibility = View.GONE;
 
         return;
+    }
+
+
+    private fun pencilUndo() {
+        _binding!!.shotView.undoDraw();
+    }
+
+
+    private fun pencilRedo() {
+        _binding!!.shotView.redoDraw();
     }
 
 
