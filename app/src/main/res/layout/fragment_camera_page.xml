@@ -55,11 +55,8 @@
 
     <LinearLayout
         android:id="@+id/camera_buttons_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:orientation="vertical"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
@@ -68,10 +65,11 @@
 
         <LinearLayout
             android:id="@+id/camera_buttons_row_one"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
             >
 
             <ImageButton
@@ -130,18 +128,17 @@
 
         <LinearLayout
             android:id="@+id/camera_buttons_row_two"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
             >
 
             <ImageButton
                 android:id="@+id/pencil_undo"
                 android:layout_width="@dimen/palette_button_width"
                 android:layout_height="@dimen/palette_button_height"
-                android:layout_margin="4dp"
-                android:padding="6dp"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_undo_24"
                 />
@@ -150,8 +147,6 @@
                 android:id="@+id/pencil_redo"
                 android:layout_width="@dimen/palette_button_width"
                 android:layout_height="@dimen/palette_button_height"
-                android:layout_margin="4dp"
-                android:padding="6dp"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_redo_24"
                 />
@@ -160,25 +155,25 @@
                 android:id="@+id/pencil_clear_drawings"
                 android:layout_width="@dimen/palette_button_width"
                 android:layout_height="@dimen/palette_button_height"
-                android:layout_margin="4dp"
-                android:padding="6dp"
                 style="?android:attr/borderlessButtonStyle"
                 android:src="@drawable/baseline_delete_sweep_24"
                 />
 
-            <Button
+            <ImageButton
                 android:id="@+id/retake_button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:text="Retake" />
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_flip_camera_ios_24"
+                />
 
-            <Button
+            <ImageButton
                 android:id="@+id/save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:text="Save" />
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_save_24"
+                />
 
         </LinearLayout>
 
