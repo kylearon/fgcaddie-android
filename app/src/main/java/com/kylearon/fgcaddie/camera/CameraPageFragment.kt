@@ -175,8 +175,6 @@ class CameraPageFragment : Fragment() {
         //hide the take photo button
         _binding!!.imageCaptureButton.visibility = View.GONE;
 
-        //show the palette for editing the shot
-        _binding!!.cameraButtonsLayout.visibility = View.VISIBLE;
 
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCaptureUseCase ?: return;
@@ -215,6 +213,9 @@ class CameraPageFragment : Fragment() {
 
                     //save this as the original image
                     originalBitmap = rotatedBitmapImage;
+
+                    //show the palette for editing the shot
+                    _binding!!.cameraButtonsLayout.visibility = View.VISIBLE;
 
                     //send this to the DrawableCanvasView
                     _binding!!.shotView.setBackgroundImage(rotatedBitmapImage!!);
