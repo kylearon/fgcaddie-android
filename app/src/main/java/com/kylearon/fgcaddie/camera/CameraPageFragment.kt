@@ -83,9 +83,10 @@ class CameraPageFragment : Fragment() {
         _binding!!.saveButton.setOnClickListener { saveImage() }
         _binding!!.retakeButton.setOnClickListener { retakeImage() }
 
-        //setup the listeners for undo/redo
+        //setup the listeners for undo/redo and clear
         _binding!!.pencilUndo.setOnClickListener { pencilUndo() }
         _binding!!.pencilRedo.setOnClickListener { pencilRedo() }
+        _binding!!.pencilClearDrawings.setOnClickListener { pencilClearDrawings() }
 
         //setup the listeners for the pencil colors
         _binding!!.pencilColor1.setOnClickListener { setPencilColor(it) }
@@ -97,9 +98,10 @@ class CameraPageFragment : Fragment() {
         //select a button to start
         prevSelectedImageButton = _binding!!.pencilColor3;
 
+        //setup listener for showing the thickness slider
         _binding!!.pencilTypeButton.setOnClickListener { showPencilTypeDialog() }
 
-
+        //setup listeners for the thickness slider on change
         _binding!!.pencilThicknessSlider.addOnChangeListener { slider, value, fromUser ->
             // Handle slider value change
             Log.d("Slider", "Value: $value")
@@ -107,6 +109,7 @@ class CameraPageFragment : Fragment() {
             _binding!!.pencilThicknessSliderValue.text = value.toInt().toString();
         }
 
+        //setup listeners for the thickness slider finished sliding
         _binding!!.pencilThicknessSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {
                 //do something when the user starts sliding
@@ -118,8 +121,7 @@ class CameraPageFragment : Fragment() {
             }
         })
 
-
-
+        //start the camera thread
         cameraExecutor = Executors.newSingleThreadExecutor();
 
         return view;
@@ -290,11 +292,13 @@ class CameraPageFragment : Fragment() {
         _binding!!.shotView.undoDraw();
     }
 
-
     private fun pencilRedo() {
         _binding!!.shotView.redoDraw();
     }
 
+    private fun pencilClearDrawings() {
+        _binding!!.shotView.clearDrawings();
+    }
 
     private fun setPencilColor(it: View) {
 

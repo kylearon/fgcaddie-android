@@ -222,6 +222,15 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         }
     }
 
+    fun clearDrawings() {
+        //add a copy of the current bitmap to the undo stack
+        val bitmap: Bitmap = Bitmap.createBitmap(extraBitmap);
+        undoStack.push(bitmap);
+
+        //restore the original background
+        setBackgroundImage(backgroundBitmap);
+    }
+
     fun saveBitmap(filename: String) {
         Log.d(TAG,"saveBitmap() " + filename);
 //        saveBitmapAsFile(extraBitmap, filename);

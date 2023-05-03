@@ -136,12 +136,15 @@
                 android:src="@drawable/baseline_redo_24"
                 />
 
-            <Button
-                android:id="@+id/retake_button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+            <ImageButton
+                android:id="@+id/pencil_clear_drawings"
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
                 android:layout_margin="4dp"
-                android:text="Retake" />
+                android:padding="6dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_delete_sweep_24"
+                />
 
             <Button
                 android:id="@+id/save_button"
