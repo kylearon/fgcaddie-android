@@ -9,6 +9,9 @@
         <!-- background color -->
         <item name="android:windowBackground">@color/layout_background_color</item>
 
+        <!-- Vector icon tint color -->
+        <item name="vectorIconTint">@color/medium_grey</item>
+
         <!-- button themes
          https://stackoverflow.com/a/71898927
          https://github.com/material-components/material-components-android/blob/master/docs/components/Button.md#theming-buttons
