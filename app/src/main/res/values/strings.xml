@@ -9,6 +9,7 @@
     <string name="action_share_course">Share Course</string>
     <string name="action_edit_hole">Edit Hole</string>
     <string name="action_take_picture">Take Picture</string>
+    <string name="action_draw_picture">Draw Picture</string>
     <string name="action_remove_shot">Remove Shot</string>
 
     <string name="action_browse_courses_show_view">Browse Shared Courses for Download</string>
@@ -21,6 +22,7 @@
     <string name="calendar_title">Calendar</string>
     <string name="message_board_title">Message Board</string>
     <string name="camera_title">Camera</string>
+    <string name="draw_title">Draw</string>
     <string name="shot_title">Shot</string>
 
     <string name="hole_title">Hole</string>

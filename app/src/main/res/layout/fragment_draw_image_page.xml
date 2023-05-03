@@ -7,7 +7,7 @@
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:orientation="vertical"
-    tools:context=".camera.CameraPageFragment">
+    tools:context=".camera.DrawImagePageFragment">
 
     <TextView
         android:id="@+id/saving_text_view"
@@ -17,40 +17,21 @@
         android:text="SAVING PLEASE WAIT"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="@color/palette_color_orange"
         android:visibility="gone"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
         />
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/viewFinder"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:layout_above="@+id/camera_buttons_layout"
-        />
-
     <com.kylearon.fgcaddie.camera.DrawableCanvasView
-        android:id="@+id/shotView"
-        android:visibility="gone"
+        android:id="@+id/drawable_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
         android:layout_above="@+id/camera_buttons_layout"
         />
-
-    <Button
-        android:id="@+id/image_capture_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="12dp"
-        android:layout_alignParentBottom="true"
-        android:text="@string/take_photo" />
 
 
     <LinearLayout
@@ -61,7 +42,6 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:orientation="vertical"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         >

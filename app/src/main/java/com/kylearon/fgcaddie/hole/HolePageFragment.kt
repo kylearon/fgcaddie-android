@@ -61,6 +61,7 @@ class HolePageFragment: Fragment() {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Add menu items here
                 menuInflater.inflate(R.menu.edit_hole_menu, menu)
+                menuInflater.inflate(R.menu.draw_picture_menu, menu)
                 menuInflater.inflate(R.menu.take_picture_menu, menu)
             }
 
@@ -72,6 +73,14 @@ class HolePageFragment: Fragment() {
                         //show a dialog with controls to edit the hole
                         val editCourseDialog = EditHoleDialogFragment(hole, recyclerView, binding.root);
                         editCourseDialog.show(childFragmentManager, EditHoleDialogFragment.TAG);
+
+                        true
+                    }
+                    R.id.action_draw_picture -> {
+
+                        //create the action and navigate to the draw image page fragment
+                        val action = HolePageFragmentDirections.actionHolePageFragmentToDrawImagePageFragment(hole = Json.encodeToString(hole));
+                        view.findNavController().navigate(action);
 
                         true
                     }

@@ -73,6 +73,9 @@
         <action
             android:id="@+id/action_holePageFragment_to_shotPageFragment"
             app:destination="@id/shotPageFragment" />
+        <action
+            android:id="@+id/action_holePageFragment_to_drawImagePageFragment"
+            app:destination="@id/drawImagePageFragment" />
     </fragment>
 
     <fragment
@@ -84,6 +87,20 @@
             app:argType="string" />
         <action
             android:id="@+id/action_cameraPageFragment_to_holePageFragment"
+            app:destination="@id/holePageFragment"
+            app:popUpTo="@id/holePageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/drawImagePageFragment"
+        android:name="com.kylearon.fgcaddie.camera.DrawImagePageFragment"
+        android:label="@string/draw_title">
+        <argument
+            android:name="hole"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_drawImagePageFragment_to_holePageFragment"
             app:destination="@id/holePageFragment"
             app:popUpTo="@id/holePageFragment"
             app:popUpToInclusive="true" />
