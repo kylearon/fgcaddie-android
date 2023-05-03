@@ -20,8 +20,6 @@ import java.io.OutputStream
 import java.util.*
 
 
-private const val STROKE_WIDTH = 12f; // has to be float
-
 //https://developer.android.com/codelabs/advanced-android-kotlin-training-canvas
 class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageView(context,  attrs) { //private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
@@ -30,6 +28,8 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     lateinit var extraBitmap: Bitmap;
 
     private lateinit var backgroundBitmap: Bitmap;
+
+    private val STROKE_WIDTH = 8f; // has to be float
 
     private var motionTouchEventX = 0f;
     private var motionTouchEventY = 0f;
@@ -55,7 +55,7 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         style = Paint.Style.STROKE // default: FILL
         strokeJoin = Paint.Join.ROUND // default: MITER
         strokeCap = Paint.Cap.ROUND // default: BUTT
-        strokeWidth = STROKE_WIDTH // default: Hairline-width (really thin)
+        strokeWidth = STROKE_WIDTH
     }
 
     private var path = Path();
@@ -63,6 +63,12 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     fun setPencilColor(pencilColor: Int) {
         paint.apply {
             color = pencilColor
+        }
+    }
+
+    fun setPencilThickness(pencilThickness: Float) {
+        paint.apply {
+            strokeWidth = pencilThickness
         }
     }
 

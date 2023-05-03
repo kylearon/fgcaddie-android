@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.material.slider.Slider
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
@@ -93,7 +94,31 @@ class CameraPageFragment : Fragment() {
         _binding!!.pencilColor4.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor5.setOnClickListener { setPencilColor(it) }
 
+        //select a button to start
         prevSelectedImageButton = _binding!!.pencilColor3;
+
+        _binding!!.pencilTypeButton.setOnClickListener { showPencilTypeDialog() }
+
+
+        _binding!!.pencilThicknessSlider.addOnChangeListener { slider, value, fromUser ->
+            // Handle slider value change
+            Log.d("Slider", "Value: $value")
+
+            _binding!!.pencilThicknessSliderValue.text = value.toInt().toString();
+        }
+
+        _binding!!.pencilThicknessSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                //do something when the user starts sliding
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                //set the pencil thickness when the user finishes sliding
+                _binding!!.shotView.setPencilThickness(slider.value);
+            }
+        })
+
+
 
         cameraExecutor = Executors.newSingleThreadExecutor();
 
@@ -283,6 +308,18 @@ class CameraPageFragment : Fragment() {
         val colorResourceString = it.tag as String;
         val color = Color.parseColor(colorResourceString);
         _binding!!.shotView.setPencilColor(color);
+    }
+
+
+    private fun showPencilTypeDialog() {
+
+        //toggle the pencil slider visibility
+        if(_binding!!.pencilThicknessLayout.visibility == View.GONE) {
+            _binding!!.pencilThicknessLayout.visibility = View.VISIBLE;
+        } else {
+            _binding!!.pencilThicknessLayout.visibility = View.GONE;
+        }
+
     }
 
 

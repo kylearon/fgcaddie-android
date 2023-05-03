@@ -52,6 +52,7 @@
         android:layout_alignParentBottom="true"
         android:text="@string/take_photo" />
 
+
     <LinearLayout
         android:id="@+id/camera_buttons_layout"
         android:layout_width="wrap_content"
@@ -67,50 +68,6 @@
 
         <LinearLayout
             android:id="@+id/camera_buttons_row_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:orientation="horizontal"
-            >
-
-            <ImageButton
-                android:id="@+id/pencil_undo"
-                android:layout_width="@dimen/palette_button_width"
-                android:layout_height="@dimen/palette_button_height"
-                android:layout_margin="4dp"
-                android:padding="6dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:src="@drawable/baseline_undo_24"
-                />
-
-            <ImageButton
-                android:id="@+id/pencil_redo"
-                android:layout_width="@dimen/palette_button_width"
-                android:layout_height="@dimen/palette_button_height"
-                android:layout_margin="4dp"
-                android:padding="6dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:src="@drawable/baseline_redo_24"
-                />
-
-            <Button
-                android:id="@+id/retake_button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:text="Retake" />
-
-            <Button
-                android:id="@+id/save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_margin="4dp"
-                android:text="Save" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/camera_buttons_row_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
@@ -162,8 +119,94 @@
                 app:tint="@color/palette_color_blue"
                 android:tag="@color/palette_color_blue"/>
 
+            <ImageButton
+                android:id="@+id/pencil_type_button"
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_draw_24"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/camera_buttons_row_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:orientation="horizontal"
+            >
+
+            <ImageButton
+                android:id="@+id/pencil_undo"
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
+                android:layout_margin="4dp"
+                android:padding="6dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_undo_24"
+                />
+
+            <ImageButton
+                android:id="@+id/pencil_redo"
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
+                android:layout_margin="4dp"
+                android:padding="6dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_redo_24"
+                />
+
+            <Button
+                android:id="@+id/retake_button"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_margin="4dp"
+                android:text="Retake" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_margin="4dp"
+                android:text="Save" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pencil_thickness_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="60dp"
+        android:paddingBottom="20dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_above="@+id/camera_buttons_layout"
+        android:layout_centerInParent="true"
+        >
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/pencil_thickness_slider"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:valueFrom="1"
+            android:valueTo="32"
+            android:stepSize="1"
+            android:value="8"/>
+
+        <TextView
+            android:id="@+id/pencil_thickness_slider_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="8" />
 
     </LinearLayout>
 
