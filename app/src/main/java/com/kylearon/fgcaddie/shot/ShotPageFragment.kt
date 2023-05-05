@@ -7,6 +7,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.findNavController
 import coil.load
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
@@ -14,7 +15,9 @@ import com.kylearon.fgcaddie.courseholes.ConfirmDeleteDialogFragment
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentShotPageBinding
+import com.kylearon.fgcaddie.hole.HolePageFragmentDirections
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 /**
@@ -71,6 +74,7 @@ class ShotPageFragment : Fragment() {
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 // Add menu items here
+                menuInflater.inflate(R.menu.edit_shot_menu, menu)
                 menuInflater.inflate(R.menu.remove_shot_menu, menu)
             }
 
@@ -82,6 +86,14 @@ class ShotPageFragment : Fragment() {
                         //show a confirmation dialog
                         val confirmDeleteDialog = ConfirmDeleteShotDialogFragment(shot.guid, hole, view);
                         confirmDeleteDialog.show(childFragmentManager, ConfirmDeleteDialogFragment.TAG);
+
+                        true
+                    }
+                    R.id.action_edit_shot -> {
+
+                        //create the action and navigate to the draw image page fragment for editing
+                        val action = ShotPageFragmentDirections.actionShotPageFragmentToDrawImagePageFragment(hole = Json.encodeToString(hole), shot = Json.encodeToString(shot));
+                        view.findNavController().navigate(action);
 
                         true
                     }

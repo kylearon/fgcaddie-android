@@ -79,7 +79,7 @@ class HolePageFragment: Fragment() {
                     R.id.action_draw_picture -> {
 
                         //create the action and navigate to the draw image page fragment
-                        val action = HolePageFragmentDirections.actionHolePageFragmentToDrawImagePageFragment(hole = Json.encodeToString(hole));
+                        val action = HolePageFragmentDirections.actionHolePageFragmentToDrawImagePageFragment(hole = Json.encodeToString(hole), shot = "");
                         view.findNavController().navigate(action);
 
                         true

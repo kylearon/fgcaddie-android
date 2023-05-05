@@ -1,6 +1,7 @@
 package com.kylearon.fgcaddie.camera
 
 import android.graphics.*
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,12 +36,14 @@ class DrawImagePageFragment : Fragment() {
 
 
     private lateinit var hole: Hole;
+    private var shot: Shot? = null;
 
     private var _binding: FragmentDrawImagePageBinding? = null;
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!;
 
+    private lateinit var backgroundImage: Bitmap;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,32 @@ class DrawImagePageFragment : Fragment() {
         arguments?.let {
             val holeString = it.getString("hole").toString();
             hole = Json.decodeFromString(holeString);
+
+
+            //get the shot if it exists. this is the way to edit a shot rather than add a new shot to a hole
+            val shotJsonString: String? = it.getString("shot");
+            if (shotJsonString != null && shotJsonString.isNotEmpty()) {
+                //parse the shot json
+                shot = Json.decodeFromString(shotJsonString);
+
+                //construct the filepath and get the bitmap from the file
+                val imageFilename = shot!!.image_markedup;
+                val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
+
+                //get the background image to edit from the shot
+                Log.i(TAG, "Loading image to edit: " + Uri.parse(filepath).path);
+                val loadedBitmap = BitmapFactory.decodeFile(Uri.parse(filepath).path);
+
+                //make the loaded bitmap mutable so it can be used in the canvas
+                backgroundImage = loadedBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            }
+            else
+            {
+                //fill out the background with a white bitmap if a shot wasn't passed in to edit
+                backgroundImage = Bitmap.createBitmap(HD_IMAGE_WIDTH, HD_IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
+                val canvas = Canvas(backgroundImage);
+                canvas.drawColor(Color.WHITE);
+            }
         }
 
     }
@@ -98,12 +127,8 @@ class DrawImagePageFragment : Fragment() {
             }
         })
 
-
-        //fill out the background with a white canvas
-        val bitmapImage = Bitmap.createBitmap(HD_IMAGE_WIDTH, HD_IMAGE_HEIGHT, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmapImage)
-        canvas.drawColor(Color.WHITE)
-        _binding!!.drawableImageView.setBackgroundImage(bitmapImage!!);
+        //draw the background bitmap into the View
+        _binding!!.drawableImageView.setBackgroundImage(backgroundImage!!);
 
         return view;
     }
@@ -120,33 +145,59 @@ class DrawImagePageFragment : Fragment() {
         _binding!!.savingTextView.visibility = View.VISIBLE;
         _binding!!.savingTextView.invalidate();
 
-        //construct the image filename
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
-        val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp + ".png";
+        if(shot != null) {
+            //since the Shot already exists on the Hole object, we just need to save the bitmap
+            //we do not need to update the CourseRepository Hole storage like we do below for a new Shot drawing
+            val filename = shot!!.image_markedup;
 
-        //construct the Shot to add to the Hole model object
-        hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, filename, filename ));
+            // Create a new coroutine to move the execution off the UI thread
+            GlobalScope.launch(Dispatchers.IO) {
+                //save the bitmap image to private app storage
+                _binding!!.drawableImageView.saveBitmap(filename);
+            }.invokeOnCompletion {
+                //navigate back in the Main thread once the bitmap is done being saved to internal storage
+                runBlocking {
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, "NAVIGATE BACK TO SHOT");
+                        //then navigate back once the image is saved to internal storage
+                        val action = DrawImagePageFragmentDirections.actionDrawImagePageFragmentToShotPageFragment(hole = Json.encodeToString(hole), shot = Json.encodeToString(shot));
+                        _binding!!.root.findNavController().navigate(action);
+                    }
+                }
+            }
 
+        }
+        else {
+            //construct the image filename
+            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
+            val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp + ".png";
 
-        // Create a new coroutine to move the execution off the UI thread
-        GlobalScope.launch (Dispatchers.IO) {
+            //construct the Shot to add to the Hole model object
+            hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, filename, filename));
 
-            //save the bitmap image to private app storage
-            _binding!!.drawableImageView.saveBitmap(filename);
+            // Create a new coroutine to move the execution off the UI thread
+            GlobalScope.launch(Dispatchers.IO) {
 
-            //save the Hole json to the local model
-            Log.d(TAG, "saveBitmapToModel()");
-            MainActivity.ServiceLocator.getCourseRepository().updateHole(hole); //TODO: add hole as fragment param to this class
+                //save the bitmap image to private app storage
+                _binding!!.drawableImageView.saveBitmap(filename);
 
-        }.invokeOnCompletion {
+                //save the Hole json to the local model
+                Log.d(TAG, "saveBitmapToModel()");
+                MainActivity.ServiceLocator.getCourseRepository().updateHole(hole);
 
-            //navigate back in the Main thread once the bitmap is done being saved to internal storage
-            runBlocking {
-                withContext(Dispatchers.Main) {
-                    Log.d(TAG, "NAVIGATE BACK");
-                    //then navigate back once the image is saved to internal storage
-                    val action = DrawImagePageFragmentDirections.actionDrawImagePageFragmentToHolePageFragment(hole = Json.encodeToString(hole));
-                    _binding!!.root.findNavController().navigate(action);
+            }.invokeOnCompletion {
+
+                //navigate back in the Main thread once the bitmap is done being saved to internal storage
+                runBlocking {
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, "NAVIGATE BACK");
+                        //then navigate back once the image is saved to internal storage
+                        val action =
+                            DrawImagePageFragmentDirections.actionDrawImagePageFragmentToHolePageFragment(
+                                hole = Json.encodeToString(hole)
+                            );
+                        _binding!!.root.findNavController().navigate(action);
+                    }
                 }
             }
         }

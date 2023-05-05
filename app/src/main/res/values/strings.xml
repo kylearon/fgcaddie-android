@@ -11,6 +11,7 @@
     <string name="action_take_picture">Take Picture</string>
     <string name="action_draw_picture">Draw Picture</string>
     <string name="action_remove_shot">Remove Shot</string>
+    <string name="action_edit_shot">Edit Shot</string>
 
     <string name="action_browse_courses_show_view">Browse Shared Courses for Download</string>
 

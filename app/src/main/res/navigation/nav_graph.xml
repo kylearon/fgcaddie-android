@@ -99,10 +99,18 @@
         <argument
             android:name="hole"
             app:argType="string" />
+        <argument
+            android:name="shot"
+            app:argType="string" />
         <action
             android:id="@+id/action_drawImagePageFragment_to_holePageFragment"
             app:destination="@id/holePageFragment"
             app:popUpTo="@id/holePageFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_drawImagePageFragment_to_shotPageFragment"
+            app:destination="@id/shotPageFragment"
+            app:popUpTo="@id/shotPageFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -121,6 +129,9 @@
             app:destination="@id/holePageFragment"
             app:popUpTo="@id/holePageFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_shotPageFragment_to_drawImagePageFragment"
+            app:destination="@id/drawImagePageFragment" />
     </fragment>
 
     <fragment
