@@ -166,4 +166,6 @@
         android:name="com.kylearon.fgcaddie.messageboard.MessageBoardPageFragment"
         android:label="@string/message_board_title">
     </fragment>
+
+    <action android:id="@+id/action_global_homePageFragment" app:destination="@id/homePageFragment"/>
 </navigation>

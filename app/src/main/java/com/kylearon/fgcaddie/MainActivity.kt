@@ -2,6 +2,8 @@ package com.kylearon.fgcaddie
 
 import android.app.Application
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -63,6 +65,23 @@ class MainActivity : AppCompatActivity() {
 
         // Make sure actions in the ActionBar get propagated to the NavController
         setupActionBarWithNavController(navController);
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        if (navController.currentDestination?.id != R.id.homePageFragment) {
+            menuInflater.inflate(R.menu.home_button_menu, menu)
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_home_button -> {
+                navController.navigate(R.id.action_global_homePageFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /**
