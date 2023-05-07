@@ -192,7 +192,7 @@ class CameraPageFragment : Fragment() {
                 override fun onCaptureSuccess(imageProxy: ImageProxy) {
                     val msg = "PHOTO CALLBACK " + imageProxy.width + " " + imageProxy.height;
 //                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, msg);
+                    Log.i(TAG, msg);
 
                     //change the view to show the recorded image
                     _binding!!.viewFinder.visibility = View.GONE;
@@ -206,8 +206,25 @@ class CameraPageFragment : Fragment() {
                     imageProxy.close();
 
                     //scale the bitmap down so it doesn't take as much memory
-                    val scaledWidth = (bitmapImage.width * .25).toInt();
-                    val scaledHeight = (bitmapImage.height * .25).toInt();
+                    //
+                    //the photo is taken sideways, so we need to rotate it.
+                    //but it is more efficient to scale it down before rotating, so swap the width/height target values for scaling
+                    val PRE_ROTATED_WIDTH = HD_IMAGE_HEIGHT;
+                    val PRE_ROTATED_HEIGHT = HD_IMAGE_WIDTH;
+
+                    //get the proposed scalar values
+                    val widthScalarToHD = PRE_ROTATED_WIDTH.toDouble() / bitmapImage.width;
+                    val heightScalarToHD = PRE_ROTATED_HEIGHT.toDouble() / bitmapImage.height;
+
+                    //use the lower value, and scale both axes of the photo by it to maintain original ratio
+                    val overallScalarToHD: Double = if (widthScalarToHD < heightScalarToHD) widthScalarToHD else heightScalarToHD;
+                    val scaledWidth = (overallScalarToHD * bitmapImage.width).toInt();
+                    val scaledHeight = (overallScalarToHD * bitmapImage.height).toInt();
+
+//                    Log.i(TAG, "Scaled Width: " + scaledWidth);
+//                    Log.i(TAG, "Scaled Height: " + scaledHeight);
+
+                    //TODO: test this with rotated devices
                     val scaledBitmapImage = Bitmap.createScaledBitmap(bitmapImage, scaledWidth, scaledHeight, true);
 
                     //rotate the bitmap before it is put into the ImageView
