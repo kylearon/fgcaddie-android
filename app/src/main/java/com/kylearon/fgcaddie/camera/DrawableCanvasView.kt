@@ -165,7 +165,7 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
             currentX = motionTouchEventX;
             currentY = motionTouchEventY;
 
-            Log.d(TAG, "touchMove() " + currentX + " " + currentY);
+//            Log.d(TAG, "touchMove() " + currentX + " " + currentY);
 
             // Draw the path in the extra bitmap to cache it.
             extraCanvas.drawPath(path, paint);
