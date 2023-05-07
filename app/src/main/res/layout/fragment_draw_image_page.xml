@@ -9,21 +9,6 @@
     android:orientation="vertical"
     tools:context=".camera.DrawImagePageFragment">
 
-    <TextView
-        android:id="@+id/saving_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="SAVING PLEASE WAIT"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:textColor="@color/palette_color_orange"
-        android:visibility="gone"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerInParent="true"
-        />
-
     <com.kylearon.fgcaddie.camera.DrawableCanvasView
         android:id="@+id/drawable_image_view"
         android:layout_width="match_parent"
@@ -31,6 +16,20 @@
         android:layout_marginTop="6dp"
         android:layout_marginBottom="6dp"
         android:layout_above="@+id/camera_buttons_layout"
+        />
+
+    <TextView
+        android:id="@+id/saving_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="SAVING PLEASE WAIT"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/mfgc_blue"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         />
 
 
