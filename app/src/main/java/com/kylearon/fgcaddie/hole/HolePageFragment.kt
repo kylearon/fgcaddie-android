@@ -118,4 +118,8 @@ class HolePageFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    companion object {
+        private const val TAG = "HolePageFragment"
+    }
 }

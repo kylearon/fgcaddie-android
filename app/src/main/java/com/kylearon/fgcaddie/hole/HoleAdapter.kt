@@ -81,4 +81,8 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
     }
 
+    companion object {
+        private const val TAG = "HoleAdapter"
+    }
+
 }
