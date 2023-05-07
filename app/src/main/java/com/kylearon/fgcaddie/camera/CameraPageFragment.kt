@@ -22,6 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.slider.Slider
 import com.kylearon.fgcaddie.MainActivity
+import com.kylearon.fgcaddie.MainActivity.StaticVals.HD_IMAGE_HEIGHT
+import com.kylearon.fgcaddie.MainActivity.StaticVals.HD_IMAGE_WIDTH
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentCameraPageBinding

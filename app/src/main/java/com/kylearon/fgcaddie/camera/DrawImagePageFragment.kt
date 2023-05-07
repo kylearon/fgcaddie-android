@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.slider.Slider
 import com.kylearon.fgcaddie.MainActivity
+import com.kylearon.fgcaddie.MainActivity.StaticVals.HD_IMAGE_HEIGHT
+import com.kylearon.fgcaddie.MainActivity.StaticVals.HD_IMAGE_WIDTH
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
 import kotlinx.coroutines.*
@@ -28,9 +30,6 @@ import com.kylearon.fgcaddie.databinding.FragmentDrawImagePageBinding
  * Draw Image Page fragment.
  */
 class DrawImagePageFragment : Fragment() {
-
-    private val HD_IMAGE_WIDTH = 720;
-    private val HD_IMAGE_HEIGHT = 1280;
 
     private lateinit var prevSelectedImageButton: ImageButton;
 
