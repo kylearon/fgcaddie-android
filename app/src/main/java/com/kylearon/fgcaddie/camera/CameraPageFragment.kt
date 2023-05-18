@@ -36,6 +36,7 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.utils.BitmapUtils.Companion.rotateBitmap
 
 
 /**
@@ -242,15 +243,6 @@ class CameraPageFragment : Fragment() {
             }
         )
 
-    }
-
-    private fun rotateBitmap(original: Bitmap, degrees: Float): Bitmap? {
-        val width = original.width;
-        val height = original.height;
-        val matrix = Matrix();
-        matrix.preRotate(degrees);
-        val rotatedBitmap = Bitmap.createBitmap(original, 0, 0, width, height, matrix, true);
-        return rotatedBitmap;
     }
 
 
