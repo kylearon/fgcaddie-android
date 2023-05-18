@@ -49,6 +49,7 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
     class PublicCoursesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val courseLabel = view.findViewById<TextView>(R.id.course_label);
         val courseCreator = view.findViewById<TextView>(R.id.course_creator);
+        val courseDate = view.findViewById<TextView>(R.id.course_date);
         val downloadClickable = view.findViewById<LinearLayout>(R.id.download_course_clickable);
         val downloadedText = view.findViewById<LinearLayout>(R.id.course_downloaded_text);
     }
@@ -79,6 +80,7 @@ class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Ad
 
         holder.courseLabel.text = item.name;
         holder.courseCreator.text = item.creator;
+        holder.courseDate.text = item.date_created;
 
         val existingCourse = MainActivity.ServiceLocator.getCourseRepository().getCourse(item.guid);
         if(existingCourse != null)

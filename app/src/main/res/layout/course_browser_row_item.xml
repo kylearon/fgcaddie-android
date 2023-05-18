@@ -1,20 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
-    android:layout_margin="6dp"
+    android:layout_height="110dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:layout_margin="4dp"
     android:orientation="vertical"
     android:background="?attr/backgroundLinearLayout"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
+        android:layout_height="110dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
         android:paddingTop="8dp"
-        android:layout_margin="6dp"
+        android:layout_margin="0dp"
         android:orientation="horizontal"
         android:weightSum="100"
         >
@@ -23,16 +23,16 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:orientation="vertical"
-            android:layout_weight="80"
+            android:layout_weight="90"
             >
 
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="120dp"
-                android:textSize="24sp"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="@string/default_label"
                 android:textColor="@color/mfgc_blue"
@@ -41,12 +41,22 @@
 
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="120dp"
-                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:text="@string/default_label"
                 android:textColor="@color/medium_grey"
                 android:id="@+id/course_creator"
+                />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="@string/default_label"
+                android:textColor="@color/medium_grey"
+                android:id="@+id/course_date"
                 />
 
         </LinearLayout>
@@ -55,9 +65,9 @@
         <LinearLayout
             android:id="@+id/download_course_clickable"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_weight="20"
-            android:paddingTop="6dp"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:layout_marginRight="8dp"
             android:clickable="true"
             android:orientation="horizontal"
             android:background="?attr/backgroundLinearLayoutButton"
@@ -68,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:textSize="22sp"
+                android:textSize="16sp"
                 android:textStyle="normal"
                 android:text="Download"
                 android:textColor="@color/success_button_fg_night"
@@ -79,9 +89,8 @@
         <LinearLayout
             android:id="@+id/course_downloaded_text"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_weight="20"
-            android:paddingTop="6dp"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
             android:clickable="true"
             android:orientation="horizontal"
             android:visibility="gone"
@@ -91,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="normal"
                 android:text="Downloaded"
                 android:textColor="@color/medium_grey"
@@ -101,18 +110,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_margin="6dp"
-        android:orientation="horizontal"
-        >
-
-
-
-    </LinearLayout>
 
 
 </LinearLayout>
