@@ -1,9 +1,11 @@
 package com.kylearon.fgcaddie.courseholes
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -28,132 +30,138 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
         course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        AlertDialog.Builder(requireContext())
-            .setMessage(getString(R.string.confirm_share_course_message))
-            .setPositiveButton(getString(R.string.ok)) { dialog, id ->
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+            val builder = AlertDialog.Builder(it);
+            // Get the layout inflater
+            val inflater = requireActivity().layoutInflater;
 
-                //create the course json to send
-                var courseJson = Json.encodeToString(course);
-                Log.i(TAG, "SENDING courseJson");
-                Log.i(TAG, courseJson);
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            val dialogView = inflater.inflate(R.layout.dialog_fragment_share_course, null);
 
-                //send the course json to the backend
-                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
-                    try {
-                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-                            url {
-                                protocol = URLProtocol.HTTPS
-                                host = MainActivity.StaticVals.RAILWAY_URL
-                                path("api/course")
-                                parameters.append("api-key", "android")
+
+            //add the view to the dialog and create the dialog
+            builder.setView(dialogView)
+                //action buttons and callbacks
+                .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, id ->
+
+                    //get the tags
+                    val courseTagInput = dialogView.findViewById<EditText>(R.id.course_tag_input);
+                    val courseTagString = courseTagInput.text.toString();
+                    Log.d(TAG, " the course tags are: " + courseTagString);
+                    course!!.tag = courseTagString;
+
+                    //get the password to set for the course
+                    val coursePasswordInput = dialogView.findViewById<EditText>(R.id.course_password_input);
+                    val coursePasswordString = coursePasswordInput.text.toString();
+                    Log.d(TAG, " the course password is: " + coursePasswordString);
+                    course!!.password = coursePasswordString;
+
+                    //create the course json to send
+                    var courseJson = Json.encodeToString(course);
+                    Log.i(TAG, "SENDING courseJson");
+                    Log.i(TAG, courseJson);
+
+                    //send the course json to the backend
+                    (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+                        try {
+                            val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                                url {
+                                    protocol = URLProtocol.HTTPS
+                                    host = MainActivity.StaticVals.RAILWAY_URL
+                                    path("api/course")
+                                    parameters.append("api-key", "android")
+                                }
+
+                                //add body
+                                contentType(ContentType.Application.Json);
+                                setBody(courseJson);
                             }
 
-                            //add body
-                            contentType(ContentType.Application.Json);
-                            setBody(courseJson);
-                        }
+                            Log.i(TAG, "Response status: ${response.status}")
+                            Log.i(TAG, "Response body: ${response.bodyAsText()}")
 
-                        Log.i(TAG, "Response status: ${response.status}")
-                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
-                    } catch (e: Exception) {
-                        Log.e(TAG, e.localizedMessage)
-                    }
-                }
+                            when(response.status) {
+                                HttpStatusCode.Created -> {
 
+                                    Log.i(TAG, "Uploading images to backend now that Course upload has succeeded.");
 
-                //send course images to POST api/images
-                (requireActivity() as AppCompatActivity).lifecycleScope.launch {
-
-                    try {
-                        val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-                            url {
-                                protocol = URLProtocol.HTTPS
-                                host = MainActivity.StaticVals.RAILWAY_URL
-                                path("api/images")
-                                parameters.append("api-key", "android")
-                            }
-                            setBody(MultiPartFormDataContent(
-                                formData {
-                                    // append("description", "images from android app")
-
-                                    //append each shot from each hole
-                                    course?.holes?.forEach {hole ->
-
-                                        hole.shots_tee?.forEach { shot ->
-
-                                            //construct the filepath and get the file
-                                            val imageFilename = shot.image_markedup;
-                                            val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
-
-                                            Log.i(TAG, "Adding file to POST: " + filepath);
-
-                                            //append the shot image bytes to the images form data list
-                                            append(
-                                                "images",
-                                                File(filepath).readBytes(),
-                                                Headers.build {
-                                                    append(HttpHeaders.ContentType, "image/png")
-                                                    append(
-                                                        HttpHeaders.ContentDisposition,
-                                                        "filename=${shot.image_markedup}"
-                                                    )
+                                        try {
+                                            val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                                                url {
+                                                    protocol = URLProtocol.HTTPS
+                                                    host = MainActivity.StaticVals.RAILWAY_URL
+                                                    path("api/images")
+                                                    parameters.append("api-key", "android")
                                                 }
-                                            )
+                                                setBody(MultiPartFormDataContent(
+                                                    formData {
+                                                        // append("description", "images from android app")
 
+                                                        //append each shot from each hole
+                                                        course?.holes?.forEach {hole ->
+
+                                                            hole.shots_tee?.forEach { shot ->
+
+                                                                //construct the filepath and get the file
+                                                                val imageFilename = shot.image_markedup;
+                                                                val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+
+                                                                Log.i(TAG, "Adding file to POST: " + filepath);
+
+                                                                //append the shot image bytes to the images form data list
+                                                                append(
+                                                                    "images",
+                                                                    File(filepath).readBytes(),
+                                                                    Headers.build {
+                                                                        append(HttpHeaders.ContentType, "image/png")
+                                                                        append(
+                                                                            HttpHeaders.ContentDisposition,
+                                                                            "filename=${shot.image_markedup}"
+                                                                        )
+                                                                    }
+                                                                )
+
+                                                            }
+                                                        }
+
+                                                    },
+                                                    boundary = "WebAppBoundary"
+                                                )
+                                                )
+                                            }
+
+                                            Log.i(TAG, "Response status: ${response.status}")
+                                            Log.i(TAG, "Response body: ${response.bodyAsText()}")
+                                        } catch (e: Exception) {
+                                            Log.e(TAG, e.localizedMessage)
                                         }
-                                    }
 
-                                },
-                                boundary = "WebAppBoundary"
-                            )
-                            )
+                                }
+                                HttpStatusCode.BadRequest -> {
+
+                                    //TODO: show a dialog saying it was not uploaded?
+
+                                }
+
+                            }
+
+                        } catch (e: Exception) {
+                            Log.e(TAG, e.localizedMessage)
                         }
-
-                        Log.i(TAG, "Response status: ${response.status}")
-                        Log.i(TAG, "Response body: ${response.bodyAsText()}")
-                    } catch (e: Exception) {
-                        Log.e(TAG, e.localizedMessage)
                     }
-                }
+
+                })
+                .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
+//                    getDialog().cancel()
+                })
+            builder.create()
 
 
+        } ?: throw IllegalStateException("Activity cannot be null")
+    }
 
-                //TODO: navigate to the correct page
-
-
-
-//                val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().request("https://ktor.io/") {
-//                    method = HttpMethod.Post
-//                }
-
-//                val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().get {
-//                    url {
-//                        protocol = URLProtocol.HTTPS
-//                        host = "ktor.io"
-//                        path("docs/welcome.html")
-//                    }
-//                }
-
-//                val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().submitFormWithBinaryData(
-//                    url = "http://localhost:8080/upload",
-//                    formData = formData {
-//                        append("description", "Ktor logo")
-//                        append("image", File("ktor_logo.png").readBytes(), Headers.build {
-//                            append(HttpHeaders.ContentType, "image/png")
-//                            append(HttpHeaders.ContentDisposition, "filename=\"ktor_logo.png\"")
-//                        })
-//                    }
-//                )
-
-
-                //navigate back a page
-                //create the action and navigate to the course notes fragment
-//                val action = CourseHolesPageFragmentDirections.actionCourseHolesPageFragmentToCourseNotesPageFragment();
-//                view.findNavController().navigate(action);
-            }
-            .setNegativeButton(getString(R.string.cancel)) { _,_ -> }
-            .create()
 
     companion object {
         const val TAG = "ShareCourseDialog"

@@ -19,6 +19,8 @@ data class Course(
     val name: String = "default name",
     val creator: String = "default creator",
     val date_created: String = "default date",
+    var password: String = "",  //only set the password before POSTing this object to the server to password-protect it
+    var tag: String = "",
     val holes: MutableList<Hole> = ArrayList()
 )
 

@@ -39,6 +39,9 @@
     <string name="course_name">Course Name</string>
     <string name="holes">Holes</string>
 
+    <string name="password">Password</string>
+    <string name="tag">Tag</string>
+
     <string name="settings_title">Settings</string>
     <string name="user_name">User Name</string>
 
@@ -52,7 +55,7 @@
 
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
     <string name="confirm_delete_shot_message">This will DELETE the Shot. Are you sure?</string>
-    <string name="confirm_share_course_message">Upload the Course for sharing. Are you sure?</string>
+    <string name="confirm_share_course_message">Upload this Course for sharing.</string>
 
     <string name="tab_public">Public</string>
     <string name="tab_private">Private</string>
