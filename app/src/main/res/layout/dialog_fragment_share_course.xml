@@ -10,14 +10,17 @@
     tools:context=".courseholes.ShareCourseDialogFragment">
 
     <TextView
+        android:id="@+id/share_course_dialog_title"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
         android:textSize="16sp"
         android:textStyle="bold"
         android:text="@string/confirm_share_course_message"
         />
 
     <LinearLayout
+        android:id="@+id/course_tag_input_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="0dp"
@@ -43,6 +46,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/course_password_input_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="0dp"
@@ -66,6 +70,46 @@
             android:inputType="text"/>
 
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/course_json_message"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/upload_course_json_pending_message"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/course_images_message"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/upload_course_images_pending_message"
+        android:visibility="gone"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/loading_progress_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        >
+
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"/>
+
+    </RelativeLayout>
 
 
 </LinearLayout>

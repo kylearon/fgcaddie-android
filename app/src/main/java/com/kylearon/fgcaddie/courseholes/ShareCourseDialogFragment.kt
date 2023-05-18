@@ -1,11 +1,14 @@
 package com.kylearon.fgcaddie.courseholes
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -26,6 +29,8 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 
     private var course: Course? = null;
 
+    private var loading: Boolean = false;
+
     init {
         course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
     }
@@ -42,53 +47,83 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 
 
             //add the view to the dialog and create the dialog
-            builder.setView(dialogView)
-                //action buttons and callbacks
-                .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, id ->
+            val dialog = builder.setView(dialogView)
+                //set null as the listener so it won't automatically close the dialog when clicked
+                .setPositiveButton(R.string.ok, null)
+                .create();
 
-                    //get the tags
-                    val courseTagInput = dialogView.findViewById<EditText>(R.id.course_tag_input);
-                    val courseTagString = courseTagInput.text.toString();
-                    Log.d(TAG, " the course tags are: " + courseTagString);
-                    course!!.tag = courseTagString;
+            dialog.setOnShowListener {
+                val button: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                button.setOnClickListener {
+                    // Your code here
+                    // The dialog won't dismiss unless you call dialog.dismiss()
 
-                    //get the password to set for the course
-                    val coursePasswordInput = dialogView.findViewById<EditText>(R.id.course_password_input);
-                    val coursePasswordString = coursePasswordInput.text.toString();
-                    Log.d(TAG, " the course password is: " + coursePasswordString);
-                    course!!.password = coursePasswordString;
+                    if(loading)
+                    {
+                        //dismiss the dialog
+                        dialog.dismiss();
+                    }
+                    else
+                    {
+                        //get the tags
+                        val courseTagInput = dialogView.findViewById<EditText>(R.id.course_tag_input);
+                        val courseTagString = courseTagInput.text.toString();
+                        Log.d(TAG, " the course tags are: " + courseTagString);
+                        course!!.tag = courseTagString;
 
-                    //create the course json to send
-                    var courseJson = Json.encodeToString(course);
-                    Log.i(TAG, "SENDING courseJson");
-                    Log.i(TAG, courseJson);
+                        //get the password to set for the course
+                        val coursePasswordInput = dialogView.findViewById<EditText>(R.id.course_password_input);
+                        val coursePasswordString = coursePasswordInput.text.toString();
+                        Log.d(TAG, " the course password is: " + coursePasswordString);
+                        course!!.password = coursePasswordString;
 
-                    //send the course json to the backend
-                    (requireActivity() as AppCompatActivity).lifecycleScope.launch {
-                        try {
-                            val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-                                url {
-                                    protocol = URLProtocol.HTTPS
-                                    host = MainActivity.StaticVals.RAILWAY_URL
-                                    path("api/course")
-                                    parameters.append("api-key", "android")
+                        //show the loading bar
+                        dialogView.findViewById<LinearLayout>(R.id.course_password_input_layout).visibility = View.GONE;
+                        dialogView.findViewById<LinearLayout>(R.id.course_tag_input_layout).visibility = View.GONE;
+                        dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.VISIBLE;
+                        dialogView.findViewById<TextView>(R.id.course_json_message).visibility = View.VISIBLE;
+                        dialogView.findViewById<TextView>(R.id.share_course_dialog_title).visibility = View.GONE;
+
+                        //create the course json to send
+                        var courseJson = Json.encodeToString(course);
+                        Log.i(TAG, "SENDING courseJson");
+                        Log.i(TAG, courseJson);
+
+
+                        //send the course json to the backend
+                        (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+                            try {
+
+                                //set this as loading
+                                loading = true;
+
+                                val responseForPOSTJson: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                                    url {
+                                        protocol = URLProtocol.HTTPS
+                                        host = MainActivity.StaticVals.RAILWAY_URL
+                                        path("api/course")
+                                        parameters.append("api-key", "android")
+                                    }
+
+                                    //add body
+                                    contentType(ContentType.Application.Json);
+                                    setBody(courseJson);
                                 }
 
-                                //add body
-                                contentType(ContentType.Application.Json);
-                                setBody(courseJson);
-                            }
+                                Log.i(TAG, "Response status: ${responseForPOSTJson.status}")
+                                Log.i(TAG, "Response body: ${responseForPOSTJson.bodyAsText()}")
 
-                            Log.i(TAG, "Response status: ${response.status}")
-                            Log.i(TAG, "Response body: ${response.bodyAsText()}")
+                                when(responseForPOSTJson.status) {
+                                    HttpStatusCode.Created -> {
 
-                            when(response.status) {
-                                HttpStatusCode.Created -> {
+                                        //update the status messages
+                                        dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_success_message);
+                                        dialogView.findViewById<TextView>(R.id.course_images_message).visibility = View.VISIBLE;
 
-                                    Log.i(TAG, "Uploading images to backend now that Course upload has succeeded.");
+                                        Log.i(TAG, "Uploading images to backend now that Course upload has succeeded.");
 
                                         try {
-                                            val response: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                                            val responseForPOSTImages: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
                                                 url {
                                                     protocol = URLProtocol.HTTPS
                                                     host = MainActivity.StaticVals.RAILWAY_URL
@@ -132,32 +167,41 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                                                 )
                                             }
 
-                                            Log.i(TAG, "Response status: ${response.status}")
-                                            Log.i(TAG, "Response body: ${response.bodyAsText()}")
+                                            Log.i(TAG, "Response status: ${responseForPOSTImages.status}");
+                                            Log.i(TAG, "Response body: ${responseForPOSTImages.bodyAsText()}");
+
+                                            //update status messages
+                                            dialogView.findViewById<TextView>(R.id.course_images_message).text = requireContext().getString(R.string.upload_course_images_success_message);
+                                            dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
+
                                         } catch (e: Exception) {
                                             Log.e(TAG, e.localizedMessage)
                                         }
 
+                                    }
+                                    HttpStatusCode.BadRequest -> {
+
+                                        Log.i(TAG, "BAD REQUEST");
+
+                                        //update the status messages
+                                        dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_failed_message) + " \n" + responseForPOSTJson.bodyAsText();
+                                        dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
+                                    }
+
                                 }
-                                HttpStatusCode.BadRequest -> {
 
-                                    //TODO: show a dialog saying it was not uploaded?
-
-                                }
-
+                            } catch (e: Exception) {
+                                Log.e(TAG, e.localizedMessage)
+                                loading = false;
                             }
-
-                        } catch (e: Exception) {
-                            Log.e(TAG, e.localizedMessage)
                         }
+
                     }
 
-                })
-                .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
-//                    getDialog().cancel()
-                })
-            builder.create()
+                }
+            }
 
+            return dialog;
 
         } ?: throw IllegalStateException("Activity cannot be null")
     }

@@ -56,6 +56,16 @@
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
     <string name="confirm_delete_shot_message">This will DELETE the Shot. Are you sure?</string>
     <string name="confirm_share_course_message">Upload this Course for sharing.</string>
+    <string name="share_course_failed_message">Course upload failed.</string>
+
+    <string name="upload_course_json_pending_message">Uploading course json please wait...</string>
+    <string name="upload_course_images_pending_message">Uploading course images please wait...</string>
+
+    <string name="upload_course_json_success_message">Course json upload succeeded.</string>
+    <string name="upload_course_images_success_message">Course images upload succeeded.</string>
+
+    <string name="upload_course_json_failed_message">Course json upload failed.</string>
+    <string name="upload_course_images_failed_message">Course images upload failed.</string>
 
     <string name="tab_public">Public</string>
     <string name="tab_private">Private</string>
