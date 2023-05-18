@@ -25,7 +25,7 @@ import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 
-class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Adapter<PublicCoursesAdapter.PublicCoursesViewHolder>() {
+open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Adapter<PublicCoursesAdapter.PublicCoursesViewHolder>() {
 
     private val fragmentActivity = fragmentActivity;
 

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.data.Course
-import com.kylearon.fgcaddie.data.Courses
 import com.kylearon.fgcaddie.databinding.FragmentPublicCoursesBinding
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -19,7 +18,7 @@ import io.ktor.http.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 
 class PublicCoursesFragment : Fragment() {
@@ -49,7 +48,6 @@ class PublicCoursesFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.recyclerView;
 
@@ -58,11 +56,10 @@ class PublicCoursesFragment : Fragment() {
         publicCoursesAdapter = PublicCoursesAdapter(requireActivity());
         recyclerView.adapter = publicCoursesAdapter;
 
-        updatePublicCourses();
-
+        updateCourses();
     }
 
-    private fun updatePublicCourses() {
+    private fun updateCourses() {
         //send GET api/courses
         viewLifecycleOwner.lifecycleScope.launch {
             try {
@@ -79,10 +76,13 @@ class PublicCoursesFragment : Fragment() {
                 Log.i(TAG, "Response status: ${response.status}")
                 Log.i(TAG, "Response body: ${response.bodyAsText()}")
 
-                val courses = Courses(ArrayList<Course>());
-                courses.courses.addAll(Json.decodeFromString(response.bodyAsText()));
+//                val courses = Courses(ArrayList<Course>());
+                val courses = ArrayList<Course>();
+                courses.addAll(Json.decodeFromString(response.bodyAsText()));
 
-                publicCoursesAdapter.updateData(courses.courses);
+                //filter out the public courses into their own array
+                val publicCourses = courses.filter { course -> course.password == null || course.password == "" }
+                publicCoursesAdapter.updateData(publicCourses);
 
             } catch (e: Exception) {
                 Log.e(TAG, e.localizedMessage)
