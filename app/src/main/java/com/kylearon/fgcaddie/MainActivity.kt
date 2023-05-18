@@ -72,9 +72,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (navController.currentDestination?.id != R.id.homePageFragment) {
-            menuInflater.inflate(R.menu.home_button_menu, menu)
-        }
+        //uncomment to add a home menu to each page
+//        if (navController.currentDestination?.id != R.id.homePageFragment) {
+//            menuInflater.inflate(R.menu.home_button_menu, menu)
+//        }
         return true
     }
 
