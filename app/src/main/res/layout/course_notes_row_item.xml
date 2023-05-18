@@ -3,8 +3,8 @@
     android:id="@+id/course_notes_row_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
     android:layout_margin="6dp"
     android:orientation="vertical"
     android:clickable="true"
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:text="@string/default_label"
                 android:textColor="@color/mfgc_blue"
@@ -48,7 +48,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:text="@string/default_label"
                 android:textColor="@color/medium_grey"
@@ -58,7 +58,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:text="@string/default_label"
                 android:textColor="@color/medium_grey"
