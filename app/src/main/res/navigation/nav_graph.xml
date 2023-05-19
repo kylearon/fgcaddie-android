@@ -138,6 +138,9 @@
         android:id="@+id/courseBrowserPageFragment"
         android:name="com.kylearon.fgcaddie.coursebrowser.CourseBrowserFragment"
         android:label="@string/course_browser_title">
+        <action
+            android:id="@+id/action_courseBrowserPageFragment_to_courseNotesPageFragment"
+            app:destination="@id/courseNotesPageFragment" />
     </fragment>
 
     <fragment

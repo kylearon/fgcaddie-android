@@ -9,9 +9,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.courseholes.CourseHolesPageFragmentDirections
 import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Courses
 import io.ktor.client.request.*
@@ -21,12 +23,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 
 open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerView.Adapter<PublicCoursesAdapter.PublicCoursesViewHolder>() {
+
+    private var parentView: View? = null;
 
     private val fragmentActivity = fragmentActivity;
 
@@ -68,6 +73,7 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicCoursesViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.course_browser_row_item, parent, false);
 
+        parentView = parent;
         view = layout;
 
         return PublicCoursesViewHolder(layout);
@@ -137,6 +143,10 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
                         Log.i(TAG, "Downloading Course Images...");
                         getImages(downloadedCourseJson!!);
                     }
+                }.invokeOnCompletion {
+                    //navigate back to courses page
+                    val action = CourseBrowserFragmentDirections.actionCourseBrowserPageFragmentToCourseNotesPageFragment();
+                    parentView!!.findNavController().navigate(action);
                 }
 
             }
