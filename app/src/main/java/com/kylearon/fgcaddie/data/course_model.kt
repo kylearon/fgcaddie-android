@@ -18,7 +18,7 @@ data class Courses(
 @Serializable
 data class Course(
     val guid: String,
-    val name: String = "default name",
+    var name: String = "default name",
     val creator: String = "default creator",
     val date_created: String = "default date",
     var password: String = "",  //only set the password before POSTing this object to the server to password-protect it
