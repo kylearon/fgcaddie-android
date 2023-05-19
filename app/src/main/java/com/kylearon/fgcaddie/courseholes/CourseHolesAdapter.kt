@@ -14,6 +14,7 @@ import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepathURI
 import kotlinx.serialization.json.Json
 
 import kotlinx.serialization.encodeToString
@@ -94,11 +95,11 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         item.shots_tee.forEach { s ->
             //construct the filepath and get the file
             val imageFilename = s.image_markedup;
-            val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
+            val filepathURI = getPrivateAppStorageFilepathURI(imageFilename);
 
             //put the photo into the inflated ImageView
             val imageViewLayout = LayoutInflater.from(holder.photosInnerRow.context).inflate(R.layout.mini_photo, holder.photosInnerRow, false);
-            imageViewLayout.findViewById<ImageView>(R.id.mini_photo_image_view).load(Uri.parse(filepath));
+            imageViewLayout.findViewById<ImageView>(R.id.mini_photo_image_view).load(Uri.parse(filepathURI));
             holder.photosInnerRow.addView(imageViewLayout)
         }
 

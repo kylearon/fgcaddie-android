@@ -232,10 +232,12 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         setBackgroundImage(backgroundBitmap);
     }
 
-    fun saveBitmap(filename: String) {
-        Log.d(TAG,"saveBitmap() " + filename);
-//        saveBitmapAsFile(extraBitmap, filename);
+    fun saveCurrentBitmap(filename: String) {
         saveBitmapToFileStorage(extraBitmap, filename, context);
+    }
+
+    fun saveOriginalBitmap(filename: String) {
+        saveBitmapToFileStorage(backgroundBitmap, filename, context);
     }
 
     companion object {

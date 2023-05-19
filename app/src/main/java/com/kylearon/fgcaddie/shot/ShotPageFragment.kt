@@ -16,6 +16,8 @@ import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
 import com.kylearon.fgcaddie.databinding.FragmentShotPageBinding
 import com.kylearon.fgcaddie.hole.HolePageFragmentDirections
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepath
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepathURI
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -60,10 +62,10 @@ class ShotPageFragment : Fragment() {
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
+        val filepathURI = getPrivateAppStorageFilepathURI(imageFilename);
 
         //load the image into the ImageView using COIL
-        _binding!!.shotImageView.load(Uri.parse(filepath));
+        _binding!!.shotImageView.load(Uri.parse(filepathURI));
 
 
         // The usage of an interface lets you inject your own implementation

@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepath
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
@@ -139,16 +140,29 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
 
                                                             hole.shots_tee?.forEach { shot ->
 
-                                                                //construct the filepath and get the file
-                                                                val imageFilename = shot.image_markedup;
-                                                                val filepath = "/data/user/0/com.kylearon.fgcaddie/files/" + imageFilename;
+                                                                //construct the filepaths and get the files
+                                                                val filepathOriginal = getPrivateAppStorageFilepath(shot.image_original);
+                                                                val filepathMarkedup = getPrivateAppStorageFilepath(shot.image_markedup);
 
-                                                                Log.i(TAG, "Adding file to POST: " + filepath);
+                                                                Log.i(TAG, "Adding file to POST: " + filepathOriginal);
+                                                                Log.i(TAG, "Adding file to POST: " + filepathMarkedup);
 
                                                                 //append the shot image bytes to the images form data list
                                                                 append(
                                                                     "images",
-                                                                    File(filepath).readBytes(),
+                                                                    File(filepathOriginal).readBytes(),
+                                                                    Headers.build {
+                                                                        append(HttpHeaders.ContentType, "image/png")
+                                                                        append(
+                                                                            HttpHeaders.ContentDisposition,
+                                                                            "filename=${shot.image_original}"
+                                                                        )
+                                                                    }
+                                                                )
+
+                                                                append(
+                                                                    "images",
+                                                                    File(filepathMarkedup).readBytes(),
                                                                     Headers.build {
                                                                         append(HttpHeaders.ContentType, "image/png")
                                                                         append(

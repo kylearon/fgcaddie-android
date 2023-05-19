@@ -24,6 +24,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentDrawImagePageBinding
+import com.kylearon.fgcaddie.utils.FileUtils
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepath
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepathURI
 
 
 /**
@@ -61,11 +64,11 @@ class DrawImagePageFragment : Fragment() {
 
                 //construct the filepath and get the bitmap from the file
                 val imageFilename = shot!!.image_markedup;
-                val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
+                val filepathURI = getPrivateAppStorageFilepathURI(imageFilename);
 
                 //get the background image to edit from the shot
-                Log.i(TAG, "Loading image to edit: " + Uri.parse(filepath).path);
-                val loadedBitmap = BitmapFactory.decodeFile(Uri.parse(filepath).path);
+                Log.i(TAG, "Loading image to edit: " + Uri.parse(filepathURI).path);
+                val loadedBitmap = BitmapFactory.decodeFile(Uri.parse(filepathURI).path);
 
                 //make the loaded bitmap mutable so it can be used in the canvas
                 backgroundImage = loadedBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -152,7 +155,7 @@ class DrawImagePageFragment : Fragment() {
             // Create a new coroutine to move the execution off the UI thread
             GlobalScope.launch(Dispatchers.IO) {
                 //save the bitmap image to private app storage
-                _binding!!.drawableImageView.saveBitmap(filename);
+                _binding!!.drawableImageView.saveCurrentBitmap(filename);
             }.invokeOnCompletion {
                 //navigate back in the Main thread once the bitmap is done being saved to internal storage
                 runBlocking {
@@ -167,18 +170,19 @@ class DrawImagePageFragment : Fragment() {
 
         }
         else {
+
             //construct the image filename
-            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
-            val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp + ".png";
+            val shotGuid = UUID.randomUUID().toString();
+            val filename = FileUtils.constructImageFilename(shotGuid, FileUtils.SHOT_TYPE_MARKEDUP);
 
             //construct the Shot to add to the Hole model object
-            hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, filename, filename));
+            hole.shots_tee.add(Shot(shotGuid, "all", 0, filename, filename));
 
             // Create a new coroutine to move the execution off the UI thread
             GlobalScope.launch(Dispatchers.IO) {
 
                 //save the bitmap image to private app storage
-                _binding!!.drawableImageView.saveBitmap(filename);
+                _binding!!.drawableImageView.saveCurrentBitmap(filename);
 
                 //save the Hole json to the local model
                 Log.d(TAG, "saveBitmapToModel()");

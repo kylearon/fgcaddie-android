@@ -36,7 +36,12 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.utils.BitmapUtils
 import com.kylearon.fgcaddie.utils.BitmapUtils.Companion.rotateBitmap
+import com.kylearon.fgcaddie.utils.BitmapUtils.Companion.saveBitmapToFileStorage
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.SHOT_TYPE_MARKEDUP
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.SHOT_TYPE_ORIGINAL
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.constructImageFilename
 
 
 /**
@@ -253,19 +258,22 @@ class CameraPageFragment : Fragment() {
         _binding!!.savingTextView.visibility = View.VISIBLE;
         _binding!!.savingTextView.invalidate();
 
-        //construct the image filename
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date());
-        val filename: String = "hole-shot-" + hole.guid + "-" + timeStamp + ".png";
+        //get a guid for this new shot
+        val shotGuid = UUID.randomUUID().toString();
+
+        //construct the image filenames
+        val filenameOriginal = constructImageFilename(shotGuid, SHOT_TYPE_ORIGINAL);
+        val filenameMarkedup = constructImageFilename(shotGuid, SHOT_TYPE_MARKEDUP);
 
         //construct the Shot to add to the Hole model object
-        hole.shots_tee.add(Shot(UUID.randomUUID().toString(), "all", 0, filename, filename ));
-
+        hole.shots_tee.add(Shot(shotGuid, "all", 0, filenameOriginal, filenameMarkedup ));
 
         // Create a new coroutine to move the execution off the UI thread
         GlobalScope.launch (Dispatchers.IO) {
 
-            //save the bitmap image to private app storage
-            _binding!!.shotView.saveBitmap(filename);
+            //save the markedup and original bitmap images to private app storage
+            _binding!!.shotView.saveCurrentBitmap(filenameMarkedup);
+            _binding!!.shotView.saveOriginalBitmap(filenameOriginal);
 
             //save the Hole json to the local model
             Log.d(TAG, "saveBitmapToModel()");

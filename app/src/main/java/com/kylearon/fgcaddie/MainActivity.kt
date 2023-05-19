@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     object StaticVals {
         val AWS_URL: String = "https://fgcaddie.s3.us-east-2.amazonaws.com";
         val RAILWAY_URL: String = "expressjs-postgres-production-3edc.up.railway.app";
-        val ANDROID_BASE_FILEPATH = "file:///data/user/0/com.kylearon.fgcaddie/files/";
 
         //there are in portrait orientation
         val HD_IMAGE_WIDTH = 720;

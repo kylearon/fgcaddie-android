@@ -142,12 +142,15 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
             hole.shots_tee?.forEach { shot ->
 
                 //construct the url and get the file
-                val imageFilename = shot.image_markedup;
-                val imageUrl = MainActivity.StaticVals.AWS_URL + "/" + imageFilename;
+                val originalImageFilename = shot.image_markedup;
+                val imageUrl = MainActivity.StaticVals.AWS_URL + "/" + originalImageFilename;
+
+                //construct a new image filename with a different hole guid than the original
+                val newImageFilename = originalImageFilename;
 
                 //get the image from the url
                 Log.i(TAG, "Downloading Image: " + imageUrl);
-                downloadAndSaveImageFromUrl(imageUrl, imageFilename);
+                downloadAndSaveImageFromUrl(imageUrl, newImageFilename);
             }
         }
 
@@ -155,26 +158,35 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
 
     private fun downloadAndSaveImageFromUrl(url: String, fileName: String) {
         try {
+            //create a connection to the image url
             val imageUrl = URL(url);
             val connection = imageUrl.openConnection() as HttpURLConnection;
             connection.connect();
 
+            //make sure the connection is ok
             if (connection.responseCode != HttpURLConnection.HTTP_OK) {
                 throw IOException("HTTP error code: ${connection.responseCode}");
             }
 
+            //create the input stream from the HttpURLConnection
             val inputStream = connection.inputStream;
             val bufferedInputStream = BufferedInputStream(inputStream);
+
+            //create an empty file
             val file = File(fragmentActivity.filesDir, fileName);
+
+            //create an output stream to the file
             val fileOutputStream = FileOutputStream(file);
             val bufferedOutputStream = BufferedOutputStream(fileOutputStream);
 
+            //read the bytes from the input stream to the output stream
             val buffer = ByteArray(4096);
             var bytesRead: Int;
             while (bufferedInputStream.read(buffer).also { bytesRead = it } != -1) {
                 bufferedOutputStream.write(buffer, 0, bytesRead);
             }
 
+            //close everything
             bufferedOutputStream.close();
             fileOutputStream.close();
             bufferedInputStream.close();

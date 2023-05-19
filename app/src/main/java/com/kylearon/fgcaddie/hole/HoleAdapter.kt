@@ -1,17 +1,23 @@
 package com.kylearon.fgcaddie.hole
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Hole
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepath
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -66,7 +72,7 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
         //construct the filepath and get the file
         val imageFilename = shot.image_markedup;
-        val filepath = MainActivity.StaticVals.ANDROID_BASE_FILEPATH + imageFilename;
+        val filepath = getPrivateAppStorageFilepath(imageFilename);
 
 
         //load the file into the ImageView using COIL
