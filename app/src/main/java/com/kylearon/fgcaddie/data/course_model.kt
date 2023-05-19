@@ -20,7 +20,7 @@ data class Courses(
 data class Course(
     val guid: String,
     var name: String = "default name",
-    val creator: String = "default creator",
+    var creator: String = "default creator",
     val date_created: String = "default date",
     var password: String = "",  //only set the password before POSTing this object to the server to password-protect it
     var tag: String = "",
