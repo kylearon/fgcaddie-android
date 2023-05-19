@@ -7,6 +7,7 @@
     <string name="action_add_course">Add Course</string>
     <string name="action_remove_course">Remove Course</string>
     <string name="action_share_course">Share Course</string>
+    <string name="action_rename_course">Rename Course</string>
     <string name="action_edit_hole">Edit Hole</string>
     <string name="action_take_picture">Take Picture</string>
     <string name="action_draw_picture">Draw Picture</string>
@@ -52,6 +53,8 @@
 
     <string name="no_photos_message">no photos</string>
     <string name="take_photo">Take Photo</string>
+
+    <string name="rename_course_message">Rename Course</string>
 
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
     <string name="confirm_delete_shot_message">This will DELETE the Shot. Are you sure?</string>
