@@ -1,6 +1,8 @@
 package com.kylearon.fgcaddie.data
 
 import kotlinx.serialization.Serializable
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Serializable
 data class FGCaddieModel(
@@ -22,7 +24,20 @@ data class Course(
     var password: String = "",  //only set the password before POSTing this object to the server to password-protect it
     var tag: String = "",
     val holes: MutableList<Hole> = ArrayList()
-)
+) {
+    fun deepCopy(): Course {
+        val newCourseGuid = UUID.randomUUID().toString()
+        return Course(
+            newCourseGuid,
+            this.name,
+            this.creator,
+            this.date_created,
+            this.password,
+            this.tag,
+            this.holes.map { it.deepCopy(newCourseGuid) }.toMutableList()
+        )
+    }
+}
 
 @Serializable
 data class Hole(
@@ -34,13 +49,36 @@ data class Hole(
     var shots_tee: MutableList<Shot> = ArrayList(),
     var shots_approach: MutableList<Shot> = ArrayList(),
     var shots_putt: MutableList<Shot> = ArrayList()
-)
+) {
+    fun deepCopy(newCourseId: String): Hole {
+        return Hole(
+            UUID.randomUUID().toString(),
+            newCourseId,
+            this.hole_number,
+            this.par,
+            this.length,
+            this.shots_tee.map { it.deepCopy() }.toMutableList(),
+            this.shots_approach.map { it.deepCopy() }.toMutableList(),
+            this.shots_putt.map { it.deepCopy() }.toMutableList()
+        )
+    }
+}
 
 @Serializable
 data class Shot(
     val guid: String,
     val type: String,
     val distance: Int,
-    val image_original: String,
-    val image_markedup: String,
-)
+    var image_original: String,
+    var image_markedup: String,
+) {
+    fun deepCopy(): Shot {
+        return Shot(
+            UUID.randomUUID().toString(),
+            this.type,
+            this.distance,
+            this.image_original,
+            this.image_markedup
+        )
+    }
+}

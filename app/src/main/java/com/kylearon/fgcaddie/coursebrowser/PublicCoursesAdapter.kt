@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
+import com.kylearon.fgcaddie.data.Courses
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -105,14 +106,24 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
                     Log.i(TAG, "Response status: ${response.status}")
                     Log.i(TAG, "Response body: ${response.bodyAsText()}")
 
-                    //save the course json
-                    val courseJson: Course = Json.decodeFromString<Course>(response.bodyAsText());
-                    MainActivity.ServiceLocator.getCourseRepository().addCourse(courseJson);
+                    //construct the Course object from the downloaded json
+                    val courseObjectFromJson: Course = Json.decodeFromString<Course>(response.bodyAsText());
 
-                    downloadedCourseJson = courseJson;
+                    //make a copy and change the guids of the entire object and sub-objects with the deepCopy
+                    val courseWithNewGuids = courseObjectFromJson.deepCopy();
+
+                    //add the Course with new guids to the CourseRepository
+                    MainActivity.ServiceLocator.getCourseRepository().addCourse(courseWithNewGuids);
+
+                    //save the Course object to the class member variable
+                    //we can use the updated Course object here because the images still point to the existing names
+                    //upon downloading the images, new names will be generated for them.
+                    //this will happen in the call to getImages(downloadedCourseJson) below
+                    downloadedCourseJson = courseWithNewGuids;
 
                     Log.i(TAG, "SAVED COURSE JSON");
 
+                    //notify the RecyclerView to update with the new repository data
                     notifyDataSetChanged();
 
                 } catch (e: Exception) {
@@ -136,21 +147,31 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
 
     private suspend fun getImages(course: Course) = withContext(Dispatchers.IO) {
 
+        val guidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}".toRegex();
+
         //download the images for the course
         course?.holes?.forEach {hole ->
 
             hole.shots_tee?.forEach { shot ->
 
                 //construct the url and get the file
-                val originalImageFilename = shot.image_markedup;
-                val imageUrl = MainActivity.StaticVals.AWS_URL + "/" + originalImageFilename;
+                val imageMarkedupUrl = MainActivity.StaticVals.AWS_URL + "/" + shot.image_markedup;
+                val imageOriginalUrl = MainActivity.StaticVals.AWS_URL + "/" + shot.image_original;
 
-                //construct a new image filename with a different hole guid than the original
-                val newImageFilename = originalImageFilename;
+                //replace the old guid with the new guid for the new filename to save the image as
+                val newGuid = shot.guid;
+                val newImageMarkedupFilename = shot.image_markedup.replaceFirst(guidRegex, newGuid);
+                val newImageOriginalFilename = shot.image_original.replaceFirst(guidRegex, newGuid);
 
                 //get the image from the url
-                Log.i(TAG, "Downloading Image: " + imageUrl);
-                downloadAndSaveImageFromUrl(imageUrl, newImageFilename);
+                Log.i(TAG, "Downloading Image: " + imageMarkedupUrl);
+                downloadAndSaveImageFromUrl(imageMarkedupUrl, newImageMarkedupFilename);
+                shot.image_markedup = newImageMarkedupFilename;
+
+                //get the image from the url
+                Log.i(TAG, "Downloading Image: " + imageOriginalUrl);
+                downloadAndSaveImageFromUrl(imageOriginalUrl, newImageOriginalFilename);
+                shot.image_original = newImageOriginalFilename;
             }
         }
 
