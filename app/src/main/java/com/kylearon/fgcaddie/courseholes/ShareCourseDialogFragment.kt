@@ -135,6 +135,8 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                                                     formData {
                                                         // append("description", "images from android app")
 
+                                                        var imageCount = 0;
+
                                                         //append each shot from each hole
                                                         course?.holes?.forEach {hole ->
 
@@ -172,6 +174,9 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                                                                     }
                                                                 )
 
+                                                                //update the status message with how many images are being uploaded
+                                                                imageCount = imageCount + 2;
+                                                                dialogView.findViewById<TextView>(R.id.course_images_message).text = "Uploading $imageCount course images please wait...";
                                                             }
                                                         }
 
