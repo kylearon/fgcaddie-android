@@ -14,6 +14,7 @@ import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.data.Shot
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getDatetimeReadable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,8 +59,7 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
                     val creator = MainActivity.ServiceLocator.getSettingsRepository().getSettings()!!.user_name;
 
                     //get the datetime
-                    val sdf = SimpleDateFormat("dd/MMM/yyyy hh:mm:ss");
-                    val currentDate = sdf.format(Calendar.getInstance().time);
+                    val currentDate = getDatetimeReadable();
 
                     //create the new course
                     val newCourse = Course(UUID.randomUUID().toString(), courseNameString, creator, currentDate, "", "", ArrayList<Hole>());

@@ -1,5 +1,6 @@
 package com.kylearon.fgcaddie.data
 
+import com.kylearon.fgcaddie.utils.FileUtils.Companion.getDatetimeReadable
 import kotlinx.serialization.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
@@ -31,7 +32,7 @@ data class Course(
             newCourseGuid,
             this.name,
             this.creator,
-            this.date_created,
+            getDatetimeReadable(),
             this.password,
             this.tag,
             this.holes.map { it.deepCopy(newCourseGuid) }.toMutableList()

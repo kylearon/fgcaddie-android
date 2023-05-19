@@ -25,6 +25,13 @@ class FileUtils {
             return timestamp;
         }
 
+        fun getDatetimeReadable(): String {
+            //get the datetime
+            val sdf = SimpleDateFormat("dd/MMM/yyyy hh:mm:ss");
+            val currentDate = sdf.format(Calendar.getInstance().time);
+            return currentDate;
+        }
+
         /**
          * Use when you need to parse the URI afterwards.
          */
