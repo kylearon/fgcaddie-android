@@ -2,6 +2,7 @@ package com.kylearon.fgcaddie.hole
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -54,6 +55,9 @@ class HolePageFragment: Fragment() {
 
         // The usage of an interface lets you inject your own implementation
         val menuHost: MenuHost = requireActivity();
+
+        //set the name of the page
+        (activity as? AppCompatActivity)?.supportActionBar?.title =  "Hole " + hole!!.hole_number.toString();
 
         // Add menu items without using the Fragment Menu APIs
         // Note how we can tie the MenuProvider to the viewLifecycleOwner and an optional Lifecycle.State (here, RESUMED) to indicate when the menu should be visible

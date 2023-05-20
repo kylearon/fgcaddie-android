@@ -27,9 +27,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
     private var course: Course? = null;
 
     init {
-//        GlobalScope.launch {
-            course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
-//        }
+        course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
     }
 
     /**

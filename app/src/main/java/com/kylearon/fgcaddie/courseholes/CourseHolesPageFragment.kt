@@ -2,13 +2,16 @@ package com.kylearon.fgcaddie.courseholes
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.databinding.FragmentCourseHolesPageBinding
 
 class CourseHolesPageFragment: Fragment() {
@@ -20,6 +23,8 @@ class CourseHolesPageFragment: Fragment() {
     private lateinit var recyclerView: RecyclerView;
 
     private lateinit var courseId: String
+    
+    private var course: Course? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,7 @@ class CourseHolesPageFragment: Fragment() {
         //retrieve the courseid from the Fragment arguments
         arguments?.let {
             courseId = it.getString("courseid").toString()
+            course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
         }
     }
 
@@ -43,6 +49,9 @@ class CourseHolesPageFragment: Fragment() {
         recyclerView = binding.recyclerView;
         recyclerView.layoutManager = LinearLayoutManager(requireContext());
         recyclerView.adapter = CourseHolesAdapter(courseId);
+
+        //set the name of the page
+        (activity as? AppCompatActivity)?.supportActionBar?.title = course!!.name;
 
         // The usage of an interface lets you inject your own implementation
         val menuHost: MenuHost = requireActivity();
