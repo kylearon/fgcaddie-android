@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -31,14 +30,11 @@ import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.kylearon.fgcaddie.R
-import com.kylearon.fgcaddie.utils.BitmapUtils
 import com.kylearon.fgcaddie.utils.BitmapUtils.Companion.rotateBitmap
-import com.kylearon.fgcaddie.utils.BitmapUtils.Companion.saveBitmapToFileStorage
 import com.kylearon.fgcaddie.utils.FileUtils.Companion.SHOT_TYPE_MARKEDUP
 import com.kylearon.fgcaddie.utils.FileUtils.Companion.SHOT_TYPE_ORIGINAL
 import com.kylearon.fgcaddie.utils.FileUtils.Companion.constructImageFilename
@@ -47,7 +43,7 @@ import com.kylearon.fgcaddie.utils.FileUtils.Companion.constructImageFilename
 /**
  * Camera Page fragment.
  */
-class CameraPageFragment : Fragment() {
+class CameraPageFragment : Fragment(), EditNoteDialogFragment.EditNoteDialogListener {
 
     private var imageCaptureUseCase: ImageCapture? = null;
     private var originalBitmap: Bitmap? = null;
@@ -56,6 +52,8 @@ class CameraPageFragment : Fragment() {
     private lateinit var cameraExecutor: ExecutorService;
 
     private lateinit var hole: Hole;
+
+    private var shot: Shot? = null;
 
     private var _binding: FragmentCameraPageBinding? = null;
 
@@ -78,6 +76,9 @@ class CameraPageFragment : Fragment() {
             val holeString = it.getString("hole").toString();
             hole = Json.decodeFromString(holeString);
         }
+
+        //create a Shot object to fill the data into. the Shot will be saved to the Hole when saveImage() is called
+        initShot();
 
     }
 
@@ -102,6 +103,9 @@ class CameraPageFragment : Fragment() {
         _binding!!.pencilColor3.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor4.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor5.setOnClickListener { setPencilColor(it) }
+
+        //setup the listener for the edit text
+        _binding!!.editText.setOnClickListener { editTextForShot() }
 
         //select a button to start
         prevSelectedImageButton = _binding!!.pencilColor3;
@@ -250,13 +254,7 @@ class CameraPageFragment : Fragment() {
 
     }
 
-
-    private fun saveImage() {
-        Log.d(TAG, "saveImage()");
-
-        //show the saving text on screen
-        _binding!!.savingTextView.visibility = View.VISIBLE;
-        _binding!!.savingTextView.invalidate();
+    private fun initShot() {
 
         //get a guid for this new shot
         val shotGuid = UUID.randomUUID().toString();
@@ -265,15 +263,32 @@ class CameraPageFragment : Fragment() {
         val filenameOriginal = constructImageFilename(shotGuid, SHOT_TYPE_ORIGINAL);
         val filenameMarkedup = constructImageFilename(shotGuid, SHOT_TYPE_MARKEDUP);
 
-        //construct the Shot to add to the Hole model object
-        hole.shots_tee.add(Shot(shotGuid, "all", 0, filenameOriginal, filenameMarkedup ));
+        //construct the Shot to use
+        shot = Shot(shotGuid, "all", 0, "", filenameOriginal, filenameMarkedup );
+    }
+
+
+    private fun saveImage() {
+        Log.d(TAG, "saveImage()");
+
+        //show the saving text on screen
+        _binding!!.savingTextView.visibility = View.VISIBLE;
+        _binding!!.savingTextView.invalidate();
+
+        //this should ideally never be true here
+        if(shot == null) {
+            initShot();
+        }
+
+        //add the Shot which was initialized in onCreate() to the Hole
+        hole.shots_tee.add(shot!!);
 
         // Create a new coroutine to move the execution off the UI thread
         GlobalScope.launch (Dispatchers.IO) {
 
             //save the markedup and original bitmap images to private app storage
-            _binding!!.shotView.saveCurrentBitmap(filenameMarkedup);
-            _binding!!.shotView.saveOriginalBitmap(filenameOriginal);
+            _binding!!.shotView.saveCurrentBitmap(shot!!.image_markedup);
+            _binding!!.shotView.saveOriginalBitmap(shot!!.image_original);
 
             //save the Hole json to the local model
             Log.d(TAG, "saveBitmapToModel()");
@@ -346,6 +361,20 @@ class CameraPageFragment : Fragment() {
 
     }
 
+    private fun editTextForShot() {
+        //show the edit note dialog?
+        val editNoteDialog = EditNoteDialogFragment(hole, shot!!, this);
+        editNoteDialog.show(childFragmentManager, EditNoteDialogFragment.TAG);
+    }
+
+    override fun onEditNoteSaved() {
+        setNoteText(shot!!.note);
+    }
+
+    fun setNoteText(note: String) {
+        _binding!!.shotNoteTextView.text = note;
+        _binding!!.shotNoteTextView.visibility = View.VISIBLE;
+    }
 
     /**
      * Frees the binding object when the Fragment is destroyed.
@@ -387,5 +416,6 @@ class CameraPageFragment : Fragment() {
                 }
             }.toTypedArray()
     }
+
 
 }

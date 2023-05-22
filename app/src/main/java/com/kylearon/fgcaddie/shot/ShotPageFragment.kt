@@ -67,6 +67,9 @@ class ShotPageFragment : Fragment() {
         //load the image into the ImageView using COIL
         _binding!!.shotImageView.load(Uri.parse(filepathURI));
 
+        //load the note into the TextView
+        _binding!!.shotNoteTextView.text = shot.note;
+
 
         // The usage of an interface lets you inject your own implementation
         val menuHost: MenuHost = requireActivity();

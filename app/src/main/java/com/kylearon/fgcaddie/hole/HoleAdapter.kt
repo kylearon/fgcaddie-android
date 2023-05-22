@@ -7,31 +7,40 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepath
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>() {
+class HoleAdapter(private val holeFromParam: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>() {
 
-    private var hole: Hole = hole;
+    private lateinit var hole: Hole;
 
     private var parentView: View? = null;
+
+    private var course: Course? = null;
+
+    init {
+        course = MainActivity.ServiceLocator.getCourseRepository().getCourse(holeFromParam.course_id);
+        hole = course!!.holes.first { it.guid == holeFromParam.guid }
+    }
 
     /**
      * Provides a reference for the views needed to display items in your list
      */
     class HoleViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val holePhotoImageView = view.findViewById<ImageView>(R.id.hole_photo_image_view);
+        val shotNoteTextView = view.findViewById<TextView>(R.id.shot_note_text_view);
     }
 
     /**
@@ -76,7 +85,11 @@ class HoleAdapter(hole: Hole) : RecyclerView.Adapter<HoleAdapter.HoleViewHolder>
 
 
         //load the file into the ImageView using COIL
-        holder.holePhotoImageView.load(Uri.parse(filepath));
+        holder.holePhotoImageView.load(Uri.parse(filepath))
+
+        //load the note for the shot
+        holder.shotNoteTextView.text = shot.note;
+
 
         //click listener to show the full shot image
         holder.holePhotoImageView.setOnClickListener {

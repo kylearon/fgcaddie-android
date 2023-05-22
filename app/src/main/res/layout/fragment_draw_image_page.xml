@@ -33,6 +33,21 @@
         />
 
 
+    <TextView
+        android:id="@+id/shot_note_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:text=""
+        android:background="@color/transparent_black"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        />
+
     <LinearLayout
         android:id="@+id/camera_buttons_layout"
         android:layout_width="wrap_content"
@@ -113,6 +128,14 @@
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
             >
+
+            <ImageButton
+                android:id="@+id/edit_text"
+                android:layout_width="@dimen/palette_button_width"
+                android:layout_height="@dimen/palette_button_height"
+                style="?android:attr/borderlessButtonStyle"
+                android:src="@drawable/baseline_text_fields_24"
+                />
 
             <ImageButton
                 android:id="@+id/pencil_undo"

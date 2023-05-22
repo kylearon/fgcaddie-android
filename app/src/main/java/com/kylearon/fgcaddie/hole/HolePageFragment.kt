@@ -1,13 +1,16 @@
 package com.kylearon.fgcaddie.hole
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.R
@@ -37,6 +40,7 @@ class HolePageFragment: Fragment() {
                 hole = Json.decodeFromString(holeJsonString);
             }
         }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -109,6 +113,14 @@ class HolePageFragment: Fragment() {
 
         val holeDistanceString = hole.length.toString() + " yds";
         binding.holeDistanceText.text = holeDistanceString;
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh or invalidate your data here
+
+        Log.i(TAG, "onResume()");
+        this.recyclerView.invalidate();
     }
 
     fun setHole(holeToSet: Hole) {

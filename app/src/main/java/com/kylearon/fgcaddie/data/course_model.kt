@@ -1,5 +1,6 @@
 package com.kylearon.fgcaddie.data
 
+import android.util.Log
 import com.kylearon.fgcaddie.utils.FileUtils.Companion.getDatetimeReadable
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -63,6 +64,19 @@ data class Hole(
             this.shots_putt.map { it.deepCopy() }.toMutableList()
         )
     }
+
+    /**
+     * Only updates the note. In the future could update more parts of the Shot model
+     */
+    fun updateShot(shot: Shot) {
+        val shotToUpdate = shots_tee.find { it.guid == shot.guid }
+
+        if(shotToUpdate != null) {
+            shotToUpdate!!.note = shot.note;
+        } else {
+            Log.i("Hole()", "ERROR no shot to update")
+        }
+    }
 }
 
 @Serializable
@@ -70,6 +84,7 @@ data class Shot(
     val guid: String,
     val type: String,
     val distance: Int,
+    var note: String = "",
     var image_original: String,
     var image_markedup: String,
 ) {
@@ -78,6 +93,7 @@ data class Shot(
             UUID.randomUUID().toString(),
             this.type,
             this.distance,
+            this.note,
             this.image_original,
             this.image_markedup
         )

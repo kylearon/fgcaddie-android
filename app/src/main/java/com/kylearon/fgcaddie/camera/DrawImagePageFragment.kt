@@ -20,19 +20,17 @@ import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.text.SimpleDateFormat
 import java.util.*
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.databinding.FragmentDrawImagePageBinding
 import com.kylearon.fgcaddie.utils.FileUtils
-import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepath
 import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilepathURI
 
 
 /**
  * Draw Image Page fragment.
  */
-class DrawImagePageFragment : Fragment() {
+class DrawImagePageFragment : Fragment(), EditNoteDialogFragment.EditNoteDialogListener {
 
     private lateinit var prevSelectedImageButton: ImageButton;
 
@@ -79,6 +77,9 @@ class DrawImagePageFragment : Fragment() {
                 backgroundImage = Bitmap.createBitmap(HD_IMAGE_WIDTH, HD_IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
                 val canvas = Canvas(backgroundImage);
                 canvas.drawColor(Color.WHITE);
+
+                //create a new shot object
+                initShot();
             }
         }
 
@@ -103,6 +104,9 @@ class DrawImagePageFragment : Fragment() {
         _binding!!.pencilColor3.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor4.setOnClickListener { setPencilColor(it) }
         _binding!!.pencilColor5.setOnClickListener { setPencilColor(it) }
+
+        //setup the listener for the edit text
+        _binding!!.editText.setOnClickListener { editTextForShot() }
 
         //select a button to start
         prevSelectedImageButton = _binding!!.pencilColor3;
@@ -132,6 +136,9 @@ class DrawImagePageFragment : Fragment() {
         //draw the background bitmap into the View
         _binding!!.drawableImageView.setBackgroundImage(backgroundImage!!);
 
+        //set the note from the saved data
+        _binding!!.shotNoteTextView.text = shot!!.note;
+
         return view;
     }
 
@@ -140,6 +147,22 @@ class DrawImagePageFragment : Fragment() {
     }
 
 
+    private fun initShot() {
+
+        //get a guid for this new shot
+        val shotGuid = UUID.randomUUID().toString();
+
+        //construct the image filenames
+        val filenameOriginal = FileUtils.constructImageFilename(shotGuid, FileUtils.SHOT_TYPE_ORIGINAL);
+        val filenameMarkedup = FileUtils.constructImageFilename(shotGuid, FileUtils.SHOT_TYPE_MARKEDUP);
+
+        //construct the Shot to use
+        shot = Shot(shotGuid, "all", 0, "", filenameOriginal, filenameMarkedup );
+
+        //add the shot?
+        hole.shots_tee.add(shot!!);
+    }
+
     private fun saveImage() {
         Log.d(TAG, "saveImage()");
 
@@ -147,64 +170,33 @@ class DrawImagePageFragment : Fragment() {
         _binding!!.savingTextView.visibility = View.VISIBLE;
         _binding!!.savingTextView.invalidate();
 
-        if(shot != null) {
-            //since the Shot already exists on the Hole object, we just need to save the bitmap
-            //we do not need to update the CourseRepository Hole storage like we do below for a new Shot drawing
-            val filename = shot!!.image_markedup;
+        val filename = shot!!.image_markedup;
+        
+        // Create a new coroutine to move the execution off the UI thread
+        GlobalScope.launch(Dispatchers.IO) {
+            //save the bitmap image to private app storage
+            _binding!!.drawableImageView.saveCurrentBitmap(filename);
 
-            // Create a new coroutine to move the execution off the UI thread
-            GlobalScope.launch(Dispatchers.IO) {
-                //save the bitmap image to private app storage
-                _binding!!.drawableImageView.saveCurrentBitmap(filename);
-            }.invokeOnCompletion {
-                //navigate back in the Main thread once the bitmap is done being saved to internal storage
-                runBlocking {
-                    withContext(Dispatchers.Main) {
-                        Log.d(TAG, "NAVIGATE BACK TO SHOT");
-                        //then navigate back once the image is saved to internal storage
-                        val action = DrawImagePageFragmentDirections.actionDrawImagePageFragmentToShotPageFragment(hole = Json.encodeToString(hole), shot = Json.encodeToString(shot));
-                        _binding!!.root.findNavController().navigate(action);
-                    }
-                }
-            }
+            //save the note to the model
+            shot!!.note = _binding!!.shotNoteTextView.text.toString();
 
-        }
-        else {
+            //make sure to overwrite the shot in the hole with the new note
+            hole.updateShot(shot!!);
 
-            //construct the image filename
-            val shotGuid = UUID.randomUUID().toString();
-            val filename = FileUtils.constructImageFilename(shotGuid, FileUtils.SHOT_TYPE_MARKEDUP);
-
-            //construct the Shot to add to the Hole model object
-            hole.shots_tee.add(Shot(shotGuid, "all", 0, filename, filename));
-
-            // Create a new coroutine to move the execution off the UI thread
-            GlobalScope.launch(Dispatchers.IO) {
-
-                //save the bitmap image to private app storage
-                _binding!!.drawableImageView.saveCurrentBitmap(filename);
-
-                //save the Hole json to the local model
-                Log.d(TAG, "saveBitmapToModel()");
-                MainActivity.ServiceLocator.getCourseRepository().updateHole(hole);
-
-            }.invokeOnCompletion {
-
-                //navigate back in the Main thread once the bitmap is done being saved to internal storage
-                runBlocking {
-                    withContext(Dispatchers.Main) {
-                        Log.d(TAG, "NAVIGATE BACK");
-                        //then navigate back once the image is saved to internal storage
-                        val action =
-                            DrawImagePageFragmentDirections.actionDrawImagePageFragmentToHolePageFragment(
-                                hole = Json.encodeToString(hole)
-                            );
-                        _binding!!.root.findNavController().navigate(action);
-                    }
+            //save the Hole json to the local model
+            Log.d(TAG, "saveBitmapToModel()");
+            MainActivity.ServiceLocator.getCourseRepository().updateHole(hole);
+        }.invokeOnCompletion {
+            //navigate back in the Main thread once the bitmap is done being saved to internal storage
+            runBlocking {
+                withContext(Dispatchers.Main) {
+                    Log.d(TAG, "NAVIGATE BACK TO SHOT");
+                    //then navigate back once the image is saved to internal storage
+                    val action = DrawImagePageFragmentDirections.actionDrawImagePageFragmentToShotPageFragment(hole = Json.encodeToString(hole), shot = Json.encodeToString(shot));
+                    _binding!!.root.findNavController().navigate(action);
                 }
             }
         }
-
     }
 
 
@@ -247,6 +239,24 @@ class DrawImagePageFragment : Fragment() {
     }
 
 
+    private fun editTextForShot() {
+        //show the edit note dialog?
+        val editNoteDialog = EditNoteDialogFragment(hole, shot!!, this);
+        editNoteDialog.show(childFragmentManager, EditNoteDialogFragment.TAG);
+
+    }
+
+
+    override fun onEditNoteSaved() {
+        setNoteText(shot!!.note);
+    }
+
+
+    fun setNoteText(note: String) {
+        _binding!!.shotNoteTextView.text = note;
+        _binding!!.shotNoteTextView.visibility = View.VISIBLE;
+    }
+
     /**
      * Frees the binding object when the Fragment is destroyed.
      */
@@ -258,5 +268,6 @@ class DrawImagePageFragment : Fragment() {
     companion object {
         private const val TAG = "DrawImagePageFragment"
     }
+
 
 }
