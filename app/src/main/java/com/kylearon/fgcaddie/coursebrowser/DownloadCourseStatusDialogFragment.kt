@@ -60,11 +60,13 @@ class DownloadCourseStatusDialogFragment()  : DialogFragment() {
     }
 
     fun finishImagesDownloadedStatus() {
-        dialogView!!.findViewById<TextView>(R.id.course_images_message).text = getString(R.string.download_course_images_success_message);
-        val progressBar = dialogView!!.findViewById<ProgressBar>(R.id.loading_progress_bar);
-        progressBar.progress = 100;
+        if(isAdded) {
+            dialogView!!.findViewById<TextView>(R.id.course_images_message).text = getString(R.string.download_course_images_success_message);
+            val progressBar = dialogView!!.findViewById<ProgressBar>(R.id.loading_progress_bar);
+            progressBar.progress = 100;
 
-        this.dismiss();
+            this.dismiss();
+        }
     }
 
     companion object {
