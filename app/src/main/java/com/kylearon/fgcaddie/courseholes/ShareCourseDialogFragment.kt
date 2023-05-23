@@ -1,5 +1,6 @@
 package com.kylearon.fgcaddie.courseholes
 
+import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -78,12 +80,15 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                         Log.d(TAG, " the course password is: " + coursePasswordString);
                         course!!.password = coursePasswordString;
 
-                        //show the loading bar
+                        //hide the previous layout elements
                         dialogView.findViewById<LinearLayout>(R.id.course_password_input_layout).visibility = View.GONE;
                         dialogView.findViewById<LinearLayout>(R.id.course_tag_input_layout).visibility = View.GONE;
-                        dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.VISIBLE;
-                        dialogView.findViewById<TextView>(R.id.course_json_message).visibility = View.VISIBLE;
                         dialogView.findViewById<TextView>(R.id.share_course_dialog_title).visibility = View.GONE;
+
+                        //show the loading bar and status message
+                        dialogView.findViewById<TextView>(R.id.course_json_message).visibility = View.VISIBLE;
+                        dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.VISIBLE;
+
 
                         //create the course json to send
                         var courseJson = Json.encodeToString(course);
@@ -179,6 +184,13 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                                                                 dialogView.findViewById<TextView>(R.id.course_images_message).text = "Uploading $imageCount course images please wait...";
                                                             }
                                                         }
+
+                                                        //Set the animation progress bar going. estimate 1500ms per image for now
+                                                        val duration = (imageCount * 1500).toLong();
+                                                        val progressBar = dialogView.findViewById<ProgressBar>(R.id.loading_progress_bar);
+                                                        ObjectAnimator.ofInt(progressBar, "progress", 100)
+                                                            .setDuration(duration)
+                                                            .start()
 
                                                     },
                                                     boundary = "WebAppBoundary"
