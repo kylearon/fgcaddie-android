@@ -56,6 +56,8 @@
 
     <string name="rename_course_message">Rename Course</string>
 
+    <string name="hole_note">Hole Note:</string>
+
     <string name="confirm_delete_course_message">This will DELETE the Course. Are you sure?</string>
     <string name="confirm_delete_shot_message">This will DELETE the Shot. Are you sure?</string>
     <string name="confirm_share_course_message">Upload this Course for sharing.</string>
