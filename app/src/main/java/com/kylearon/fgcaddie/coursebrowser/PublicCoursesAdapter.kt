@@ -1,18 +1,23 @@
 package com.kylearon.fgcaddie.coursebrowser
 
+import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.camera.EditNoteDialogFragment
 import com.kylearon.fgcaddie.courseholes.CourseHolesPageFragmentDirections
 import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Courses
@@ -97,6 +102,11 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
         }
 
         holder.downloadClickable.setOnClickListener{
+
+            //show a status dialog
+            val downloadStatusDialog = DownloadCourseStatusDialogFragment();
+            downloadStatusDialog.show(fragmentActivity.supportFragmentManager, TAG);
+
             //download the course json
             (fragmentActivity as AppCompatActivity).lifecycleScope.launch {
                 try {
@@ -141,6 +151,10 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
                 }
             }.invokeOnCompletion {
 
+                //show the status in the dialog
+                downloadStatusDialog.showImagesDownloadStatus();
+
+
                 //download the images for this course json
                 (fragmentActivity as AppCompatActivity).lifecycleScope.launch {
                     if(downloadedCourseJson != null) {
@@ -148,9 +162,12 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
                         getImages(downloadedCourseJson!!);
                     }
                 }.invokeOnCompletion {
+
+                    downloadStatusDialog.finishImagesDownloadedStatus();
+
                     //navigate back to courses page
-                    val action = CourseBrowserFragmentDirections.actionCourseBrowserPageFragmentToCourseNotesPageFragment();
-                    parentView!!.findNavController().navigate(action);
+//                    val action = CourseBrowserFragmentDirections.actionCourseBrowserPageFragmentToCourseNotesPageFragment();
+//                    parentView!!.findNavController().navigate(action);
                 }
 
             }

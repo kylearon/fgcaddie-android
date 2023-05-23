@@ -72,6 +72,12 @@
     <string name="upload_course_json_failed_message">Course json upload failed.</string>
     <string name="upload_course_images_failed_message">Course images upload failed.</string>
 
+
+    <string name="download_course_json_pending_message">Downloading course images please wait...</string>
+    <string name="download_course_images_pending_message">Downloading course images please wait...</string>
+    <string name="download_course_json_success_message">Course json download succeeded.</string>
+    <string name="download_course_images_success_message">Course images download succeeded.</string>
+
     <string name="tab_public">Public</string>
     <string name="tab_private">Private</string>
 
