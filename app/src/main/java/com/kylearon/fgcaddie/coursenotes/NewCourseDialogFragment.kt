@@ -62,7 +62,7 @@ class NewCourseDialogFragment(parentView: RecyclerView) : DialogFragment() {
                     val currentDate = getDatetimeReadable();
 
                     //create the new course
-                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, creator, currentDate, "", "", ArrayList<Hole>());
+                    val newCourse = Course(UUID.randomUUID().toString(), courseNameString, creator, currentDate, "", "", "", "", ArrayList<Hole>());
 
                     //init each hole for the new course
                     for(i in 1 .. holesNumber) {

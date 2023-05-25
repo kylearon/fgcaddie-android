@@ -25,6 +25,8 @@ data class Course(
     val date_created: String = "default date",
     var password: String = "",  //only set the password before POSTing this object to the server to password-protect it
     var tag: String = "",
+    var color: String = "",
+    var image: String = "",
     val holes: MutableList<Hole> = ArrayList()
 ) {
     fun deepCopy(): Course {
@@ -36,6 +38,8 @@ data class Course(
             getDatetimeReadable(),
             this.password,
             this.tag,
+            this.color,
+            this.image,
             this.holes.map { it.deepCopy(newCourseGuid) }.toMutableList()
         )
     }
