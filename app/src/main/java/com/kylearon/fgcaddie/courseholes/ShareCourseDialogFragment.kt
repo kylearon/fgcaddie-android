@@ -58,6 +58,10 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                 .setPositiveButton(R.string.ok, null)
                 .create();
 
+            //put the current tag into the dialog if it exists
+            dialogView.findViewById<EditText>(R.id.course_tag_input).setText(course!!.tag);
+            
+
             dialog.setOnShowListener {
                 val button: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 button.setOnClickListener {
