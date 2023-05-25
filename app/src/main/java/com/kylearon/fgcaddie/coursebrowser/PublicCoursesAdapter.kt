@@ -130,7 +130,7 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
 
                     //update the creator name trail
                     val creator = MainActivity.ServiceLocator.getSettingsRepository().getSettings()!!.user_name;
-                    courseWithNewGuids.creator += " -> " + creator;
+                    courseWithNewGuids.creator = creator;
 
                     //add the Course with new guids to the CourseRepository
                     MainActivity.ServiceLocator.getCourseRepository().addCourse(courseWithNewGuids);
