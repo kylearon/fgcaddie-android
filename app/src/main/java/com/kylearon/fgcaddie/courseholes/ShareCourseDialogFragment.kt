@@ -25,7 +25,10 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 import java.io.File
 
 class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment() {
@@ -61,6 +64,9 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                     // Your code here
                     // The dialog won't dismiss unless you call dialog.dismiss()
 
+                    //hide the ok button
+                    button.visibility = View.GONE;
+
                     if(loading)
                     {
                         //dismiss the dialog
@@ -95,137 +101,7 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
                         Log.i(TAG, "SENDING courseJson");
                         Log.i(TAG, courseJson);
 
-
-                        //send the course json to the backend
-                        (requireActivity() as AppCompatActivity).lifecycleScope.launch {
-                            try {
-
-                                //set this as loading
-                                loading = true;
-
-                                val responseForPOSTJson: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-                                    url {
-                                        protocol = URLProtocol.HTTPS
-                                        host = MainActivity.StaticVals.RAILWAY_URL
-                                        path("api/course")
-                                        parameters.append("api-key", "android")
-                                    }
-
-                                    //add body
-                                    contentType(ContentType.Application.Json);
-                                    setBody(courseJson);
-                                }
-
-                                Log.i(TAG, "Response status: ${responseForPOSTJson.status}")
-                                Log.i(TAG, "Response body: ${responseForPOSTJson.bodyAsText()}")
-
-                                when(responseForPOSTJson.status) {
-                                    HttpStatusCode.Created -> {
-
-                                        //update the status messages
-                                        dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_success_message);
-                                        dialogView.findViewById<TextView>(R.id.course_images_message).visibility = View.VISIBLE;
-
-                                        Log.i(TAG, "Uploading images to backend now that Course upload has succeeded.");
-
-                                        try {
-                                            val responseForPOSTImages: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
-                                                url {
-                                                    protocol = URLProtocol.HTTPS
-                                                    host = MainActivity.StaticVals.RAILWAY_URL
-                                                    path("api/images")
-                                                    parameters.append("api-key", "android")
-                                                }
-                                                setBody(MultiPartFormDataContent(
-                                                    formData {
-                                                        // append("description", "images from android app")
-
-                                                        var imageCount = 0;
-
-                                                        //append each shot from each hole
-                                                        course?.holes?.forEach {hole ->
-
-                                                            hole.shots_tee?.forEach { shot ->
-
-                                                                //construct the filepaths and get the files
-                                                                val filepathOriginal = getPrivateAppStorageFilepath(shot.image_original);
-                                                                val filepathMarkedup = getPrivateAppStorageFilepath(shot.image_markedup);
-
-                                                                Log.i(TAG, "Adding file to POST: " + filepathOriginal);
-                                                                Log.i(TAG, "Adding file to POST: " + filepathMarkedup);
-
-                                                                //append the shot image bytes to the images form data list
-                                                                append(
-                                                                    "images",
-                                                                    File(filepathOriginal).readBytes(),
-                                                                    Headers.build {
-                                                                        append(HttpHeaders.ContentType, "image/png")
-                                                                        append(
-                                                                            HttpHeaders.ContentDisposition,
-                                                                            "filename=${shot.image_original}"
-                                                                        )
-                                                                    }
-                                                                )
-
-                                                                append(
-                                                                    "images",
-                                                                    File(filepathMarkedup).readBytes(),
-                                                                    Headers.build {
-                                                                        append(HttpHeaders.ContentType, "image/png")
-                                                                        append(
-                                                                            HttpHeaders.ContentDisposition,
-                                                                            "filename=${shot.image_markedup}"
-                                                                        )
-                                                                    }
-                                                                )
-
-                                                                //update the status message with how many images are being uploaded
-                                                                imageCount = imageCount + 2;
-                                                                dialogView.findViewById<TextView>(R.id.course_images_message).text = "Uploading $imageCount course images please wait...";
-                                                            }
-                                                        }
-
-                                                        //Set the animation progress bar going. estimate 1500ms per image for now
-                                                        val duration = (imageCount * 1500).toLong();
-                                                        val progressBar = dialogView.findViewById<ProgressBar>(R.id.loading_progress_bar);
-                                                        ObjectAnimator.ofInt(progressBar, "progress", 100)
-                                                            .setDuration(duration)
-                                                            .start()
-
-                                                    },
-                                                    boundary = "WebAppBoundary"
-                                                )
-                                                )
-                                            }
-
-                                            Log.i(TAG, "Response status: ${responseForPOSTImages.status}");
-                                            Log.i(TAG, "Response body: ${responseForPOSTImages.bodyAsText()}");
-
-                                            //update status messages
-                                            dialogView.findViewById<TextView>(R.id.course_images_message).text = requireContext().getString(R.string.upload_course_images_success_message);
-                                            dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
-
-                                        } catch (e: Exception) {
-                                            Log.e(TAG, e.localizedMessage)
-                                        }
-
-                                    }
-                                    HttpStatusCode.BadRequest -> {
-
-                                        Log.i(TAG, "BAD REQUEST");
-
-                                        //update the status messages
-                                        dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_failed_message) + " \n" + responseForPOSTJson.bodyAsText();
-                                        dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
-                                    }
-
-                                }
-
-                            } catch (e: Exception) {
-                                Log.e(TAG, e.localizedMessage)
-                                loading = false;
-                            }
-                        }
+                        uploadCourse(dialogView, dialog, courseJson, "false");
 
                     }
 
@@ -235,6 +111,194 @@ class ShareCourseDialogFragment(courseId: String, view: View) : DialogFragment()
             return dialog;
 
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun uploadCourse(dialogView: View, dialog: Dialog, courseJson: String, overwrite: String) {
+
+        //send the course json to the backend
+        (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+            try {
+
+                //set this as loading
+                loading = true;
+
+                val responseForPOSTJson: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                    url {
+                        protocol = URLProtocol.HTTPS
+                        host = MainActivity.StaticVals.RAILWAY_URL
+                        path("api/course")
+                        parameters.append("api-key", "android")
+                        parameters.append("overwrite", overwrite)
+                    }
+
+                    //add body
+                    contentType(ContentType.Application.Json);
+                    setBody(courseJson);
+                }
+
+                Log.i(TAG, "Response status: ${responseForPOSTJson.status}")
+                Log.i(TAG, "Response body: ${responseForPOSTJson.bodyAsText()}")
+
+                when(responseForPOSTJson.status) {
+                    HttpStatusCode.Created -> {
+
+                        if(isAdded) {
+                            //update the status messages
+                            dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_success_message);
+                            dialogView.findViewById<TextView>(R.id.course_images_message).visibility = View.VISIBLE;
+                        }
+
+                        Log.i(TAG, "Uploading images to backend now that Course upload has succeeded.");
+                        uploadImages(dialogView);
+                    }
+                    HttpStatusCode.BadRequest -> {
+
+                        Log.i(TAG, "BAD REQUEST");
+
+                        if(isAdded) {
+
+                            val jsonElement: JsonElement = Json.parseToJsonElement(responseForPOSTJson.bodyAsText());
+                            if (jsonElement is JsonObject) {
+                                // Use it as JsonObject
+                                val jsonObject = jsonElement as JsonObject;
+                                println(jsonObject["error"]);
+
+                                val errorMessage = jsonObject["error"].toString();
+
+                                //update the status messages for know body
+                                dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_failed_message) + "\n\n" + errorMessage;
+                                dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
+
+                                if(errorMessage.contains("GUID already exists")) {
+                                    //ask if want to push anyhow
+                                    dialogView.findViewById<LinearLayout>(R.id.force_upload_layout).visibility = View.VISIBLE;
+
+                                    //listen for buttons
+                                    dialogView.findViewById<Button>(R.id.yes_button).setOnClickListener {
+
+                                        //hide the force upload messages
+                                        dialogView.findViewById<LinearLayout>(R.id.force_upload_layout).visibility = View.GONE;
+                                        dialogView.findViewById<TextView>(R.id.course_images_message).visibility = View.GONE;
+
+                                        //force the upload by adding the overwrite param to the url
+                                        (requireActivity() as AppCompatActivity).lifecycleScope.launch {
+                                            uploadCourse(dialogView, dialog, courseJson, "true");
+                                        }
+                                    }
+
+                                    dialogView.findViewById<Button>(R.id.no_button).setOnClickListener {
+                                        //dismiss the dialog
+                                        dialog.dismiss();
+                                    }
+                                }
+                            }
+                            else {
+                                //update the status messages for unknown body
+                                dialogView.findViewById<TextView>(R.id.course_json_message).text = requireContext().getString(R.string.upload_course_json_failed_message) + "\n\n" + responseForPOSTJson.bodyAsText();
+                                dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
+                            }
+
+                        }
+                    }
+
+                }
+
+            } catch (e: Exception) {
+                Log.e(TAG, e.localizedMessage)
+                loading = false;
+            }
+        }
+    }
+
+    private suspend fun uploadImages(dialogView: View) {
+
+        try {
+            val responseForPOSTImages: HttpResponse = MainActivity.ServiceLocator.getHttpClient().post {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = MainActivity.StaticVals.RAILWAY_URL
+                    path("api/images")
+                    parameters.append("api-key", "android")
+                }
+                setBody(MultiPartFormDataContent(
+                    formData {
+                        // append("description", "images from android app")
+
+                        var imageCount = 0;
+
+                        //append each shot from each hole
+                        course?.holes?.forEach {hole ->
+
+                            hole.shots_tee?.forEach { shot ->
+
+                                //construct the filepaths and get the files
+                                val filepathOriginal = getPrivateAppStorageFilepath(shot.image_original);
+                                val filepathMarkedup = getPrivateAppStorageFilepath(shot.image_markedup);
+
+                                Log.i(TAG, "Adding file to POST: " + filepathOriginal);
+                                Log.i(TAG, "Adding file to POST: " + filepathMarkedup);
+
+                                //append the shot image bytes to the images form data list
+                                append(
+                                    "images",
+                                    File(filepathOriginal).readBytes(),
+                                    Headers.build {
+                                        append(HttpHeaders.ContentType, "image/png")
+                                        append(
+                                            HttpHeaders.ContentDisposition,
+                                            "filename=${shot.image_original}"
+                                        )
+                                    }
+                                )
+
+                                append(
+                                    "images",
+                                    File(filepathMarkedup).readBytes(),
+                                    Headers.build {
+                                        append(HttpHeaders.ContentType, "image/png")
+                                        append(
+                                            HttpHeaders.ContentDisposition,
+                                            "filename=${shot.image_markedup}"
+                                        )
+                                    }
+                                )
+
+                                //update the status message with how many images are being uploaded
+                                imageCount = imageCount + 2;
+                                if(isAdded) {
+                                    dialogView.findViewById<TextView>(R.id.course_images_message).text = "Uploading $imageCount course images please wait...";
+                                }
+                            }
+                        }
+
+                        if(isAdded) {
+                            //Set the animation progress bar going. estimate 1500ms per image for now
+                            val duration = (imageCount * 1500).toLong();
+                            val progressBar = dialogView.findViewById<ProgressBar>(R.id.loading_progress_bar);
+                            ObjectAnimator.ofInt(progressBar, "progress", 100)
+                                .setDuration(duration)
+                                .start()
+                        }
+
+                    },
+                    boundary = "WebAppBoundary"
+                )
+                )
+            }
+
+            Log.i(TAG, "Response status: ${responseForPOSTImages.status}");
+            Log.i(TAG, "Response body: ${responseForPOSTImages.bodyAsText()}");
+
+            if(isAdded) {
+                //update status messages
+                dialogView.findViewById<TextView>(R.id.course_images_message).text = requireContext().getString(R.string.upload_course_images_success_message);
+                dialogView.findViewById<RelativeLayout>(R.id.loading_progress_bar_layout).visibility = View.GONE;
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, e.localizedMessage)
+        }
+
     }
 
 

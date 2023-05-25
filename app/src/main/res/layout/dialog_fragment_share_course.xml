@@ -114,6 +114,59 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/force_upload_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="0dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="@string/force_upload"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="0dp"
+            android:paddingRight="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/yes_button"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:text="Yes"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                />
+
+            <Button
+                android:id="@+id/no_button"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:text="No"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>
 

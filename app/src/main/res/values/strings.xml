@@ -43,6 +43,8 @@
     <string name="password">Password</string>
     <string name="tag">Tag</string>
 
+    <string name="force_upload">Course already exists on server. Would you like to overwrite?</string>
+
     <string name="settings_title">Settings</string>
     <string name="user_name">User Name</string>
 
