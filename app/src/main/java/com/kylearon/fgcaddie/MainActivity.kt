@@ -34,9 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         private val httpClient = HttpClient() {
             install(HttpTimeout) {
-                requestTimeoutMillis = 60000
-                connectTimeoutMillis = 60000
-                socketTimeoutMillis  = 60000
+                //10 minutes
+                requestTimeoutMillis = 600000
+                connectTimeoutMillis = 600000
+                socketTimeoutMillis  = 600000
             }
         }
         fun getHttpClient() : HttpClient = httpClient;
