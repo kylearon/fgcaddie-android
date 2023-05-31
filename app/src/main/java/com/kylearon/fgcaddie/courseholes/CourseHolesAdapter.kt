@@ -73,7 +73,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
             return;
         }
 
-        val item: Hole = course!!.holes.get(position);
+        val item: Hole = course!!.holes[position];
         holder.holeButtonNumberTextView.text = item.hole_number.toString();
 
         //set the par string in the UI
@@ -87,7 +87,12 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         //hide the no photos message
         if(item.shots_tee.size > 0) {
             holder.noPhotosMessage.visibility = View.GONE;
+        } else {
+            holder.noPhotosMessage.visibility = View.VISIBLE;
         }
+
+        //clear the inner photos
+        holder.photosInnerRow.removeAllViews();
 
         //set the inner photos
         item.shots_tee.forEach { s ->
@@ -98,7 +103,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
             //put the photo into the inflated ImageView
             val imageViewLayout = LayoutInflater.from(holder.photosInnerRow.context).inflate(R.layout.mini_photo, holder.photosInnerRow, false);
             imageViewLayout.findViewById<ImageView>(R.id.mini_photo_image_view).load(Uri.parse(filepathURI));
-            holder.photosInnerRow.addView(imageViewLayout)
+            holder.photosInnerRow.addView(imageViewLayout);
         }
 
         // Assigns a [OnClickListener] to the LinearLayout contained in the [ViewHolder]
