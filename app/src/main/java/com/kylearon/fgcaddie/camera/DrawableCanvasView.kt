@@ -38,8 +38,14 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     private var currentX = 0f;
     private var currentY = 0f;
 
-    private var currentWidth = 0;
-    private var currentHeight = 0;
+    private var currentWidthDCV = 0;
+    private var currentHeightDCV = 0;
+
+    private var scaleWidthRatio = 0f;
+    private var scaleHeightRatio = 0f;
+
+    var offsetX = 0f;
+    var offsetY = 0f;
 
     private val drawColor = ResourcesCompat.getColor(resources, R.color.colorPaint, null);
 
@@ -90,23 +96,37 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
     //call this after a new backgroundImage bitmap is given to this ImageView to init the Canvas and scale it correctly
     private fun initScaledCanvas()
     {
+        //init a Canvas which will be used to draw the path into
         extraCanvas = Canvas(extraBitmap);
-        Log.d(TAG, "extraBitmap size: " + extraCanvas.width + " " + extraCanvas.height);
 
-        val scaleWidth = extraBitmap.width.toFloat() / currentWidth.toFloat();
-        val scaleHeight = extraBitmap.height.toFloat() / currentHeight.toFloat();
+        //calculate how much the ratio is to scale up the width or height to fit the DCV
+        scaleWidthRatio = extraBitmap.width.toFloat() / currentWidthDCV.toFloat();
+        scaleHeightRatio = extraBitmap.height.toFloat() / currentHeightDCV.toFloat();
 
-        extraCanvas.scale(scaleWidth, scaleHeight);
+        //whichever is the higher ratio is the axis which will be scaled to the full screen,
+        //so scale the canvas by this value on both axes and calculate the offset for the other axis
+        if(scaleWidthRatio > scaleHeightRatio) {
+            extraCanvas.scale(scaleWidthRatio, scaleWidthRatio);
+
+            val bitmapHeightInDCV = extraBitmap.height.toFloat() / scaleWidthRatio;
+            offsetY = (bitmapHeightInDCV - currentHeightDCV) / 2;
+
+        } else {
+            extraCanvas.scale(scaleHeightRatio, scaleHeightRatio);
+
+            val bitmapWidthInDCV = extraBitmap.width.toFloat() / scaleHeightRatio;
+            offsetX = (bitmapWidthInDCV - currentWidthDCV) / 2;
+        };
+
     }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int)
     {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
 
-        Log.d(TAG, "DCV size: " + width + " " + height);
-
-        currentWidth = width;
-        currentHeight = height;
+//        Log.d(TAG, "DCV size: " + width + " " + height);
+        currentWidthDCV = width;
+        currentHeightDCV = height;
 
         if (::extraBitmap.isInitialized) {
             extraBitmap.recycle();
@@ -114,13 +134,11 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
 
         if(backgroundBitmap != null) {
             extraBitmap = Bitmap.createBitmap(backgroundBitmap);
-            Log.d(TAG, "extraBitmap size: " + extraBitmap.width + " " + extraBitmap.height);
         } else {
             extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
 
         initScaledCanvas();
-
     }
 
     override fun onDraw(canvas: Canvas)
@@ -129,9 +147,13 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         this.setImageBitmap(extraBitmap);
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        motionTouchEventX = event.x;
-        motionTouchEventY = event.y;
+    override fun onTouchEvent(event: MotionEvent): Boolean
+    {
+//        Log.d(TAG, (event.x.toString() + " " + event.y.toString()))
+
+        //add any offsets calculated for the canvas in the DCV
+        motionTouchEventX = event.x + offsetX;
+        motionTouchEventY = event.y + offsetY;
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> touchStart();
@@ -141,8 +163,8 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         return true;
     }
 
-    private fun touchStart() {
-
+    private fun touchStart()
+    {
         //add a copy of the current bitmap to the undo stack
         val bitmap: Bitmap = Bitmap.createBitmap(extraBitmap);
         undoStack.push(bitmap);
@@ -156,7 +178,8 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
         currentY = motionTouchEventY;
     }
 
-    private fun touchMove() {
+    private fun touchMove()
+    {
         val dx = Math.abs(motionTouchEventX - currentX);
         val dy = Math.abs(motionTouchEventY - currentY);
         if (dx >= touchTolerance || dy >= touchTolerance) {
@@ -165,8 +188,6 @@ class DrawableCanvasView(context: Context, attrs: AttributeSet) : androidx.appco
             path.quadTo(currentX, currentY, (motionTouchEventX + currentX) / 2, (motionTouchEventY + currentY) / 2);
             currentX = motionTouchEventX;
             currentY = motionTouchEventY;
-
-//            Log.d(TAG, "touchMove() " + currentX + " " + currentY);
 
             // Draw the path in the extra bitmap to cache it.
             extraCanvas.drawPath(path, paint);
