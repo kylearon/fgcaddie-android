@@ -1,10 +1,13 @@
 package com.kylearon.fgcaddie.coursenotes
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.get
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.R
@@ -32,8 +35,24 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
     class CourseNotesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val layoutClickable = view.findViewById<LinearLayout>(R.id.course_notes_row_item);
         val courseLabel = view.findViewById<TextView>(R.id.course_label);
+
+        val coursePar = view.findViewById<TextView>(R.id.course_par);
+        val courseLength = view.findViewById<TextView>(R.id.course_length);
+
         val courseCreator = view.findViewById<TextView>(R.id.course_creator);
         val courseDate = view.findViewById<TextView>(R.id.course_date);
+
+        val scorecardFront = view.findViewById<LinearLayout>(R.id.scorecard_front);
+        val scorecardBack = view.findViewById<LinearLayout>(R.id.scorecard_back)
+
+        val holeNumberRowFront = view.findViewById<LinearLayout>(R.id.hole_number_row_front);
+        val holeNumberRowBack = view.findViewById<LinearLayout>(R.id.hole_number_row_back);
+
+        val parRowFront = view.findViewById<LinearLayout>(R.id.par_row_front);
+        val parRowBack = view.findViewById<LinearLayout>(R.id.par_row_back);
+
+        val lengthRowFront = view.findViewById<LinearLayout>(R.id.length_row_front);
+        val lengthRowBack = view.findViewById<LinearLayout>(R.id.length_row_back);
     }
 
     /**
@@ -47,7 +66,7 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
      * Create a new view using the row_item_view template
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseNotesViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.course_notes_row_item, parent, false);
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_course_notes_row, parent, false);
 
         view = layout;
 
@@ -59,9 +78,45 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
      */
     override fun onBindViewHolder(holder: CourseNotesViewHolder, position: Int) {
         val item: Course = courses.get(position);
+
+        if(item.holes.size == 9) {
+            //show both front and back scorecards
+            holder.scorecardBack.visibility = View.GONE;
+        }
+
+        //count the par and yards
+        var par = 0;
+        var length = 0;
+        var index = 0;
+
+        item.holes.forEach {
+            par += it.par;
+            length += it.length;
+
+            if(index < 9) {
+                (holder.parRowFront[index] as TextView).text = it.par.toString();
+                (holder.lengthRowFront[index] as TextView).text = it.length.toString();
+            } else if (index < 18) {
+                (holder.parRowBack[index - 9] as TextView).text = it.par.toString();
+                (holder.lengthRowBack[index -  9] as TextView).text = it.length.toString();
+            }
+
+            index++;
+        }
+
+
         holder.courseLabel.text = item.name;
+        holder.coursePar.text = "Par $par";
+        holder.courseLength.text = "$length yards";
         holder.courseCreator.text = item.creator;
         holder.courseDate.text = item.date_created;
+
+        if(item.color.length > 0) {
+            holder.courseLabel.setTextColor(Color.parseColor(item.color.toString()));
+            (holder.holeNumberRowFront.background as GradientDrawable).setColor(Color.parseColor(item.color.toString()));
+            (holder.holeNumberRowBack.background as GradientDrawable).setColor(Color.parseColor(item.color.toString()));
+        }
+
 
         // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
         holder.layoutClickable.setOnClickListener {
