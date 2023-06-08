@@ -200,10 +200,12 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
                 shot.image_markedup = newImageMarkedupFilename;
 
                 //get the image from the url
-                Log.i(TAG, "Downloading Image: " + imageOriginalUrl);
-                downloadAndSaveImageFromUrl(imageOriginalUrl, newImageOriginalFilename);
-                shot.image_original = newImageOriginalFilename;
+//                Log.i(TAG, "Downloading Image: " + imageOriginalUrl);
+//                downloadAndSaveImageFromUrl(imageOriginalUrl, newImageOriginalFilename);
+//                shot.image_original = newImageOriginalFilename;
+
             }
+
         }
 
     }
