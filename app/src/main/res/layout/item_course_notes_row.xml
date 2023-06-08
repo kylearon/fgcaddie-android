@@ -1,780 +1,786 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/course_notes_row_item"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:layout_margin="0dp"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:background="?attr/backgroundLinearLayout"
-    android:foreground="?android:attr/selectableItemBackground"
-    >
+    android:orientation="horizontal"
+    android:gravity="center_horizontal">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:id="@+id/course_notes_row_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:layout_margin="6dp"
-        android:orientation="horizontal"
-        android:weightSum="100"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:background="?attr/backgroundLinearLayout"
+        android:foreground="?android:attr/selectableItemBackground"
         >
-
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="0dp"
-            android:paddingRight="16dp"
-            android:orientation="vertical"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:layout_margin="6dp"
+            android:orientation="horizontal"
+            android:weightSum="100"
             >
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="@string/default_label"
-                android:textColor="@color/mfgc_blue"
-                android:id="@+id/course_label"
-                />
 
-
-            <LinearLayout
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                android:paddingLeft="0dp"
+                android:paddingRight="16dp"
+                android:orientation="vertical"
                 >
 
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:text="@string/default_label"
-                    android:textColor="@color/light_grey"
-                    android:id="@+id/course_par"
+                    android:textColor="@color/mfgc_blue"
+                    android:id="@+id/course_label"
                     />
 
-                <TextView
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:text="@string/default_label"
-                    android:textColor="@color/light_grey"
-                    android:id="@+id/course_length"
-                    />
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="@string/default_label"
+                        android:textColor="@color/light_grey"
+                        android:id="@+id/course_par"
+                        />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="@string/default_label"
+                        android:textColor="@color/light_grey"
+                        android:id="@+id/course_length"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:text="@string/default_label"
+                        android:textColor="@color/medium_grey"
+                        android:id="@+id/course_creator"
+                        />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:text="@string/default_label"
+                        android:textColor="@color/medium_grey"
+                        android:id="@+id/course_date"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:text="@string/default_label"
-                    android:textColor="@color/medium_grey"
-                    android:id="@+id/course_creator"
-                    />
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:text="@string/default_label"
-                    android:textColor="@color/medium_grey"
-                    android:id="@+id/course_date"
-                    />
-            </LinearLayout>
 
         </LinearLayout>
 
 
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:layout_margin="6dp"
-        android:orientation="horizontal"
-        android:id="@+id/scorecard_front"
-        >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:textSize="@dimen/scorecard_title_sp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="@dimen/scorecard_title_sp"
-                android:text="Hole" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/scorecard_title_sp"
-                android:textStyle="bold"
-                android:text="Par" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/scorecard_title_sp"
-                android:textStyle="bold"
-                android:text="Yards" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:layout_margin="6dp"
+            android:orientation="horizontal"
+            android:id="@+id/scorecard_front"
             >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/background_scorecard_holes"
-                android:id="@+id/hole_number_row_front"
+                android:orientation="vertical"
+                android:textSize="@dimen/scorecard_title_sp"
                 >
 
                 <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:text="1"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="@dimen/scorecard_title_sp"
+                    android:text="Hole" />
 
                 <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
+                    android:textSize="@dimen/scorecard_title_sp"
                     android:textStyle="bold"
-                    android:text="2" />
+                    android:text="Par" />
 
                 <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
+                    android:textSize="@dimen/scorecard_title_sp"
                     android:textStyle="bold"
-                    android:text="3" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="4" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="5" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="6" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="7" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="8" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:layout_marginRight="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="9" />
+                    android:text="Yards" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/par_row_front"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/hole_1_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    android:orientation="horizontal"
+                    android:background="@drawable/background_scorecard_holes"
+                    android:id="@+id/hole_number_row_front"
+                    >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:text="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="2" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="4" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="5" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="6" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="7" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="8" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:layout_marginRight="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="9" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/hole_2_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    android:id="@+id/par_row_front"
+                    android:orientation="horizontal"
+                    >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_1_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_2_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_3_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_4_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_5_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_6_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_7_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_8_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_9_par"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/hole_3_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    android:orientation="horizontal"
+                    android:id="@+id/length_row_front"
+                    >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_4_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_1_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="234" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_5_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_2_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="89" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_6_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_3_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="123" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_7_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_4_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="67" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_8_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_5_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="123" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_9_par"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_6_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="231" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_7_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="245" />
 
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_8_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="45" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/length_row_front"
-                >
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hole_9_length"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:text="125" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_1_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="234" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_2_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="89" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_3_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="123" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_4_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="67" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_5_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="123" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_6_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="231" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_7_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="245" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_8_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="45" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hole_9_length"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="125" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:layout_margin="6dp"
-        android:orientation="horizontal"
-        android:id="@+id/scorecard_back"
-        >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/scorecard_title_sp"
-                android:textStyle="bold"
-                android:text="Hole" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/scorecard_title_sp"
-                android:textStyle="bold"
-                android:text="Par" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/scorecard_title_sp"
-                android:textStyle="bold"
-                android:text="Yards" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:layout_margin="6dp"
+            android:orientation="horizontal"
+            android:id="@+id/scorecard_back"
             >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/background_scorecard_holes"
-                android:id="@+id/hole_number_row_back"
+                android:orientation="vertical"
                 >
 
                 <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
+                    android:textSize="@dimen/scorecard_title_sp"
                     android:textStyle="bold"
-                    android:text="10" />
+                    android:text="Hole" />
 
                 <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
+                    android:textSize="@dimen/scorecard_title_sp"
                     android:textStyle="bold"
-                    android:text="11" />
+                    android:text="Par" />
 
                 <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
+                    android:textSize="@dimen/scorecard_title_sp"
                     android:textStyle="bold"
-                    android:text="12" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="13" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="14" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="15" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="16" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="17" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:layout_marginRight="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="18" />
+                    android:text="Yards" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/par_row_back"
+                android:orientation="vertical"
                 >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    android:orientation="horizontal"
+                    android:background="@drawable/background_scorecard_holes"
+                    android:id="@+id/hole_number_row_back"
+                    >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="10" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="11" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="12" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="13" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="14" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="15" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="16" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="17" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:layout_marginRight="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="18" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    android:orientation="horizontal"
+                    android:id="@+id/par_row_back"
+                    >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/scorecard_spacing"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="3" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    android:orientation="horizontal"
+                    android:id="@+id/length_row_back"
+                    >
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="234" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="89" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="123" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="67" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="123" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/scorecard_spacing"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="3" />
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="231" />
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="245" />
 
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="45" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/length_row_back"
-                >
+                    <TextView
+                        android:layout_width="@dimen/scorecard_item_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/scorecard_yards_spacing"
+                        android:gravity="center"
+                        android:textSize="@dimen/scorecard_item_sp"
+                        android:textStyle="bold"
+                        android:text="125" />
 
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="234" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="89" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="123" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="67" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="123" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="231" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="245" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="45" />
-
-                <TextView
-                    android:layout_width="@dimen/scorecard_item_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/scorecard_yards_spacing"
-                    android:gravity="center"
-                    android:textSize="@dimen/scorecard_item_sp"
-                    android:textStyle="bold"
-                    android:text="125" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </LinearLayout>

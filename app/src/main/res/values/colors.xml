@@ -21,11 +21,13 @@
     <color name="light_grey">#878787</color>
     <color name="medium_grey">#535353</color>
 
+    <color name="layout_background_color_day">#FFFFFF</color>
     <color name="layout_background_color">#BBBBBB</color>
     <color name="transparent_black">#55000000</color>
 
 
-    <color name="button_bg_day">#7A7A7A</color>
+    <color name="button_bg_day">#DDDDDD</color>
+    <color name="button_bg_day_2">#7A7A7A</color>
     <color name="ll_button_bg_day">#222222</color>
 
     <color name="button_bg_night">#222222</color>

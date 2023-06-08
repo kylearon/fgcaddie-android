@@ -7,7 +7,7 @@
         <item name="android:statusBarColor" >@color/button_bg_day</item>
 
         <!-- background color -->
-        <item name="android:windowBackground">@color/layout_background_color</item>
+        <item name="android:windowBackground">@color/layout_background_color_day</item>
 
         <!-- Vector icon tint color -->
         <item name="vectorIconTint">@color/medium_grey</item>
