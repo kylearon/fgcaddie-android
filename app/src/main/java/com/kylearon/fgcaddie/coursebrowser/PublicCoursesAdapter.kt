@@ -163,6 +163,11 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
                     }
                 }.invokeOnCompletion {
 
+
+                    //save the json
+                    MainActivity.ServiceLocator.getCourseRepository().saveCourses();
+
+                    //finish the progress bar
                     downloadStatusDialog.finishImagesDownloadedStatus();
 
                     //navigate back to courses page

@@ -110,9 +110,9 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         courses = Json.decodeFromString(loadedText);
     }
 
-    private fun saveCourses() {
+    override fun saveCourses() {
         val jsonString = Json.encodeToString(courses);
-        Log.d(TAG, jsonString);
+        Log.d(TAG, "Saving courses");
 
         //write the file out to local storage
         val file = File(context.filesDir, "courses.json");

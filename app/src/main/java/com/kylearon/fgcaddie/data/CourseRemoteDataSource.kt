@@ -31,6 +31,8 @@ class CourseRemoteDataSource(
     fun updateCourseName(courseId: String, name: String) = courseApi.updateCourseName(courseId, name)
 
     fun updateHole(hole: Hole) = courseApi.updateHole(hole)
+
+    fun saveCourses() = courseApi.saveCourses()
 }
 
 // Makes course-related network synchronous requests.
@@ -48,4 +50,6 @@ interface CourseApi {
     fun updateCourseName(courseId:String, name: String)
 
     fun updateHole(hole: Hole)
+
+    fun saveCourses()
 }
