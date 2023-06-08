@@ -1,6 +1,7 @@
 package com.kylearon.fgcaddie.courseholes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
@@ -111,5 +112,9 @@ class CourseHolesPageFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val TAG = "CourseHolesPageFragment"
     }
 }

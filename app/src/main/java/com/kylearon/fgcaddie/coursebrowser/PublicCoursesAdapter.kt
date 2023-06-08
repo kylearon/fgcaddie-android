@@ -1,26 +1,18 @@
 package com.kylearon.fgcaddie.coursebrowser
 
-import android.animation.ObjectAnimator
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
-import com.kylearon.fgcaddie.camera.EditNoteDialogFragment
-import com.kylearon.fgcaddie.courseholes.CourseHolesPageFragmentDirections
 import com.kylearon.fgcaddie.data.Course
-import com.kylearon.fgcaddie.data.Courses
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -28,7 +20,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.*
 import java.net.HttpURLConnection
@@ -233,6 +224,8 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
 
             //create an empty file
             val file = File(fragmentActivity.filesDir, fileName);
+
+            Log.i(TAG, "Writing file: " + file.absolutePath);
 
             //create an output stream to the file
             val fileOutputStream = FileOutputStream(file);

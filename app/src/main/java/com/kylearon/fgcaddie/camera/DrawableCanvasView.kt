@@ -1,13 +1,10 @@
 package com.kylearon.fgcaddie.camera
 
-import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -15,9 +12,6 @@ import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
 import com.kylearon.fgcaddie.R
 import com.kylearon.fgcaddie.utils.BitmapUtils.Companion.saveBitmapToFileStorage
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.util.*
 
 
