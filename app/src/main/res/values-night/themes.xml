@@ -22,8 +22,8 @@
         <item name="backgroundLinearLayoutButton">@color/ll_button_bg_night</item>
 
 
-        <item name="colorPrimary">@color/mfgc_blue</item>
-        <item name="colorPrimaryDark">@color/mfgc_blue</item>
+        <item name="colorPrimary">@color/white_grey</item>
+        <item name="colorPrimaryDark">@color/white_grey</item>
         <item name="colorAccent">@color/mfgc_blue_bg</item>
     </style>
 
