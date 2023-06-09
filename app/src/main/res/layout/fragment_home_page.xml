@@ -10,24 +10,26 @@
 
     <Button
         android:id="@+id/course_notes_button"
-        android:layout_width="400dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Course Notes"
+        android:text="Courses"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
+        android:background="@drawable/background_hole_row"
         />
 
     <Button
         android:id="@+id/rules_button"
-        android:layout_width="400dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Rules"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
+        android:background="@drawable/background_hole_row"
     />
 
     <Button
@@ -39,6 +41,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
+        android:background="@drawable/background_hole_row"
         android:visibility="gone"
         />
 
@@ -51,6 +54,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
+        android:background="@drawable/background_hole_row"
         android:visibility="gone"
         />
 
