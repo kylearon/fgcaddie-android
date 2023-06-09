@@ -60,7 +60,7 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
      * Create a new view using the row_item_view template
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseHolesViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.hole_button_row_view, parent, false);
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_hole_button_row, parent, false);
         parentView = parent;
         return CourseHolesViewHolder(layout);
     }
