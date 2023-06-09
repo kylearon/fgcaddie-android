@@ -20,7 +20,6 @@ import kotlinx.serialization.json.Json
 class EditHoleDialogFragment(hole: Hole, recyclerView: RecyclerView, view: View) : DialogFragment() {
 
     private val hole: Hole = hole;
-    private val parentRecyclerView: RecyclerView = recyclerView;
     private val parentView: View = view;
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -35,10 +34,21 @@ class EditHoleDialogFragment(hole: Hole, recyclerView: RecyclerView, view: View)
 
             //listen to changes from the holes number ToggleGroup
             val buttonGroup = dialogView.findViewById<com.google.android.material.button.MaterialButtonToggleGroup>(R.id.parToggleButton);
+
+            //init the par button to the selected value
+            when (hole.par) {
+                3 -> buttonGroup.check(R.id.par_3);
+                4 -> buttonGroup.check(R.id.par_4);
+                5 -> buttonGroup.check(R.id.par_5);
+            }
+
             buttonGroup.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
                 // Respond to button selection
                 Log.d(TAG, " button: " + checkedId);
             }
+
+            //init the distance EditText
+            dialogView.findViewById<EditText>(R.id.distance_input).setText(hole.length.toString());
 
             //add the view to the dialog and create the dialog
             builder.setView(dialogView)
