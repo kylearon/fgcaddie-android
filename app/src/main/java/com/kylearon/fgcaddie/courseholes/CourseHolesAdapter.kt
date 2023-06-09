@@ -1,5 +1,7 @@
 package com.kylearon.fgcaddie.courseholes
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +20,6 @@ import com.kylearon.fgcaddie.utils.FileUtils.Companion.getPrivateAppStorageFilep
 import kotlinx.serialization.json.Json
 
 import kotlinx.serialization.encodeToString
-import java.io.File
 
 class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAdapter.CourseHolesViewHolder>() {
 
@@ -75,6 +76,10 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
 
         val item: Hole = course!!.holes[position];
         holder.holeButtonNumberTextView.text = item.hole_number.toString();
+
+        if(course!!.color.isNotEmpty()) {
+            (holder.holeButtonNumberTextView.background as GradientDrawable).setColor(Color.parseColor(course!!.color.toString()));
+        }
 
         //set the par string in the UI
         val parTextString = "Par " + item.par.toString();

@@ -27,6 +27,7 @@
         android:layout_marginRight="24dp"
         android:textSize="18sp"
         android:textStyle="normal"
+        android:textColor="@color/white"
         android:text=""
         android:background="@color/transparent_black"
         android:layout_alignParentTop="true"

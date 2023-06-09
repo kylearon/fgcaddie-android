@@ -30,7 +30,7 @@
     <color name="button_bg_day_2">#7A7A7A</color>
     <color name="ll_button_bg_day">#222222</color>
 
-    <color name="button_bg_night">#222222</color>
+    <color name="button_bg_night">#444444</color>
     <color name="ll_button_bg_night">#333333</color>
 
     <color name="success_button_fg_night">#51CA33</color>
