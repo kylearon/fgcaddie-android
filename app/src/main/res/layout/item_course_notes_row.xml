@@ -46,7 +46,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:text="@string/default_label"
-                    android:textColor="@color/mfgc_blue"
+                    android:textColor="?attr/vectorIconTint"
                     android:id="@+id/course_label"
                     />
 

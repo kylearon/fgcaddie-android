@@ -18,6 +18,7 @@
 
     <color name="mfgc_blue_bg">#8DB0C5</color>
 
+    <color name="white_grey">#DDDDDD</color>
     <color name="light_grey">#878787</color>
     <color name="medium_grey">#535353</color>
     <color name="dark_grey">#222222</color>

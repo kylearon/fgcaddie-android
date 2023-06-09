@@ -58,25 +58,25 @@
         <!-- Background color -->
         <item name="colorPrimary">@color/button_bg_night</item>
         <!-- Text color -->
-        <item name="colorOnPrimary">@color/mfgc_blue</item>
+        <item name="colorOnPrimary">@color/white_grey</item>
     </style>
 
     <style name="ThemeOverlay.App.Button.TextButton" parent="ThemeOverlay.Material3.Button.TextButton">
         <!-- Background color selected -->
-        <item name="colorSecondaryContainer">@color/mfgc_blue</item>
+        <item name="colorSecondaryContainer">@color/white_grey</item>
 
         <!-- Text color selected -->
         <item name="colorOnSecondaryContainer">@color/medium_grey</item>
 
         <!-- Text color not selected-->
-        <item name="colorOnSurface">@color/mfgc_blue</item>
+        <item name="colorOnSurface">@color/light_grey</item>
     </style>
 
     <style name="ThemeOverlay.App.Button.OutlinedButton" parent="ThemeOverlay.Material3.Button.TextButton">
         <!-- Background color -->
         <item name="colorOnSurface">@color/button_bg_night</item>
         <!-- Text color -->
-        <item name="colorPrimary">@color/mfgc_blue</item>
+        <item name="colorPrimary">@color/white_grey</item>
     </style>
 
 </resources>
