@@ -55,7 +55,6 @@ class HolePageFragment: Fragment() {
         return view;
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         recyclerView = binding.recyclerView;
