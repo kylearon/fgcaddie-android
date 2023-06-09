@@ -12,8 +12,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     >
 
-
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -28,6 +26,7 @@
             android:textStyle="bold"
             android:textAlignment="center"
             android:gravity="center"
+            android:textColor="@color/white"
             android:background="@drawable/background_hole_number"
             android:text="8"
             />
