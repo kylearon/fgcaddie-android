@@ -67,7 +67,7 @@ open class PublicCoursesAdapter(fragmentActivity: FragmentActivity) : RecyclerVi
      * Create a new view using the row_item_view template
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicCoursesViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.course_browser_row_item, parent, false);
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_course_browser_row, parent, false);
 
         parentView = parent;
         view = layout;
