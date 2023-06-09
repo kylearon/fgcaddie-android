@@ -9,42 +9,63 @@
     tools:context=".hole.HolePageFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:orientation="horizontal"
-        >
+        android:layout_gravity="center"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
 
         <TextView
             android:id="@+id/hole_number_text"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
+            android:text="@string/hole_title"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/hole_title" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/hole_par_text"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
+            android:text="@string/par"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/par" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/hole_distance_text"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
+            android:text="@string/distance"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/distance" />
+            android:textStyle="bold" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prev_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="Prev Hole" />
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next Hole" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

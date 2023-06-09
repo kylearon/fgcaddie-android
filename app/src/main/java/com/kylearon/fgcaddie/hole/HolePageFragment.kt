@@ -8,12 +8,12 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kylearon.fgcaddie.MainActivity
 import com.kylearon.fgcaddie.R
+import com.kylearon.fgcaddie.data.Course
 import com.kylearon.fgcaddie.data.Hole
 import com.kylearon.fgcaddie.databinding.FragmentHolePageBinding
 import kotlinx.serialization.decodeFromString
@@ -30,15 +30,20 @@ class HolePageFragment: Fragment() {
 
     private lateinit var hole: Hole
 
+    private var course: Course? = null;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
 
         //retrieve the hole from the Fragment arguments
         arguments?.let {
+
             val holeJsonString = it.getString("hole");
             if(holeJsonString != null) {
                 hole = Json.decodeFromString(holeJsonString);
+                course = MainActivity.ServiceLocator.getCourseRepository().getCourse(hole.course_id);
             }
+
         }
 
     }
@@ -61,6 +66,7 @@ class HolePageFragment: Fragment() {
         val menuHost: MenuHost = requireActivity();
 
         //set the name of the page
+//        val title = "Hole " + hole!!.hole_number.toString() + " Par " + hole!!.par + " " + hole!!.length + " yds";
         (activity as? AppCompatActivity)?.supportActionBar?.title =  "Hole " + hole!!.hole_number.toString();
 
         // Add menu items without using the Fragment Menu APIs
@@ -105,14 +111,42 @@ class HolePageFragment: Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val holeTextString = "Hole: " + hole.hole_number;
+        val holeTextString = "Hole " + hole.hole_number;
         binding.holeNumberText.text = holeTextString;
 
-        val holeParString = "Par: " + hole.par;
+        val holeParString = "Par " + hole.par;
         binding.holeParText.text = holeParString;
 
         val holeDistanceString = hole.length.toString() + " yds";
         binding.holeDistanceText.text = holeDistanceString;
+
+        binding.prevButton.setOnClickListener {
+            //only scroll to prev hole if not at the start
+            if(hole.hole_number - 2 >= 0) {
+                val nextHoleIndex = hole.hole_number - 2;
+                val nextHole = course!!.holes[nextHoleIndex];
+
+                Log.i(TAG, "going back to hole index " + nextHoleIndex);
+
+                val action = HolePageFragmentDirections.actionHolePageFragmentSelf(hole = Json.encodeToString(nextHole))
+                it.findNavController().navigate(action);
+            }
+        }
+
+        binding.nextButton.setOnClickListener {
+            //only scroll to next hole if not at the end
+            if(hole.hole_number < course!!.holes.size) {
+
+                val nextHoleIndex = hole.hole_number;
+                val nextHole = course!!.holes[nextHoleIndex];
+
+                Log.i(TAG, "going forward to hole index " + nextHoleIndex);
+
+                val action = HolePageFragmentDirections.actionHolePageFragmentSelf(hole = Json.encodeToString(nextHole))
+                it.findNavController().navigate(action);
+            }
+        }
+
     }
 
     override fun onResume() {
@@ -138,4 +172,5 @@ class HolePageFragment: Fragment() {
     companion object {
         private const val TAG = "HolePageFragment"
     }
+
 }

@@ -111,10 +111,14 @@ class CourseNotesAdapter : RecyclerView.Adapter<CourseNotesAdapter.CourseNotesVi
         holder.courseCreator.text = item.creator;
         holder.courseDate.text = item.date_created;
 
-        if(item.color.length > 0) {
+        if(item.color.isNotEmpty()) {
             holder.courseLabel.setTextColor(Color.parseColor(item.color.toString()));
             (holder.holeNumberRowFront.background as GradientDrawable).setColor(Color.parseColor(item.color.toString()));
             (holder.holeNumberRowBack.background as GradientDrawable).setColor(Color.parseColor(item.color.toString()));
+        } else {
+            holder.courseLabel.setTextColor(Color.parseColor("#535353"));
+            (holder.holeNumberRowFront.background as GradientDrawable).setColor(Color.parseColor("#535353"));
+            (holder.holeNumberRowBack.background as GradientDrawable).setColor(Color.parseColor("#535353"));
         }
 
 
