@@ -93,10 +93,12 @@ class CourseHolesPageFragment: Fragment() {
                     R.id.action_rename_course -> {
 
                         //show a dialog
-                        val renameCourseDialog = RenameCourseDialogFragment(courseId);
+                        val editCourseDialog = EditCourseDialogFragment(courseId, recyclerView.adapter as CourseHolesAdapter);
 
-                        //call rename course
-                        renameCourseDialog.show(childFragmentManager, RenameCourseDialogFragment.TAG);
+                        recyclerView.adapter as CourseHolesAdapter
+
+                        //call edit course
+                        editCourseDialog.show(childFragmentManager, EditCourseDialogFragment.TAG);
 
                         true
                     }

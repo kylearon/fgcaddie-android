@@ -71,6 +71,14 @@ class LocalCourseApiImpl(context: Context) : CourseApi{
         saveCourses();
     }
 
+    override fun updateCourseColor(courseId: String, color: String) {
+        val course = courses.courses.find { c -> c.guid.equals(courseId) }
+        if(course != null) {
+            course.color = color;
+        }
+        saveCourses();
+    }
+
     override fun updateHole(hole: Hole) {
         Log.d(TAG, "updateHole()");
 

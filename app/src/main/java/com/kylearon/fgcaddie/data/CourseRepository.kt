@@ -18,6 +18,8 @@ class CourseRepository(
 
     fun updateCourseName(courseId: String, name: String) = courseRemoteDataSource.updateCourseName(courseId, name);
 
+    fun updateCourseColor(courseId: String, color: String) = courseRemoteDataSource.updateCourseColor(courseId, color);
+
     fun updateHole(hole: Hole) = courseRemoteDataSource.updateHole(hole);
 
     fun saveCourses() = courseRemoteDataSource.saveCourses();

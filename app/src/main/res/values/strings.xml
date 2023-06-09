@@ -57,6 +57,8 @@
     <string name="take_photo">Take Photo</string>
 
     <string name="rename_course_message">Rename Course</string>
+    <string name="course_name_message">Name</string>
+    <string name="course_color_message">Color</string>
 
     <string name="hole_note">Hole Note:</string>
 

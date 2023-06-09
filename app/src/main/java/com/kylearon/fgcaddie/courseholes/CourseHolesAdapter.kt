@@ -120,4 +120,10 @@ class CourseHolesAdapter(courseId: String) : RecyclerView.Adapter<CourseHolesAda
         }
     }
 
+    // Add a function to update the data and notify the RecyclerView
+    fun updateData(courseId: String) {
+        course = MainActivity.ServiceLocator.getCourseRepository().getCourse(courseId);
+        notifyDataSetChanged();
+    }
+
 }

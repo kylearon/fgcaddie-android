@@ -30,6 +30,8 @@ class CourseRemoteDataSource(
 
     fun updateCourseName(courseId: String, name: String) = courseApi.updateCourseName(courseId, name)
 
+    fun updateCourseColor(courseId: String, color: String) = courseApi.updateCourseColor(courseId, color)
+
     fun updateHole(hole: Hole) = courseApi.updateHole(hole)
 
     fun saveCourses() = courseApi.saveCourses()
@@ -48,6 +50,8 @@ interface CourseApi {
     fun removeCourse(courseId: String)
 
     fun updateCourseName(courseId:String, name: String)
+
+    fun updateCourseColor(courseId:String, color: String)
 
     fun updateHole(hole: Hole)
 
