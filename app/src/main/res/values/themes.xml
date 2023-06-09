@@ -61,7 +61,7 @@
         <!-- Background color -->
         <item name="colorPrimary">@color/button_bg_day</item>
         <!-- Text color -->
-        <item name="colorOnPrimary">@color/mfgc_blue</item>
+        <item name="colorOnPrimary">@color/dark_grey</item>
     </style>
 
     <style name="ThemeOverlay.App.Button.TextButton" parent="ThemeOverlay.Material3.Button.TextButton">

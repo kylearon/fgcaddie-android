@@ -20,6 +20,7 @@
 
     <color name="light_grey">#878787</color>
     <color name="medium_grey">#535353</color>
+    <color name="dark_grey">#222222</color>
 
     <color name="layout_background_color_day">#FFFFFF</color>
     <color name="layout_background_color">#BBBBBB</color>
